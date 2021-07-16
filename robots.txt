@@ -1,0 +1,9 @@
+User-agent: *
+Disallow: /bulletin
+Disallow: /gallery
+Disallow: /mem
+Disallow: /images
+Disallow: /img
+Disallow: /raw
+Disallow: /booking.php
+Disallow: /checking.php

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<images>
+    <pic>
+        <image>gallery/new_gallery/1.jpg</image>
+        <thumbnail>gallery/new_gallery/s1.jpg</thumbnail>
+        <caption>Water Feature</caption>
+    </pic>
+    <pic>
+        <image>gallery/new_gallery/2.jpg</image>
+        <thumbnail>gallery/new_gallery/s2.jpg</thumbnail>
+        <caption>Aerial View</caption>
+    </pic>
+    <pic>
+        <image>gallery/new_gallery/3.jpg</image>
+        <thumbnail>gallery/new_gallery/s3.jpg</thumbnail>
+        <caption>Front View of Clubhouse</caption>
+    </pic>
+    <pic>
+        <image>gallery/new_gallery/4.jpg</image>
+        <thumbnail>gallery/new_gallery/s4.jpg</thumbnail>
+        <caption>Another View of Clubhouse</caption>
+    </pic>
+    <pic>
+        <image>gallery/new_gallery/5.jpg</image>
+        <thumbnail>gallery/new_gallery/s5.jpg</thumbnail>
+        <caption>Gymnasium</caption>
+    </pic>
+    <pic>
+        <image>gallery/new_gallery/6.jpg</image>
+        <thumbnail>gallery/new_gallery/s6.jpg</thumbnail>
+        <caption>Function Room</caption>
+    </pic>
+    <pic>
+        <image>gallery/new_gallery/7.jpg</image>
+        <thumbnail>gallery/new_gallery/s7.jpg</thumbnail>
+        <caption>Clubhouse Lobby</caption>
+    </pic>
+    <pic>
+        <image>gallery/new_gallery/8.jpg</image>
+        <thumbnail>gallery/new_gallery/s8.jpg</thumbnail>
+        <caption>View of the swimming pool</caption>
+    </pic>
+    <pic>
+        <image>gallery/new_gallery/9.jpg</image>
+        <thumbnail>gallery/new_gallery/s9.jpg</thumbnail>
+        <caption>Children Pool</caption>
+    </pic>
+    <pic>
+        <image>gallery/new_gallery/10.jpg</image>
+        <thumbnail>gallery/new_gallery/s10.jpg</thumbnail>
+        <caption>Tennis Courts</caption>
+    </pic>
+    <pic>
+        <image>gallery/new_gallery/11.jpg</image>
+        <thumbnail>gallery/new_gallery/s11.jpg</thumbnail>
+        <caption>Fitness Corner</caption>
+    </pic>
+    <pic>
+        <image>gallery/new_gallery/12.jpg</image>
+        <thumbnail>gallery/new_gallery/s12.jpg</thumbnail>
+        <caption>BBQ Pit</caption>
+    </pic>
+    <pic>
+        <image>gallery/new_gallery/13.jpg</image>
+        <thumbnail>gallery/new_gallery/s13.jpg</thumbnail>
+        <caption>Multi Purpose Courts</caption>
+    </pic>
+    <pic>
+        <image>gallery/new_gallery/14.jpg</image>
+        <thumbnail>gallery/new_gallery/s14.jpg</thumbnail>
+        <caption>Koi Bridge</caption>
+    </pic>
+    <pic>
+        <image>gallery/new_gallery/15.jpg</image>
+        <thumbnail>gallery/new_gallery/s15.jpg</thumbnail>
+        <caption>Koi Pond</caption>
+    </pic>
+    <pic>
+        <image>gallery/new_gallery/16.jpg</image>
+        <thumbnail>gallery/new_gallery/s16.jpg</thumbnail>
+        <caption>Storage Lockers</caption>
+    </pic>
+    <pic>
+        <image>gallery/new_gallery/17.jpg</image>
+        <thumbnail>gallery/new_gallery/s17.jpg</thumbnail>
+        <caption>Basement Carpark</caption>
+    </pic>
+	<pic>
+        <image>gallery/new_gallery/18.jpg</image>
+        <thumbnail>gallery/new_gallery/s18.jpg</thumbnail>
+        <caption>Night View</caption>
+    </pic>
+	<pic>
+        <image>gallery/new_gallery/19.jpg</image>
+        <thumbnail>gallery/new_gallery/s19.jpg</thumbnail>
+        <caption>Entertainment Room with pool tables</caption>
+    </pic>
+</images>
