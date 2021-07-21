@@ -28,20 +28,17 @@ function changeformat($datein) {
     return $dateout[2] . "-" . $dateout[1] . "-" . $dateout[0];
 }
 /*if (preg_match ('/[^a-z]/i', $page)) { 
-
 if(stristr($page, '_') == TRUE) {
 //echo '"earth" not found in string';
 }
 else
 {
-
 echo '<script language=JavaScript>';
 echo 'alert("Invalid Entry1!");';
 echo 'self.location.href="profile.php?crypted='.$_GET['crypted'].'";';
 echo '</script>';
 }
 }
-
 if (!is_numeric($userid) && isset($userid) && $userid != '')
 {
 echo '<script language=JavaScript>';
@@ -49,7 +46,6 @@ echo 'alert("Invalid Entry2!");';
 echo 'self.location.href="profile.php?crypted='.$_GET['crypted'].'";';
 echo '</script>';
 }
-
 */
 $s_id  = $_SESSION['basic_is_logged_in'];
 $query = "SELECT * FROM user_account WHERE crypted  = '".$_GET['crypted']."' AND id = '".$s_id."' LIMIT 1";
@@ -346,11 +342,11 @@ function go2(){
 include("../headermem.php");
 ?>
 <script type="text/javascript">
-var offsetxpoint=-60 //Customize x offset of tooltip
-var offsetypoint=20 //Customize y offset of tooltip
-var ie=document.all
-var ns6=document.getElementById && !document.all
-var enabletip=false
+    var offsetxpoint=-60 //Customize x offset of tooltip
+    var offsetypoint=20 //Customize y offset of tooltip
+    var ie=document.all
+    var ns6=document.getElementById && !document.all
+    var enabletip=false
 if (ie||ns6)
 var tipobj=document.all? document.all["dhtmltooltip"] : document.getElementById? document.getElementById("dhtmltooltip") : ""
 
@@ -358,16 +354,14 @@ function ietruebody(){
     return (document.compatMode && document.compatMode!="BackCompat")? document.documentElement : document.body
 }
 
-
-
 function ddrivetip(thetext, thecolor, thewidth){
-if (ns6||ie){
-if (typeof thewidth!="undefined") tipobj.style.width=thewidth+"px"
-if (typeof thecolor!="undefined" && thecolor!="") tipobj.style.backgroundColor=thecolor
-tipobj.innerHTML=thetext
-enabletip=true
-return false
-}
+    if (ns6||ie){
+        if (typeof thewidth!="undefined") tipobj.style.width=thewidth+"px"
+        if (typeof thecolor!="undefined" && thecolor!="") tipobj.style.backgroundColor=thecolor
+    tipobj.innerHTML=thetext
+    enabletip=true
+    return false
+    }
 
 }
 
@@ -410,18 +404,12 @@ function hideddrivetip(){
 if (ns6||ie){
 enabletip=false
 tipobj.style.visibility="hidden"
-
 tipobj.style.left="-1000px"
-
 tipobj.style.backgroundColor=''
-
 tipobj.style.width=''
-
 }
 
 }
-
-
 
 document.onmousemove=positiontip
 
@@ -488,7 +476,6 @@ if ($user_type == '1') {
 		</tr>
 		<?php
 /* 
-
 if($user_type =='1')
 {
 ?>
@@ -500,7 +487,6 @@ if($user_type =='1')
 </tr>
 <?php
 }
-
 else
 {
 echo "";
@@ -1809,89 +1795,51 @@ $start_month = date('-m-Y');
                     <tr>
 
                     	<td colspan="13" style="border-left:0px solid #b09852;border-right:0px solid #b09852; padding-left:5px; padding-top:5px; padding-bottom:5px;">User will be barred from booking this facility for <select name="month_blocked">
-
                         <option value="0" selected>0</option>
-
                         <option value="1">1</option>
-
                         <option value="2">2</option>
-
                         <option value="3">3</option>
-
                         <option value="4">4</option>
-
                         <option value="5">5</option>
-
                         </select> month(s) if they are absent <select name="absent_amount"> 
-
                         <option value="0" selected>0</option>
-
                         <option value="1">1</option>
-
                         <option value="2">2</option>
-
                         <option value="3">3</option>
-
                         <option value="4">4</option>
-
                         <option value="5">5</option></select> times over a period of <select name="month_period"> <option value="0" selected>0</option>
-
                         <option value="1">1</option>
-
                         <option value="2">2</option>
-
                         <option value="3">3</option>
-
                         <option value="4">4</option>
-
                         <option value="5">5</option>
-
                         </select> month(s).</td>
-
 					</tr>
-
-
-
 					</table>                    </td>
-
 				</tr>
 
                 <tr>
-
                   <td colspan="13"><div align="right">
-
                     <label></label>
-
-                    <input type="submit" name="Submit" value="Submit" <?php
-    echo $disabled;
-?>>
-
+                    <input type="submit" name="Submit" value="Submit" <?php echo $disabled; ?>>
                     </div>                    <label></label></td>
 
                 </tr>
 
                 </table>
-
                 </form>
-
                 </td>
-
 			</tr>
-
             <tr>
-
             	<td colspan="3">&nbsp;</td>
-
             </tr>
 
             </table>
-
             <p> 
-
             <?php
-} elseif ($_GET[page] == 'view' and $user_type == '1') {
-    if (isset($_GET[dele])) {
-        $query = "update facility  set enable ='0' where sno = '$_GET[dele]' limit 1";
+} elseif ($_GET['page'] == 'view' and $user_type == '1') {
+    if (isset($_GET['dele'])) {
+        $query = "update facility  set enable ='0' where sno = '".$_GET['dele']."' limit 1";
         mysqli_query($conn,$query);
     }
 ?>
@@ -1988,7 +1936,6 @@ $start_month = date('-m-Y');
 ?>                </td>
 
                 		<!--td style="border-left:1px solid #990011; border-top:1px solid #990011;"> 
-
                 			<div align="center"><a href="booking.php?crypted=<?php // echo "$_GET[crypted]&page=group&group=$row[sno]"; 
 ?>">Grouping</a></div></td-->
 
@@ -2016,49 +1963,29 @@ $start_month = date('-m-Y');
        		  </table>
 
             		<?php
-} elseif ($_GET[page] == 'view' and ($user_type == '0' || $user_type == '2')) {
+} elseif ($_GET['page'] == 'view' and ($user_type == '0' || $user_type == '2')) {
 ?>
-
             	<p><b>To place online bookings, please select the respective facility and 
-
               	click on [ Book Now ] Button. </b> </p>
-
             	<p><b><font color="#FF0000">Note:</font></b><br>
-
               	<font size="2">Please refer to the <a href="bylaws.php?crypted=<?php
     echo $_GET['crypted'];
 ?>">By-Laws</a> for regulations and booking restrictions.</font></p>
-
             	<table width="100%" border="0" align="center" class="sk_bok_green" height="100%" cellpadding="5" cellspacing="0">
-
               	<tr bgcolor="#FCECC7"> 
-
                 	<td> 
-
                   	<div align="center"><strong>#</strong></div>
-
                 	</td>
-
                 	<td style="border-left:1px solid #990011;"> 
-
                   	<div align="center"><strong>Facilities</strong></div>
-
                 	</td>
-
                 	<td style="border-left:1px solid #990011;"> 
-
                   	<div align="center"><strong>Type</strong></div>
-
                 	</td>
-
                	  <td style="border-left:1px solid #990011;"> 
-
                   	<div align="center"><strong>Deposit</strong></div>
-
                	  </td>
-
                 </tr>
-
               	<?php
     $sr     = 1;
     $query  = "select * from facility where enable ='1' ORDER BY name ASC";
@@ -2126,7 +2053,7 @@ $start_month = date('-m-Y');
             </table>
 
             <?php
-} elseif ($_GET[page] == 'edit' and $user_type == '1') {
+} elseif ($_GET['page'] == 'edit' and $user_type == '1') {
     // print_r($_POST);
     $query = "select * from facility where  sno = '$_GET[facility]' and enable ='1' limit 1";
     $result = mysqli_query($conn,$query) or die(mysqli_error($conn));
@@ -2177,7 +2104,7 @@ $start_month = date('-m-Y');
         /*Code added to display Advanced Booking period*/
         $_fac_id       = (int) $_GET['facility'];
         $sql           = "SELECT num_days FROM `advance_booking`  WHERE facility_id='$_fac_id'";
-        $res_adv       = mysql_query($sql);
+        $res_adv       = mysqli_query($conn,$sql);
         $row_adv       = mysqli_fetch_array($res_adv);
         $adv_book_days = $row_adv['num_days'];
         /*Code added to display Advanced Booking period*/
@@ -2189,7 +2116,7 @@ $start_month = date('-m-Y');
         $_fac_id       = (int) $_GET['facility'];
         $adv_book_days = (int) $_POST['adv_book_days'];
         $sql           = "UPDATE `advance_booking`  SET 	num_days='$adv_book_days' WHERE facility_id='$_fac_id'";
-        mysql_query($sql);
+        mysqli_query($conn,$sql);
         /*Code added to set Advanced Booking period*/
         $dayfromenter   = explode(".", $_POST['from_date']);
         $dayenterfrom   = $dayfromenter[0];
@@ -2458,7 +2385,7 @@ $start_month = date('-m-Y');
     if (isset($_POST[Delete2])) {
         $delete = explode('x', $_POST[Delete2]);
         //	print_r($delete);
-        mysql_query("delete from track_time where sno = '$delete[1]' limit 1") or die(mysqli_error($conn));
+        mysqli_query($conn,"delete from track_time where sno = '$delete[1]' limit 1") or die(mysqli_error($conn));
     }
     $query  = "select * from track_time where track = '$unique_no'";
     $result = mysqli_query($conn,$query);
@@ -4257,7 +4184,6 @@ $start_month = date('-m-Y');
                     	<td colspan="13" bgcolor="#944542" 
 
                         style="border-left:1px solid #b09852;border-right:1px solid #b09852; padding-left:15px; 
-
                         padding-top:5px; padding-bottom:5px;">
 
                         <span class="fontitle"><strong>&nbsp;Advanced Booking Period </strong></span></td>
@@ -4331,7 +4257,7 @@ $start_month = date('-m-Y');
 ?>
 
                   	<?php //print_r($_POST);
-if (isset($_POST[type]) && $_POST[type] == 'delete') {
+if (isset($_POST['type']) && $_POST['type'] == 'delete') {
     $can_date   = date('d-m-Y H:i:s');
     $postreason = $_POST[reason];
     $query      = "DELETE FROM my_booking where sno = '$_POST[booking_no]'";
@@ -4341,7 +4267,7 @@ if (isset($_POST[type]) && $_POST[type] == 'delete') {
     //echo 'self.location.href="booking.php?crypted=$_GET[crypted]&page=book_now&user_id=$_GET[user_id]&fac=$_GET[fac]&id=$_GET[id]&newbook=$_GET[newbook]";';
     echo '</script>';
 }
-if (isset($_POST[type]) && $_POST[type] == 'cancle') {
+if (isset($_POST['type']) && $_POST['type'] == 'cancle') {
     $can_date   = date('d-m-Y H:i:s');
     $postreason = $_POST[reason];
     $query      = "update my_booking set status ='$statuscancel[$postreason]',cancle_reson ='$_POST[reason]',amount_returned ='$_POST[refund_amount]',cancle_booking_date_time='$can_date',cancelled_by='$s_id' where sno = '$_POST[booking_no]' limit 1";
@@ -4354,7 +4280,7 @@ if (isset($_POST[type]) && $_POST[type] == 'cancle') {
     //if ($_POST['reason'] == '6' or $_POST['reason'] == '11')
     if ($_POST['reason'] == '1' or $_POST['reason'] == '2' or $_POST['reason'] == '3' or $_POST['reason'] == '4' or $_POST['reason'] == '5' or $_POST['reason'] == '6' or $_POST['reason'] == '7' or $_POST['reason'] == '8' or $_POST['reason'] == '9' or $_POST['reason'] == '10' or $_POST['reason'] == '11' or $_POST['reason'] == '12') {
         $sqlbooked           = "SELECT * FROM my_booking WHERE sno = '$_POST[booking_no]'";
-        $resultbooked        = mysql_query($sqlbooked);
+        $resultbooked        = mysqli_query($conn,$sqlbooked);
         $rowbooked           = mysqli_fetch_array($resultbooked);
         $residentid          = $rowbooked['uid'];
         $facilitybooked      = $rowbooked['unique_no'];
@@ -4364,19 +4290,19 @@ if (isset($_POST[type]) && $_POST[type] == 'cancle') {
         $timeslot            = $rowbooked['from_time'] . " to " . $rowbooked['to_time'];
         $cancel_reason       = $rowbooked['cancle_reson'];
         $sqlfacility         = "SELECT * FROM facility WHERE unique_no  = '$facilitybooked'";
-        $resultfacility      = mysql_query($sqlfacility);
+        $resultfacility      = mysqli_query($conn,$sqlfacility);
         $rowfacility         = mysqli_fetch_array($resultfacility);
         $facilityname        = $rowfacility['name'];
         $sqlremarks          = "SELECT * FROM cancel_reasons WHERE id = " . $cancel_reason;
-        $resultremarks       = mysql_query($sqlremarks);
+        $resultremarks       = mysqli_query($conn,$sqlremarks);
         $rowremarks          = mysqli_fetch_array($resultremarks);
         $cancel_remarks      = $rowremarks['title'];
         $sqlresident         = "SELECT * FROM user_account WHERE id = '$residentid'";
-        $resultresident      = mysql_query($sqlresident);
+        $resultresident      = mysqli_query($conn,$sqlresident);
         $rowresident         = mysqli_fetch_array($resultresident);
         $residentuser        = $rowresident['username'];
         $sqlcancelby         = "SELECT * FROM user_account WHERE id = '$cancelled_by'";
-        $resultcancelby      = mysql_query($sqlcancelby);
+        $resultcancelby      = mysqli_query($conn,$sqlcancelby);
         $rowcancelby         = mysqli_fetch_array($resultcancelby);
         $cancelbyuser        = $rowcancelby['username'];
         // illegal booking or absent
@@ -4423,14 +4349,14 @@ if (isset($_POST[type]) && $_POST[type] == 'cancle') {
         $mail_sent = mail($email, $mailsubject, $message1, $headers);
         //
     }
-} else if (isset($_POST[type]) && $_POST[type] == 'approve') {
+} else if (isset($_POST['type']) && $_POST['type'] == 'approve') {
     $a_date = date('d-m-Y H:i:s');
     $query  = "update my_booking set status ='1',cancle_reson ='$_POST[reason]',amount_recived ='$_POST[refund_amount2]',date_of_conf='$a_date' where sno = '$_POST[booking_no]' limit 1";
     mysqli_query($conn,$query) or die(mysqli_error($conn));
     // only if booking approve by club then sent out an email alert
     if ($_SESSION['user_type'] == 2) {
         $sqlbooked      = "SELECT * FROM my_booking WHERE sno = '$_POST[booking_no]'";
-        $resultbooked   = mysql_query($sqlbooked);
+        $resultbooked   = mysqli_query($conn,$sqlbooked);
         $rowbooked      = mysqli_fetch_array($resultbooked);
         $residentid     = $rowbooked['uid'];
         $facilitybooked = $rowbooked['unique_no'];
@@ -4438,15 +4364,15 @@ if (isset($_POST[type]) && $_POST[type] == 'cancle') {
         $approved_by    = $rowbooked['date_of_conf'];
         $timeslot       = $rowbooked['from_time'] . " to " . $rowbooked['to_time'];
         $sqlfacility    = "SELECT * FROM facility WHERE unique_no  = '$facilitybooked'";
-        $resultfacility = mysql_query($sqlfacility);
+        $resultfacility = mysqli_query($conn,$sqlfacility);
         $rowfacility    = mysqli_fetch_array($resultfacility);
         $facilityname   = $rowfacility['name'];
         $queryclub      = "select * from user_account where crypted = '".$_GET['crypted']."' and id = '$s_id' limit 1";
-        $resultclub = mysql_query($queryclub) or die(mysqli_error($conn));
+        $resultclub = mysqli_query($conn,$queryclub) or die(mysqli_error($conn));
         $rowclub         = mysqli_fetch_array($resultclub);
         $usernameapprove = $rowclub[username];
         $sqlresident     = "SELECT * FROM user_account WHERE id = '$residentid'";
-        $resultresident  = mysql_query($sqlresident);
+        $resultresident  = mysqli_query($conn,$sqlresident);
         $rowresident     = mysqli_fetch_array($resultresident);
         $residentuser    = $rowresident['username'];
         // illegal booking or absent
@@ -4493,7 +4419,7 @@ if (isset($_POST[type]) && $_POST[type] == 'cancle') {
 ?>
 
             			<?php
-if ($_GET['page'] == 'book_now' && $_GET['next'] == 'next') {
+if ($_GET['page'] == 'book_now' && isset($_GET['next']) == 'next') {
     // two hour booking only
 ?>
 
@@ -4504,7 +4430,7 @@ if ($_GET['page'] == 'book_now' && $_GET['next'] == 'next') {
 ?>&id=<?php
     echo $_GET[id];
 ?>&page=<?php
-    echo $_GET[page];
+    echo $_GET['page'];
 ?>&user_id=<?php
     echo $_GET[user_id];
 ?>&fac=<?php
@@ -4548,7 +4474,6 @@ if ($_GET['page'] == 'book_now' && $_GET['next'] == 'next') {
 ?>
 
                         		<!--td bgcolor="#994947" style="border-right:1px solid #333333;"> 
-
                           		<div align="center"><span class="fontitle">Deposit Status</span></div>                        </td-->
 
                        		  <td bgcolor="#994947"> 
@@ -4603,7 +4528,7 @@ if ($_GET['page'] == 'book_now' && $_GET['next'] == 'next') {
     $year_tocheck     = date("Y");
     $selected_date    = date("d-m-Y");
     $check_facility   = "SELECT * FROM facility WHERE sno = '$_GET[fac]'";
-    $result_facility  = mysql_query($check_facility);
+    $result_facility  = mysqli_query($conn,$check_facility);
     $row_facility     = mysqli_fetch_array($result_facility);
     $unique_facility  = $row_facility['unique_no'];
     $name_fac         = $row_facility['name'];
@@ -4613,7 +4538,7 @@ if ($_GET['page'] == 'book_now' && $_GET['next'] == 'next') {
     //$check_sql = "SELECT * FROM my_booking WHERE unique_no = '$unique_facility' AND status = '1' AND day = '$day_tocheck' AND month = '$month_tocheck' AND year = '$year_tocheck' AND from_time >= '$hourSTART' AND to_time <= '$hourEND'";
     while ($sr <= 2) {
         $check_sql    = "SELECT * FROM my_booking WHERE unique_no = '$unique_facility' AND status = '1' AND date_of_booking = '$checknewdate' AND from_time = '$hourSTART'";
-        $result_sql   = mysql_query($check_sql);
+        $result_sql   = mysqli_query($conn,$check_sql);
         $row_sql      = mysqli_fetch_array($result_sql);
         $order_status = $row_sql['status'];
         $row_num      = mysqli_num_rows($result_sql);
@@ -4624,52 +4549,31 @@ if ($_GET['page'] == 'book_now' && $_GET['next'] == 'next') {
         }
         // find out if peak or non-peak
         $sql_facility1st    = "SELECT id FROM time_slot WHERE time_slot = '$hourSTART'";
-        $result_facility1st = mysql_query($sql_facility1st);
+        $result_facility1st = mysqli_query($conn,$sql_facility1st);
         $row_facility1st    = mysqli_fetch_array($result_facility1st);
         $timeId             = $row_facility1st['id'];
         $rangebefore        = date("w", (mktime(0, 0, 0, $month_tocheck, $day_tocheck, $year_tocheck))) + 1;
         $sql_find           = "SELECT * FROM track_time WHERE track = '$unique_facility' AND weak = $rangebefore AND from_time <= $timeId AND to_time >= $timeId";
-        $result_find        = mysql_query($sql_find);
+        $result_find        = mysqli_query($conn,$sql_find);
         $row_find           = mysqli_fetch_array($result_find);
         $peaktime           = $row_find['peak'];
         $time_fram          = "$hourSTART-$hourMED&$peaktime";
 ?>
 
-                            <tr bgcolor="<?php
-        echo $color;
-?>" <?php
-        if ($msg != '') {
-?>onMouseover="ddrivetip('<?php
-            echo " $msg ";
-?>')";
-
- onMouseout="hideddrivetip()" <?php
-        }
-?> > 
+                            <tr bgcolor="<?php echo $color; ?>" 
+                            <?php if ($msg != '') { ?>onMouseover="ddrivetip('<?php echo " $msg "; ?>')"; onMouseout="hideddrivetip()" <?php } ?> > 
 
                         <td align="center" valign="top" style="border-right:1px solid #333333;border-top:1px solid #333333;"> 
 
                         <div align="center"> 
-
-                        <?php
-        echo $sr;
-?>                          </div>                        </td>
-
+                        <?php echo $sr; ?>                          </div>                        </td>
                         <td valign="top" style="border-right:1px solid #333333;border-top:1px solid #333333;"><label> 
-
                         <div align="center"> 
-
                          <?php
         if ($dont_sel != '') {
             echo "<font color='#FF0000'><strong>X</strong></font>";
         } else {
-?><input name="time_fram" type="radio" value="<?php
-            echo $time_fram;
-?>" <?php
-            echo "$checked";
-?> <?php
-            echo $dont_sel;
-?> <?php
+?><input name="time_fram" type="radio" value="<?php echo $time_fram; ?>" <?php echo "$checked"; ?> <?php echo $dont_sel; ?> <?php
             if ($msg != '') {
 ?>title="<?php
                 echo $msg;
@@ -4728,69 +4632,27 @@ if ($_GET['page'] == 'book_now' && $_GET['next'] == 'next') {
 ?>
 
                         <!--td valign="top" align="center" style="border-right:1px solid #333333;border-top:1px solid #333333;"> 
-
                 <?php
         /* $dont_sel ='';
         
-        if($order_status == '1' && $auto_apporve != '1')
-        
-        {
-        
-        echo $icon = "PAID";
-        
-        }
-        
-        elseif($order_status == '0' && $auto_apporve != '1')
-        
-        {
-        
-        echo $icon = "&nbsp;";
-        
-        }
-        
-        elseif($order_status == '2')
-        
-        {
-        
-        echo $icon = "&nbsp;";
-        
-        }
-        
-        elseif($dont_sel != '')
-        
-        {
-        
-        echo $icon = "&nbsp;";
-        
-        }
-        
-        else
-        
-        {
-        
-        if($row[peak] =='1')
-        
-        {
-        
-        echo $icon = "&nbsp;";
-        
-        }
-        
-        else
-        
-        {
-        
-        echo $icon = "&nbsp;";
-        
-        }
-        
+        if($order_status == '1' && $auto_apporve != '1'){
+            echo $icon = "PAID";
+        }elseif($order_status == '0' && $auto_apporve != '1'){
+            echo $icon = "&nbsp;";
+        }elseif($order_status == '2') {
+            echo $icon = "&nbsp;";
+        }elseif($dont_sel != ''){
+            echo $icon = "&nbsp;";
+        }else{
+            if($row[peak] =='1'){
+                echo $icon = "&nbsp;";
+            }else{
+                echo $icon = "&nbsp;";
+            }
         } */
 ?>                              </td-->
 
                         <td valign="top" align="center" style="border-top:1px solid #333333;">
-
-						
-
 						<?php
         // check time now
         $checking_cancel = date("Y-m-dHi");
@@ -4800,20 +4662,15 @@ if ($_GET['page'] == 'book_now' && $_GET['next'] == 'next') {
                     echo "Pending<br>";
                     if ($allowed_cancel >= $checking_cancel) {
 ?>
-
-													[ <a href="redirect.php?<?php
-                        echo "crypted=".$_GET['crypted']."&id=$_GET[id]&page=book_now&user_id=$_GET[user_id]&fac=$_GET[fac]&date_sel=$curent_date&booking_no=$my_booking_no&type=cancle&reason=1";
+						[ <a href="redirect.php?<?php echo "crypted=".$_GET['crypted']."&id=".$_GET['id']."&page=book_now&user_id=".$_GET['user_id']."&fac=".$_GET['fac']."&date_sel=".$curent_date."&booking_no=".$my_booking_no."&type=cancle&reason=1";
 ?>" onclick="return validateprompt();">Cancel</a> ]
-
-													<?php
+<?php
                     }
                 } else if ($order_status == '1') {
                     echo "Approved<br>";
                     if ($allowed_cancel >= $checking_cancel) {
 ?>
-
-													[ <a href="redirect.php?<?php
-                        echo "crypted=".$_GET['crypted']."&id=$_GET[id]&page=book_now&user_id=$_GET[user_id]&fac=$_GET[fac]&date_sel=$curent_date&booking_no=$my_booking_no&type=cancle&reason=2";
+						[ <a href="redirect.php?<?php echo "crypted=".$_GET['crypted']."&id=".$_GET['id']."&page=book_now&user_id=".$_GET['user_id']."&fac=".$_GET['fac']."&date_sel=".$curent_date."&booking_no=".$my_booking_no."&type=cancle&reason=2";
 ?>" onclick="return validateprompt();">Cancel</a> ]
 
 													<?php
@@ -4898,7 +4755,7 @@ if ($_GET['page'] == 'book_now' && $_GET['next'] == 'next') {
                     }
                     //check also for rain on same day if outdoor
                     $sqloutdoor    = "SELECT type FROM facility WHERE unique_no = '$unique_no'";
-                    $resultoutdoor = mysql_query($sqloutdoor);
+                    $resultoutdoor = mysqli_query($conn,$sqloutdoor);
                     $outdoorrow    = mysqli_fetch_array($resultoutdoor);
                     if ($outdoorrow['type'] == 1) {
                         $breakfromtime      = explode(":", $from_time_recorded);
@@ -4969,7 +4826,7 @@ if ($_GET['page'] == 'book_now' && $_GET['next'] == 'next') {
                     }
                     //check also for rain on same day if outdoor
                     $sqloutdoor    = "SELECT type FROM facility WHERE unique_no = '$unique_no'";
-                    $resultoutdoor = mysql_query($sqloutdoor);
+                    $resultoutdoor = mysqli_query($conn,$sqloutdoor);
                     $outdoorrow    = mysqli_fetch_array($resultoutdoor);
                     if ($outdoorrow['type'] == 1) {
                         $breakfromtime      = explode(":", $from_time_recorded);
@@ -5046,13 +4903,8 @@ if ($_GET['page'] == 'book_now' && $_GET['next'] == 'next') {
     $date_sel = date("d-m-Y");
 ?>
 
-                <input type="hidden" name="date_sel" value="<?php
-    echo $date_sel;
-?>">
-
-                <input type="submit" name="Submit4" value="Book Now"  <?php
-    echo $dis;
-?>>
+                <input type="hidden" name="date_sel" value="<?php echo $date_sel; ?>">
+                <input type="submit" name="Submit4" value="Book Now"  <?php echo $dis; ?>>
 
                 </label>                </td>
 
@@ -5069,9 +4921,9 @@ if ($_GET['page'] == 'book_now' && $_GET['next'] == 'next') {
               </table>
 
 						<?php
-} else if ($_GET[page] == 'book_now' && $_GET['next'] == '') {
+} else if ($_GET['page'] == 'book_now' && isset($_GET['next']) == '') {
     $curent_date = date('d-m-Y');
-    if ($_GET[st] == '1') {
+    if (isset($_GET['st']) == '1') {
         echo "<div align=center>Booking placed </div>";
     }
 ?>
@@ -5081,7 +4933,7 @@ if ($_GET['page'] == 'book_now' && $_GET['next'] == 'next') {
 ?>&id=<?php
     echo $_GET[id];
 ?>&page=<?php
-    echo $_GET[page];
+    echo $_GET['page'];
 ?>&user_id=<?php
     echo $_GET[user_id];
 ?>&fac=<?php
@@ -5143,59 +4995,53 @@ if ($_GET['page'] == 'book_now' && $_GET['next'] == 'next') {
                                 <?php
     }
 ?>                         
-
 								</td>
-
                               </tr>
-
                               </table>                              </td>
-
                       		</tr>
-
                             <tr>
-
                         		<td colspan="10"><?php
-    $query  = "select * from facility where sno = '$_GET[fac]' limit 1";
+    $query  = "select * from facility where sno = '".$_GET['fac']."' limit 1";
     $result = mysqli_query($conn,$query);
     while ($row = mysqli_fetch_array($result)) {
-        $open_from     = $row[open_from];
-        $os            = $row[os];
-        $hours         = $row[hours];
-        $indooroutdoor = $row[type];
-        $unique_no     = $row[unique_no];
-        $deposite      = $row[deposite];
-        $auto_apporve  = $row[auto_apporve];
+        $open_from     = $row['open_from'];
+        $os            = $row['os'];
+        $hours         = $row['hours'];
+        $indooroutdoor = $row['type'];
+        $unique_no     = $row['unique_no'];
+        $deposite      = $row['deposite'];
+        $auto_apporve  = $row['auto_apporve'];
         if ($_SESSION['user_type'] == '1') {
             $open_from = '10000';
         }
-        $closed_at            = $row[closed_at];
-        $auto_close_date      = $row[auto_close_date];
-        $messageclosed        = $row[message];
-        $facility_closed_from = $row[from_date];
-        $facility_closed_to   = $row[to_date];
-        $max_booking_per_day  = $row[max_booking_per_day];
-        $rule1_1              = $row[rule1_1];
-        $rule1_2              = $row[rule1_2];
-        $rule1_3              = $row[rule1_3];
-        $relation_rule_1      = $row[relation_rule_1];
-        $rule2_1              = $row[rule2_1];
-        $rule2_2              = $row[rule2_2];
-        $rule2_3              = $row[rule2_3];
-        $relation_rule_2      = $row[relation_rule_2];
-        $rule3_1              = $row[rule3_1];
-        $rule3_2              = $row[rule3_2];
-        $rule3_3              = $row[rule3_3];
+        $closed_at            = $row['closed_at'];
+        $auto_close_date      = $row['auto_close_date'];
+        $messageclosed        = $row['message'];
+        $facility_closed_from = $row['from_date'];
+        $facility_closed_to   = $row['to_date'];
+        $max_booking_per_day  = $row['max_booking_per_day'];
+        $rule1_1              = $row['rule1_1'];
+        $rule1_2              = $row['rule1_2'];
+        $rule1_3              = $row['rule1_3'];
+        $relation_rule_1      = $row['relation_rule_1'];
+        $rule2_1              = $row['rule2_1'];
+        $rule2_2              = $row['rule2_2'];
+        $rule2_3              = $row['rule2_3'];
+        $relation_rule_2      = $row['relation_rule_2'];
+        $rule3_1              = $row['rule3_1'];
+        $rule3_2              = $row['rule3_2'];
+        $rule3_3              = $row['rule3_3'];
         /**Rules Added for Tennis By Vasanth**/
-        $relation_rule_4      = $row[relation_rule_4];
-        $rule4_1              = $row[rule4_1];
-        $rule4_2              = $row[rule4_2];
-        $rule4_3              = $row[rule4_3];
-        $rule5_1              = $row[rule5_1];
-        $rule5_2              = $row[rule5_2];
-        $rule5_3              = $row[rule5_3];
+        // $relation_rule_4      = $row['relation_rule_4'];
+        // $rule4_1              = $row['rule4_1'];
+        // $rule4_2              = $row['rule4_2'];
+        // $rule4_3              = $row['rule4_3'];
+        // $rule5_1              = $row['rule5_1'];
+        // $rule5_2              = $row['rule5_2'];
+        // $rule5_3              = $row['rule5_3'];
         /**End of Code**/
-        $closedFrom           = $row[from_date];
-        $closedTo             = $row[to_date];
+        $closedFrom           = $row['from_date'];
+        $closedTo             = $row['to_date'];
     }
     // to check if facility has peak hour or not
     if ($rule1_3 == '0' || $rule2_3 == '0' || $rule3_3 == '0') {
@@ -5203,10 +5049,10 @@ if ($_GET['page'] == 'book_now' && $_GET['next'] == 'next') {
     } else {
         $display_legend = 0;
     }
-    if ($_POST[date_sel] != '') {
+    if (isset($_POST['date_sel']) != '') {
         //print_r($_POST);
         if (isset($_POST[Submit4])) {
-            $date_explode  = explode('-', $_POST[date_sel]);
+            $date_explode  = explode('-', $_POST['date_sel']);
             // since cant change the date_of_booking using normal date functions, have to get the day, month and year individually because the date of booking is referring to the date of the booking, not date of entry.
             //$day = $date_explode[0];
             //$month = $date_explode[1];
@@ -5291,7 +5137,7 @@ if ($_GET['page'] == 'book_now' && $_GET['next'] == 'next') {
                     $dateUPPERlimit2 = $nextyear . "-" . $nextmonth . "-" . $nextday;
                     //$sql_check = "SELECT * FROM my_booking WHERE unique_no = '1193718731' AND status != '2' AND ((date_of_booking >= '$dateLOWERlimit1' AND date_of_booking <= '$dateUPPERlimit2')) AND uid = '$_GET[user_id]'";
                     $sql_check       = "SELECT * FROM my_booking WHERE unique_no = '1193718731' AND ((status = '1') OR (status = '0')) AND uid = '$_GET[user_id]'";
-                    $result_check    = mysql_query($sql_check);
+                    $result_check    = mysqli_query($conn,$sql_check);
                     $num_check       = mysqli_num_rows($result_check);
                     if ($num_check != 0) {
                         while ($row_check = mysqli_fetch_array($result_check)) {
@@ -5302,7 +5148,7 @@ if ($_GET['page'] == 'book_now' && $_GET['next'] == 'next') {
                             $tochecklower = $year . "-" . $month . "-" . $day;
                             if ($tochecklower >= $dateLOWERlimit1 && $tochecklower <= $dateUPPERlimit2) {
                                 $sql_holiday    = "SELECT * FROM calender_event WHERE (heading = 'PUBLIC HOLIDAY' OR heading = 'PUBLIC HOLIDAY EVE') AND ((day = '$day' AND month_no = '$month' AND year = '$year'))";
-                                $result_holiday = mysql_query($sql_holiday);
+                                $result_holiday = mysqli_query($conn,$sql_holiday);
                                 $num_rows       = mysqli_num_rows($result_holiday);
                                 if ($num_rows != 0) {
                                     $row_holiday = mysqli_fetch_array($result_holiday);
@@ -5332,7 +5178,7 @@ if ($_GET['page'] == 'book_now' && $_GET['next'] == 'next') {
                     $rangenow            = mktime(0, 0, 0, $monthnow, $daynow, $yearnow);
                     // also check if the date selected is eve or public  holiday 
                     $sql_holidaycheck    = "SELECT * FROM calender_event WHERE (heading = 'PUBLIC HOLIDAY' OR heading = 'PUBLIC HOLIDAY EVE') AND day = '$daynow' AND month_no = '$monthnow' AND year = '$yearnow'";
-                    $result_holidaycheck = mysql_query($sql_holidaycheck);
+                    $result_holidaycheck = mysqli_query($conn,$sql_holidaycheck);
                     $num_rowscheck       = mysqli_num_rows($result_holidaycheck);
                     if ($num_rowscheck != 0) {
                         $yesholiday = 1;
@@ -5344,10 +5190,8 @@ if ($_GET['page'] == 'book_now' && $_GET['next'] == 'next') {
                         //echo "here";
                         echo '<script language=JavaScript>';
                         echo 'alert("You have reached a maximum of 2
-
-bookings for Fridays, Saturdays, Sundays, Eve of Public Holiday and Public
-
-Holiday. You can make the next booking 2 months after your first booking.")';
+                                bookings for Fridays, Saturdays, Sundays, Eve of Public Holiday and Public
+                                Holiday. You can make the next booking 2 months after your first booking.")';
                         //echo 'self.location.href="booking.php?crypted=$_GET[crypted]&page=book_now&user_id=$_GET[user_id]&fac=$_GET[fac]&id=$_GET[id]&newbook=$_GET[newbook]";';
                         echo '</script>';
                     } else {
@@ -5360,27 +5204,17 @@ Holiday. You can make the next booking 2 months after your first booking.")';
                         $lapsed_date          = date("YmdHis", $spot);
                         /*Code Added By Robin on 05-09-2013*/
                         /*if($user_type == 0){
-                        
                         $_fac_id	=	(int)$_GET['fac'];	
-                        
                         $sql=	"SELECT num_days FROM `advance_booking`  WHERE facility_id='$_fac_id'";
-                        
-                        $res_adv	=	mysql_query($sql); 
-                        
+                        $res_adv	=	mysqli_query($conn,$sql); 
                         $row_adv	=	mysqli_fetch_array($res_adv);
-                        
                         $adv_book_days	=	$row_adv['num_days'];	
-                        
                         //Adding advance booking days
                         
                         if(!empty($adv_book_days)){
                         
-                        
-                        
                         $curent_date_1	=	date("d-m-Y",strtotime("+". $adv_book_days.' days'));
-                        
                         if(strtotime($_POST['date_sel']) <= strtotime($curent_date_1)){ 
-                        
                         $_POST['date_sel']	=	$curent_date_1;		
                         
                         }
@@ -5434,7 +5268,7 @@ Holiday. You can make the next booking 2 months after your first booking.")';
                         // 04 Aug 2009 - added to check first if slots have been taken or not
                         $nogo             = 0;
                         $checkingsql      = "SELECT * FROM my_booking WHERE date_of_booking = '$date_facility_booked' AND unique_no = '$unique_no' AND from_time = '$from_time_sel' AND to_time = '$to_time_sel' AND (status = 0 OR status = 1)";
-                        $resultchecking   = mysql_query($checkingsql);
+                        $resultchecking   = mysqli_query($conn,$checkingsql);
                         $num_rows         = mysqli_num_rows($resultchecking);
                         if ($num_rows > 0) {
                             $nogo = 1;
@@ -5451,7 +5285,7 @@ Holiday. You can make the next booking 2 months after your first booking.")';
                         $get_dayz             = $date_choosen[0];
                         if (($user_type != '1') && ($tennisCourt1 || $tennisCourt2)) {
                             $tenniz       = "SELECT date_of_booking FROM `my_booking` WHERE uid = '$userid' AND status < '2' AND DAY(date_of_booking) = '$get_dayz' AND YEAR(date_of_booking) = '$get_yearz' AND MONTH(date_of_booking) = '$get_monthz' AND unique_no IN (1193717225,1198430241)";
-                            $res_tenniz   = mysql_query($tenniz);
+                            $res_tenniz   = mysqli_query($conn,$tenniz);
                             $tennisRules1 = mysqli_num_rows($res_tenniz);
                         }
                         // 04 Aug 2009 - end
@@ -5463,7 +5297,7 @@ Holiday. You can make the next booking 2 months after your first booking.")';
                             } else {
                                 //if($_SERVER['REMOTE_ADDR'] == '122.164.244.253'){ echo "Hello"; exit;}
                                 $checkingsql    = "SELECT * FROM my_booking WHERE date_of_booking = '$date_facility_booked' AND unique_no = '$unique_no' AND from_time = '$from_time_sel' AND to_time = '$to_time_sel' AND (status = 0 OR status = 1)";
-                                $resultchecking = mysql_query($checkingsql);
+                                $resultchecking = mysqli_query($conn,$checkingsql);
                                 $num_rows       = mysqli_num_rows($resultchecking);
                                 if ($num_rows > 0) {
                                     $nogo = 1;
@@ -5564,11 +5398,11 @@ Holiday. You can make the next booking 2 months after your first booking.")';
                               <td width="11%" align="left">
 
                            	  <input type="hidden" name="menu1" value="<?php
-        echo $_GET[user_id];
+        echo $_GET['user_id'];
 ?>">								                            Select Facilites :                           	    </td>
 
                                 <td width="24%"><?php
-        if ($_GET[user_id] == '') {
+        if ($_GET['user_id'] == '') {
             $dis = "disabled";
             $msg = "Please Select User";
         } else {
@@ -5576,22 +5410,13 @@ Holiday. You can make the next booking 2 months after your first booking.")';
             $dis = "";
         }
 ?>
-
-                            	<select name="menu2" onChange="MM_jumpMenu('parent',this,0)" <?php
-        echo $dis;
-?>>
-
-                              		<option value="booking.php?crypted=<?php
-        echo "".$_GET['crypted']."&id=$_GET[id]&page=book_now&user_id=$_GET[user_id]";
-?>"><?php
-        echo $msg;
-?></option>
-
+                            	<select name="menu2" onChange="MM_jumpMenu('parent',this,0)" <?php echo $dis; ?>>
+                              		<option value="booking.php?crypted=<?php echo $_GET['crypted']."&id=".$_GET['id']."&page=book_now&user_id=".$_GET['user_id']; ?>"><?php echo $msg; ?></option>
                               		<?php
         $query  = "select * from facility where enable ='1' ORDER BY name ASC";
         $result = mysqli_query($conn,$query);
         while ($row = mysqli_fetch_array($result)) {
-            if ($_GET[fac] == $row[sno]) {
+            if ($_GET['fac'] == $row['sno']) {
                 $sel_fac = "selected = selected";
             } else {
                 $sel_fac = "";
@@ -5613,7 +5438,7 @@ Holiday. You can make the next booking 2 months after your first booking.")';
         
         $sql=	"SELECT num_days FROM `advance_booking`  WHERE facility_id='$_fac_id'";
         
-        $res_adv	=	mysql_query($sql); 
+        $res_adv	=	mysqli_query($conn,$sql); 
         
         $row_adv	=	mysqli_fetch_array($res_adv);
         
@@ -5658,7 +5483,7 @@ Holiday. You can make the next booking 2 months after your first booking.")';
         if ($auto_apporve != 1) {
             $_fac_id       = (int) $_GET['fac'];
             $sql           = "SELECT num_days FROM `advance_booking`  WHERE facility_id='$_fac_id'";
-            $res_adv       = mysql_query($sql);
+            $res_adv       = mysqli_query($conn,$sql);
             $row_adv       = mysqli_fetch_array($res_adv);
             $adv_book_days = $row_adv['num_days'];
             $date_sel      = $_POST['date_sel'];
@@ -5676,24 +5501,16 @@ Holiday. You can make the next booking 2 months after your first booking.")';
         }
         /*Code Added By Robin on 30-01-2014*/
 ?>
-                          		<input name="date_sel" type="text" value="<?php
-        echo $curent_date;
-?>" size="15" maxlength="10" readonly="" onchange="document.forms['form1'].submit();">
-
+                          		<input name="date_sel" type="text" value="<?php echo $curent_date; ?>" size="15" maxlength="10" readonly="" onchange="document.forms['form1'].submit();">
                           		</label>
-
                             	<img src="images/icon-calender.gif" alt="View Calender" width="19" height="18"  onclick="displayCalendar(document.forms[0].date_sel,'dd-mm-yyyy',this)" value="Cal">                           	    </td>
-
-                                <td width="38%"><INPUT TYPE="image" SRC="images/buttons/searchbutton.jpg" align="absmiddle" <?php
-        echo $dis;
-?>></td>
+                                <td width="38%">
+                                    <INPUT TYPE="image" SRC="images/buttons/searchbutton.jpg" align="absmiddle" onclick="document.forms['form1'].submit();" <?php echo $dis; ?>>
+                                </td>
 
                               </tr>
-
                                 </table>
-
                               </td>
-
                               <?php
     } else {
 ?><br>
@@ -5736,7 +5553,7 @@ Holiday. You can make the next booking 2 months after your first booking.")';
                         		<td width="1%"><strong>:</strong></td>
 
                         		<td width="14%"><?php
-        if ($_GET[user_id] == '') {
+        if ($_GET['user_id'] == '') {
             $dis = "disabled";
             $msg = "Please Select User";
         } else {
@@ -5808,10 +5625,10 @@ Holiday. You can make the next booking 2 months after your first booking.")';
         $newdatetocheck        = explode("-", $_POST['date_sel']);
         $checknewdate          = $newdatetocheck[2] . "-" . $newdatetocheck[1] . "-" . $newdatetocheck[0];
         $query_my_booking      = "select * from my_booking where unique_no = '$unique_no' and date_of_booking = '$checknewdate' and uid = '$_GET[user_id]' and ((`status` = '0') or (`status` = '1'))";
-        $result_my_query       = mysql_query($query_my_booking);
+        $result_my_query       = mysqli_query($conn,$query_my_booking);
         // get the type for the user being booked
-        $query_my_user         = "select * from user_account WHERE id = '$_GET[user_id]'";
-        $result_my_user        = mysql_query($query_my_user);
+        $query_my_user         = "select * from user_account WHERE id = '".$_GET['user_id']."'";
+        $result_my_user        = mysqli_query($conn, $query_my_user) or mysqli_error($conn);
         $row_my_user           = mysqli_fetch_array($result_my_user);
         $user_type_booked      = $row_my_user['user_type'];
         $count_booking_for_day = mysqli_num_rows($result_my_query);
@@ -5823,17 +5640,17 @@ Holiday. You can make the next booking 2 months after your first booking.")';
         }
         // get the other facilities from the other groups
         $sqlgroup     = "SELECT group_id FROM group_link WHERE unique_no = '$unique_no'";
-        $resultgroup  = mysql_query($sqlgroup);
+        $resultgroup  = mysqli_query($conn,$sqlgroup);
         $rowgroup     = mysqli_fetch_array($resultgroup);
         // now check what other facility belong to same group
         $sqlothers    = "SELECT * FROM group_link WHERE group_id = '$rowgroup[group_id]' AND unique_no != '$unique_no'";
-        $resultothers = mysql_query($sqlothers);
+        $resultothers = mysqli_query($conn,$sqlothers);
         while ($rowothers = mysqli_fetch_array($resultothers)) {
             $time_of_booking  = '';
             $newdatetocheck   = explode("-", $_POST['date_sel']);
             $checknewdate     = $newdatetocheck[2] . "-" . $newdatetocheck[1] . "-" . $newdatetocheck[0];
             $query_my_booking = "select * from my_booking where unique_no = '$rowothers[unique_no]' and date_of_booking = '$checknewdate' and uid = '$_GET[user_id]' and ((`status` = '0') or (`status` = '1'))";
-            $result_my_query  = mysql_query($query_my_booking);
+            $result_my_query  = mysqli_query($conn,$query_my_booking);
             // get the type for the user being booked
             $count_booking_for_day += mysqli_num_rows($result_my_query);
             //echo $count_booking_for_day .  ">=" . $max_booking_per_day; 
@@ -5844,7 +5661,7 @@ Holiday. You can make the next booking 2 months after your first booking.")';
             }
         }
         $query_facility  = "select * from facility where unique_no ='$unique_no' limit 1";
-        $result_facility = mysql_query($query_facility);
+        $result_facility = mysqli_query($conn,$query_facility);
         while ($row_facility = mysqli_fetch_array($result_facility)) {
             $name_fac     = $row_facility[name];
             $auto_apporve = $row_facility['auto_apporve'];
@@ -5879,7 +5696,7 @@ Holiday. You can make the next booking 2 months after your first booking.")';
             $week_days    = date("Y-m-d", $week_days);
             $query_count  = "select * from my_booking where date_of_booking = '$week_days' and unique_no = '$unique_no' and uid = '$_GET[user_id]' and ((`status` = '0') or (`status` = '1'))";
             //echo "<br>";
-            $result_count = mysql_query($query_count);
+            $result_count = mysqli_query($conn,$query_count);
             while ($row_count = mysqli_fetch_array($result_count)) {
                 $tottal_booking_in_week = $tottal_booking_in_week + 1;
                 if ($row_count[time_type] == '1') {
@@ -5891,11 +5708,11 @@ Holiday. You can make the next booking 2 months after your first booking.")';
         }
         // now find out grouup if they exceeded limit as well
         $sqlgroup         = "SELECT group_id FROM group_link WHERE unique_no = '$unique_no'";
-        $resultgroup      = mysql_query($sqlgroup);
+        $resultgroup      = mysqli_query($conn,$sqlgroup);
         $rowgroup         = mysqli_fetch_array($resultgroup);
         // now check what other facility belong to same group
         $sqlothers        = "SELECT * FROM group_link WHERE group_id = '$rowgroup[group_id]' AND unique_no != '$unique_no'";
-        $resultothers     = mysql_query($sqlothers);
+        $resultothers     = mysqli_query($conn,$sqlothers);
         // and do the checking again
         $start_day_week   = $week_starting_date[0];
         $start_month_week = $week_starting_date[1];
@@ -5907,7 +5724,7 @@ Holiday. You can make the next booking 2 months after your first booking.")';
                 $week_days    = date("Y-m-d", $week_days);
                 $query_count  = "select * from my_booking where date_of_booking = '$week_days' and unique_no = '$rowothers[unique_no]' and uid = '$_GET[user_id]' and ((`status` = '0') or (`status` = '1'))";
                 //echo "<br>";
-                $result_count = mysql_query($query_count);
+                $result_count = mysqli_query($conn,$query_count);
                 while ($row_count = mysqli_fetch_array($result_count)) {
                     $tottal_booking_in_week = $tottal_booking_in_week + 1;
                     if ($row_count[time_type] == '1') {
@@ -5928,7 +5745,7 @@ Holiday. You can make the next booking 2 months after your first booking.")';
             $month_days   = date("Y-m-d", $month_days);
             $query_count  = "select * from my_booking where date_of_booking = '$month_days' and unique_no = '$unique_no' and uid = '$_GET[user_id]' and  ((`status` = '0') or (`status` = '1'))";
             //echo "<br>";
-            $result_count = mysql_query($query_count);
+            $result_count = mysqli_query($conn,$query_count);
             while ($row_count = mysqli_fetch_array($result_count)) {
                 $tottal_booking_in_curent_month = $tottal_booking_in_curent_month + 1;
                 if ($row_count[time_type] == '1') {
@@ -5940,11 +5757,11 @@ Holiday. You can make the next booking 2 months after your first booking.")';
         }
         // now find out grouup if they exceeded limit as well
         $sqlgroup          = "SELECT group_id FROM group_link WHERE unique_no = '$unique_no'";
-        $resultgroup       = mysql_query($sqlgroup);
+        $resultgroup       = mysqli_query($conn,$sqlgroup);
         $rowgroup          = mysqli_fetch_array($resultgroup);
         // now check what other facility belong to same group
         $sqlothers         = "SELECT * FROM group_link WHERE group_id = '$rowgroup[group_id]' AND unique_no != '$unique_no'";
-        $resultothers      = mysql_query($sqlothers);
+        $resultothers      = mysqli_query($conn,$sqlothers);
         $start_month_month = date(m);
         $start_year_month  = date(Y);
         $start_day_month   = 0;
@@ -5955,7 +5772,7 @@ Holiday. You can make the next booking 2 months after your first booking.")';
                 $month_days   = date("Y-m-d", $month_days);
                 $query_count  = "select * from my_booking where date_of_booking = '$month_days' and unique_no = '$unique_no' and uid = '$_GET[user_id]' and status  !=2";
                 //echo "<br>";
-                $result_count = mysql_query($query_count);
+                $result_count = mysqli_query($conn,$query_count);
                 while ($row_count = mysqli_fetch_array($result_count)) {
                     $tottal_booking_in_curent_month = $tottal_booking_in_curent_month + 1;
                     if ($row_count[time_type] == '1') {
@@ -6260,7 +6077,7 @@ Holiday. You can make the next booking 2 months after your first booking.")';
     if (($unique_no == '1193717225' || $unique_no == '1198430241') && $user_type_booked != '1') {
         //echo "here";
         $sqltennis    = "SELECT * FROM facility WHERE unique_no = '1193717225' OR unique_no = '1198430241'";
-        $resulttennis = mysql_query($sqltennis);
+        $resulttennis = mysqli_query($conn,$sqltennis);
         (int) $tottal_booking_in_week_tennis = 0;
         (int) $tottal_booking_in_week_peek_time_tennis = 0;
         (int) $tottal_booking_in_week_nonpeek_time_tennis = 0;
@@ -6269,7 +6086,7 @@ Holiday. You can make the next booking 2 months after your first booking.")';
         (int) $tottal_booking_in_curent_month_in_nonpeak_time_tennis = 0;
         while ($rowtennis = mysqli_fetch_array($resulttennis)) {
             //echo "here";
-            $date_exp_sel               = explode('-', $_POST[date_sel]);
+            $date_exp_sel               = explode('-', $_POST['date_sel']);
             $mon_sel_sel                = $date_exp_sel[1];
             $day_sel_sel                = $date_exp_sel[0];
             $year_sel_sel               = $date_exp_sel[2];
@@ -6293,7 +6110,7 @@ Holiday. You can make the next booking 2 months after your first booking.")';
                 $query_count  = "select * from my_booking where date_of_booking = '$week_days' and unique_no = '$rowtennis[unique_no]' and uid = '$_GET[user_id]' and ((`status` = '0') or (`status` = '1'))";
                 //echo "<br>";
                 //exit;
-                $result_count = mysql_query($query_count);
+                $result_count = mysqli_query($conn,$query_count);
                 while ($row_count = mysqli_fetch_array($result_count)) {
                     //$tottal_booking_in_week = $tottal_booking_in_week +1;
                     if ($row_count[time_type] == '1') {
@@ -6367,7 +6184,7 @@ Holiday. You can make the next booking 2 months after your first booking.")';
     if (($unique_no == '1294727326' || $unique_no == '1294727362') && $user_type_booked != '1') {
         //echo "here";
         $sqlpools    = "SELECT * FROM facility WHERE unique_no = '1294727326' OR unique_no = '1294727362'";
-        $resultpools = mysql_query($sqlpools);
+        $resultpools = mysqli_query($conn,$sqlpools);
         (int) $tottal_booking_in_week_pools = 0;
         (int) $tottal_booking_in_week_peek_time_pools = 0;
         (int) $tottal_booking_in_week_nonpeek_time_pools = 0;
@@ -6376,7 +6193,7 @@ Holiday. You can make the next booking 2 months after your first booking.")';
         (int) $tottal_booking_in_curent_month_in_nonpeak_time_pools = 0;
         while ($rowpools = mysqli_fetch_array($resultpools)) {
             //echo "here";
-            $date_exp_sel               = explode('-', $_POST[date_sel]);
+            $date_exp_sel               = explode('-', $_POST['date_sel']);
             $mon_sel_sel                = $date_exp_sel[1];
             $day_sel_sel                = $date_exp_sel[0];
             $year_sel_sel               = $date_exp_sel[2];
@@ -6400,7 +6217,7 @@ Holiday. You can make the next booking 2 months after your first booking.")';
                 $query_count  = "select * from my_booking where date_of_booking = '$week_days' and unique_no = '$rowpools[unique_no]' and uid = '$_GET[user_id]' and ((`status` = '0') or (`status` = '1'))";
                 //echo "<br>";
                 //exit;
-                $result_count = mysql_query($query_count);
+                $result_count = mysqli_query($conn,$query_count);
                 while ($row_count = mysqli_fetch_array($result_count)) {
                     //$tottal_booking_in_week = $tottal_booking_in_week +1;
                     if ($row_count[time_type] == '1') {
@@ -6425,15 +6242,10 @@ Holiday. You can make the next booking 2 months after your first booking.")';
         if ($tottal_booking_in_week_nonpeek_time_pools > $rule2_1 && $tottal_booking_in_week_nonpeek_time_pools < $rule3_1)
         
         {
-        
         $all_system_disabled_nonpeak = '';
-        
         $all_system_disabled_nonpeak_pools = '';
-        
         $all_system_disabled_peak_pools = '1';
-        
         $all_system_disabled_peak_ = '1';
-        
         }*/
         //else
         /*if ($tottal_booking_in_week_nonpeek_time_pools > $rule1_1)*/
@@ -6449,15 +6261,10 @@ Holiday. You can make the next booking 2 months after your first booking.")';
         /*if ($tottal_booking_in_week_nonpeek_time_pools == $rule3_1)
         
         {
-        
         $all_system_disabled_nonpeak_pools = '1';
-        
         $all_system_disabled_peak_pools = '1';
-        
         $all_system_disabled_nonpeak = '1';
-        
         $all_system_disabled_peak = '1';
-        
         $all_system_disabled = '1';
         
         }*/
@@ -6470,10 +6277,10 @@ Holiday. You can make the next booking 2 months after your first booking.")';
         //}
     }
     // end of additonal 11 Feb 2009
-    $checkdating           = explode("-", $_POST[date_sel]);
+    $checkdating           = explode("-", $_POST['date_sel']);
     $checkwithdate         = $checkdating[2] . "-" . $checkdating[1] . "-" . $checkdating[0];
     $query_my_booking      = "select * from my_booking where unique_no = '$unique_no' and date_of_booking = '$checkwithdate' and uid = '$_GET[user_id]' and ((status = '0') or (status = '1'))";
-    $result_my_query       = mysql_query($query_my_booking);
+    $result_my_query       = mysqli_query($conn,$query_my_booking);
     $count_booking_for_day = mysqli_num_rows($result_my_query);
     if ($count_booking_for_day == $max_booking_per_day && $user_type_booked != '1') {
         $all_system_disabled = "1";
@@ -6481,17 +6288,17 @@ Holiday. You can make the next booking 2 months after your first booking.")';
     }
     // get the other facilities from the other groups
     $sqlgroup     = "SELECT group_id FROM group_link WHERE unique_no = '$unique_no'";
-    $resultgroup  = mysql_query($sqlgroup);
+    $resultgroup  = mysqli_query($conn,$sqlgroup);
     $rowgroup     = mysqli_fetch_array($resultgroup);
     // now check what other facility belong to same group
     $sqlothers    = "SELECT * FROM group_link WHERE group_id = '$rowgroup[group_id]' AND unique_no != '$unique_no'";
-    $resultothers = mysql_query($sqlothers);
+    $resultothers = mysqli_query($conn,$sqlothers);
     while ($rowothers = mysqli_fetch_array($resultothers)) {
         $time_of_booking  = '';
         $newdatetocheck   = explode("-", $_POST['date_sel']);
         $checknewdate     = $newdatetocheck[2] . "-" . $newdatetocheck[1] . "-" . $newdatetocheck[0];
         $query_my_booking = "select * from my_booking where unique_no = '$rowothers[unique_no]' and date_of_booking = '$checkwithdate' and uid = '$_GET[user_id]' and ((status = '0') or (status = '1'))";
-        $result_my_query  = mysql_query($query_my_booking);
+        $result_my_query  = mysqli_query($conn,$query_my_booking);
         // get the type for the user being booked
         $count_booking_for_day += mysqli_num_rows($result_my_query);
         //echo $count_booking_for_day .  ">=" . $max_booking_per_day; 
@@ -6517,7 +6324,7 @@ Holiday. You can make the next booking 2 months after your first booking.")';
         $currentdatetocheck = explode("-", $curent_date);
         $new_current_date   = $currentdatetocheck[2] . "-" . $currentdatetocheck[1] . "-" . $currentdatetocheck[0];
         $sqlbar             = "SELECT * FROM table_barred WHERE user_id = '$_GET[user_id]' AND facility_id = '$unique_no' AND bar_expiry >= '$new_current_date'";
-        $resultbar = mysql_query($sqlbar) or mysqli_error($conn);
+        $resultbar = mysqli_query($conn,$sqlbar) or mysqli_error($conn);
         $bar_counter = mysqli_num_rows($resultbar);
         //echo "<br>You have " . $bar_counter . " barred.";
         if ($bar_counter > 0) {
@@ -6546,7 +6353,7 @@ Holiday. You can make the next booking 2 months after your first booking.")';
         $month          = $checkdating[1];
         $year           = $checkdating[2];
         $sql_holiday    = "SELECT * FROM calender_event WHERE heading = 'PUBLIC HOLIDAY' AND ((day = '$day' AND month_no = '$month' AND year = '$year')) AND active = '1'";
-        $result_holiday = mysql_query($sql_holiday);
+        $result_holiday = mysqli_query($conn,$sql_holiday);
         $num_rows       = mysqli_num_rows($result_holiday);
         if ($num_rows == 1) {
             //echo "<center><b><font style='font-size:12px;color:#2A55FF'>Date selected falls on Public Holiday. Please note any bookings made will be considered as peak hour booking.</font></b></center>";
@@ -6646,7 +6453,6 @@ Holiday. You can make the next booking 2 months after your first booking.")';
 ?>
 
                         		<!--td bgcolor="#994947" style="border-right:1px solid #333333;"> 
-
                           		<div align="center"><span class="fontitle">Deposit Status</span></div>                        </td-->
 
                        		  <td bgcolor="#994947"> 
@@ -6752,7 +6558,7 @@ Holiday. You can make the next booking 2 months after your first booking.")';
                                 //{
                                 //$query_my_booking = "select * from my_booking where unique_no = '$unique_no' and date_of_booking = '$selected_date' and uid = $_GET[user_id] and status !='2' ";
                                 //}
-                                $result_my_query  = mysql_query($query_my_booking);
+                                $result_my_query  = mysqli_query($conn,$query_my_booking);
                                 while ($row_my = mysqli_fetch_array($result_my_query)) {
                                     $fram_user_from_time       = $row_my[from_time];
                                     $fram_user_to_time         = $row_my[to_time];
@@ -6773,7 +6579,7 @@ Holiday. You can make the next booking 2 months after your first booking.")';
                                         $greybar_info             = $row_my[day] . "-" . $row_my[month] . "-" . $row_my[year];
                                         $cancle_booking_date_time = $row_my[cancle_booking_date_time];
                                         $query_user               = "select * from user_account where id = '$registered_by_id'";
-                                        $query_result             = mysql_query($query_user);
+                                        $query_result             = mysqli_query($conn,$query_user);
                                         while ($row_user = mysqli_fetch_array($query_result)) {
                                             $registered_by = $row_user[username];
                                         }
@@ -6857,7 +6663,7 @@ Holiday. You can make the next booking 2 months after your first booking.")';
                                 //{
                                 //$query_my_booking = "select * from my_booking where unique_no = '$unique_no' and date_of_booking = '$selected_date' and uid = $_GET[user_id] and status !='2' ";
                                 //}
-                                $result_my_query  = mysql_query($query_my_booking);
+                                $result_my_query  = mysqli_query($conn,$query_my_booking);
                                 $have_entertain   = mysqli_num_rows($result_my_query);
                                 while ($row_my = mysqli_fetch_array($result_my_query)) {
                                     $fram_user_from_time = $row_my[from_time];
@@ -6884,7 +6690,7 @@ Holiday. You can make the next booking 2 months after your first booking.")';
                                         $greybar_info             = $row_my[day] . "-" . $row_my[month] . "-" . $row_my[year];
                                         $cancle_booking_date_time = $row_my[cancle_booking_date_time];
                                         $query_user               = "select * from user_account where id = '$registered_by_id'";
-                                        $query_result             = mysql_query($query_user);
+                                        $query_result             = mysqli_query($conn,$query_user);
                                         while ($row_user = mysqli_fetch_array($query_result)) {
                                             $registered_by = $row_user[username];
                                             if ($unique_no != '1294727326' || $unique_no != '1294727362') {
@@ -7078,7 +6884,6 @@ Holiday. You can make the next booking 2 months after your first booking.")';
 ?>
 
                         <!--td valign="top" align="center" style="border-right:1px solid #333333;border-top:1px solid #333333;"> 
-
                 <?php
                             /* 
                             
@@ -7252,7 +7057,7 @@ Holiday. You can make the next booking 2 months after your first booking.")';
                                         }
                                         //check also for rain on same day if outdoor
                                         $sqloutdoor    = "SELECT type FROM facility WHERE unique_no = '$unique_no'";
-                                        $resultoutdoor = mysql_query($sqloutdoor);
+                                        $resultoutdoor = mysqli_query($conn,$sqloutdoor);
                                         $outdoorrow    = mysqli_fetch_array($resultoutdoor);
                                         if ($outdoorrow['type'] == 1) {
                                             $breakfromtime      = explode(":", $from_time_recorded);
@@ -7334,7 +7139,7 @@ Holiday. You can make the next booking 2 months after your first booking.")';
                                         }
                                         //check also for rain on same day if outdoor
                                         $sqloutdoor    = "SELECT type FROM facility WHERE unique_no = '$unique_no'";
-                                        $resultoutdoor = mysql_query($sqloutdoor);
+                                        $resultoutdoor = mysqli_query($conn,$sqloutdoor);
                                         $outdoorrow    = mysqli_fetch_array($resultoutdoor);
                                         if ($outdoorrow['type'] == 1) {
                                             $breakfromtime      = explode(":", $from_time_recorded);
@@ -7474,7 +7279,7 @@ Holiday. You can make the next booking 2 months after your first booking.")';
             if ($choosen_date > $popupOne) {
                 $_fac      = $_GET['fac'];
                 $sql       = "SELECT popup FROM `facility` WHERE sno='$_fac '";
-                $res_popup = mysql_query($sql);
+                $res_popup = mysqli_query($conn,$sql);
                 $row_popup = mysqli_fetch_array($res_popup);
 ?>
 				
@@ -7560,7 +7365,7 @@ Holiday. You can make the next booking 2 months after your first booking.")';
         $currentdatetocheck = explode("-", $curent_date);
         $new_current_date   = $currentdatetocheck[2] . "-" . $currentdatetocheck[1] . "-" . $currentdatetocheck[0];
         $sqlbar             = "SELECT * FROM table_barred WHERE user_id = '$_GET[user_id]' AND facility_id = '$unique_no' AND bar_expiry >= '$new_current_date'";
-        $resultbar = mysql_query($sqlbar) or mysqli_error($conn);
+        $resultbar = mysqli_query($conn,$sqlbar) or mysqli_error($conn);
         $bar_counter = mysqli_num_rows($resultbar);
         //echo "<br>You have " . $bar_counter . " barred.";
         if ($bar_counter > 0) {
@@ -7711,7 +7516,7 @@ Holiday. You can make the next booking 2 months after your first booking.")';
                 $chose_date       = explode("-", $selected_date);
                 $choosen_date     = $chose_date[2] . "-" . $chose_date[1] . "-" . $chose_date[0];
                 $query_my_booking = "select * from my_booking where unique_no = '$unique_no' and date_of_booking = '$choosen_date' and ((status = '0') OR (status = '1')) ";
-                $result_my_query  = mysql_query($query_my_booking);
+                $result_my_query  = mysqli_query($conn,$query_my_booking);
                 while ($row_my = mysqli_fetch_array($result_my_query)) {
                     $fram_user_from_time = $row_my[from_time];
                     $fram_user_to_time   = $row_my[to_time];
@@ -7739,7 +7544,7 @@ Holiday. You can make the next booking 2 months after your first booking.")';
                         $cancle_booking_date_time = $row_my[cancle_booking_date_time];
                         $greybar_info             = $row_my[day] . "-" . $row_my[month] . "-" . $row_my[year];
                         $query_user               = "select * from user_account where id = '$registered_by_id'";
-                        $query_result             = mysql_query($query_user);
+                        $query_result             = mysqli_query($conn,$query_user);
                         while ($row_user = mysqli_fetch_array($query_result)) {
                             $registered_by = $row_user[username];
                         }
@@ -7818,7 +7623,7 @@ Holiday. You can make the next booking 2 months after your first booking.")';
                     //{
                     //$query_my_booking = "select * from my_booking where unique_no = '$unique_no' and date_of_booking = '$selected_date' and uid = $_GET[user_id] and status !='2' ";
                     //}
-                    $result_my_query  = mysql_query($query_my_booking);
+                    $result_my_query  = mysqli_query($conn,$query_my_booking);
                     $have_entertain   = mysqli_num_rows($result_my_query);
                     while ($row_my = mysqli_fetch_array($result_my_query)) {
                         $fram_user_from_time       = $row_my[from_time];
@@ -7859,7 +7664,7 @@ Holiday. You can make the next booking 2 months after your first booking.")';
                         
                         $query_user = "select * from user_account where id = '$registered_by_id'";
                         
-                        $query_result = mysql_query($query_user);
+                        $query_result = mysqli_query($conn,$query_user);
                         
                         while($row_user = mysqli_fetch_array($query_result))
                         
@@ -8124,7 +7929,7 @@ Holiday. You can make the next booking 2 months after your first booking.")';
                             }
                             //check also for rain on same day if outdoor
                             $sqloutdoor    = "SELECT type FROM facility WHERE unique_no = '$unique_no'";
-                            $resultoutdoor = mysql_query($sqloutdoor);
+                            $resultoutdoor = mysqli_query($conn,$sqloutdoor);
                             $outdoorrow    = mysqli_fetch_array($resultoutdoor);
                             if ($outdoorrow['type'] == 1) {
                                 $breakfromtime      = explode(":", $from_time_recorded);
@@ -8206,7 +8011,7 @@ Holiday. You can make the next booking 2 months after your first booking.")';
                             }
                             //check also for rain on same day if outdoor
                             $sqloutdoor    = "SELECT type FROM facility WHERE unique_no = '$unique_no'";
-                            $resultoutdoor = mysql_query($sqloutdoor);
+                            $resultoutdoor = mysqli_query($conn,$sqloutdoor);
                             $outdoorrow    = mysqli_fetch_array($resultoutdoor);
                             if ($outdoorrow['type'] == 1) {
                                 $breakfromtime      = explode(":", $from_time_recorded);
@@ -8342,7 +8147,7 @@ Holiday. You can make the next booking 2 months after your first booking.")';
                 if ($choosen_date > $popupTwo) {
                     $_fac      = $_GET['fac'];
                     $sql       = "SELECT popup FROM `facility` WHERE sno='$_fac '";
-                    $res_popup = mysql_query($sql);
+                    $res_popup = mysqli_query($conn,$sql);
                     $row_popup = mysqli_fetch_array($res_popup);
 ?>
 
@@ -8363,7 +8168,7 @@ Holiday. You can make the next booking 2 months after your first booking.")';
                 if ($choosen_datez > $popupTwoz) {
                     $_fac      = $_GET['fac'];
                     $sql       = "SELECT popup FROM `facility` WHERE sno='$_fac '";
-                    $res_popup = mysql_query($sql);
+                    $res_popup = mysqli_query($conn,$sql);
                     $row_popup = mysqli_fetch_array($res_popup);
 ?>
 
@@ -8443,7 +8248,7 @@ Holiday. You can make the next booking 2 months after your first booking.")';
 
                 <?php
 }
-if ($_GET[page] == 'all') {
+if ($_GET['page'] == 'all') {
     // print_r($_POST);
     if (isset($_POST[date_sel_all]) || isset($_GET[date_sel_all])) {
         if (($_POST[date_sel_all] == '' or $_POST[date_sel_all_end] == '') && ($_GET[date_sel_all] == '' or $_GET[date_sel_all_end] == '')) {
@@ -8987,7 +8792,7 @@ if ($_GET[page] == 'all') {
                 $amount_recived = "NO";
             }
             $query_facility  = "select * from facility where unique_no ='$row[unique_no]' limit 1";
-            $result_facility = mysql_query($query_facility);
+            $result_facility = mysqli_query($conn,$query_facility);
             while ($row_facility = mysqli_fetch_array($result_facility)) {
                 $name_fac     = $row_facility[name];
                 $closed_at    = $row_facility[closed_at];
@@ -9001,12 +8806,12 @@ if ($_GET[page] == 'all') {
                 $text = "playtime";
             }
             $query_user  = "select * from user_account where id ='$uid' limit 1";
-            $result_user = mysql_query($query_user);
+            $result_user = mysqli_query($conn,$query_user);
             while ($row_user = mysqli_fetch_array($result_user)) {
                 $username = $row_user[username];
             }
             $query_user  = "select * from user_account where id ='$rid' limit 1";
-            $result_user = mysql_query($query_user);
+            $result_user = mysqli_query($conn,$query_user);
             while ($row_user = mysqli_fetch_array($result_user)) {
                 $rid  = $row_user[username];
                 $rid2 = $row_user[id];
@@ -9106,7 +8911,7 @@ if ($_GET[page] == 'all') {
                     echo $rid;
                 } else {
                     $sqlcheckbooker    = "SELECT * FROM user_account WHERE id = $rid2";
-                    $resultcheckbooker = mysql_query($sqlcheckbooker);
+                    $resultcheckbooker = mysqli_query($conn,$sqlcheckbooker);
                     $rowcheckbooker    = mysqli_fetch_array($resultcheckbooker);
                     if ($rowcheckbooker['user_type'] == '2' && $user_type == '2') {
                         echo $rowcheckbooker['username'];
@@ -9151,7 +8956,7 @@ if ($_GET[page] == 'all') {
 ?>&id=<?php
                         echo $fac;
 ?>&page=<?php
-                        echo $_GET[page];
+                        echo $_GET['page'];
 ?>&user_id=<?php
                         echo $uid;
 ?>&fac=<?php
@@ -9184,7 +8989,7 @@ if ($_GET[page] == 'all') {
 ?>&id=<?php
                         echo $fac;
 ?>&page=<?php
-                        echo $_GET[page];
+                        echo $_GET['page'];
 ?>&user_id=<?php
                         echo $uid;
 ?>&fac=<?php
@@ -9251,7 +9056,7 @@ if ($_GET[page] == 'all') {
 ?>&id=<?php
                             echo $fac;
 ?>&page=<?php
-                            echo $_GET[page];
+                            echo $_GET['page'];
 ?>&user_id=<?php
                             echo $uid;
 ?>&fac=<?php
@@ -9275,7 +9080,7 @@ if ($_GET[page] == 'all') {
 ?>&id=<?php
                             echo $fac;
 ?>&page=<?php
-                            echo $_GET[page];
+                            echo $_GET['page'];
 ?>&user_id=<?php
                             echo $uid;
 ?>&fac=<?php
@@ -9307,7 +9112,7 @@ if ($_GET[page] == 'all') {
 ?>&id=<?php
                             echo $fac;
 ?>&page=<?php
-                            echo $_GET[page];
+                            echo $_GET['page'];
 ?>&user_id=<?php
                             echo $uid;
 ?>&fac=<?php
@@ -9331,7 +9136,7 @@ if ($_GET[page] == 'all') {
 ?>&id=<?php
                             echo $fac;
 ?>&page=<?php
-                            echo $_GET[page];
+                            echo $_GET['page'];
 ?>&user_id=<?php
                             echo $uid;
 ?>&fac=<?php
@@ -9365,7 +9170,7 @@ if ($_GET[page] == 'all') {
 ?>&id=<?php
                             echo $fac;
 ?>&page=<?php
-                            echo $_GET[page];
+                            echo $_GET['page'];
 ?>&user_id=<?php
                             echo $uid;
 ?>&fac=<?php
@@ -9397,7 +9202,7 @@ if ($_GET[page] == 'all') {
 ?>&id=<?php
                             echo $fac;
 ?>&page=<?php
-                            echo $_GET[page];
+                            echo $_GET['page'];
 ?>&user_id=<?php
                             echo $uid;
 ?>&fac=<?php
@@ -9438,7 +9243,7 @@ if ($_GET[page] == 'all') {
 ?>&id=<?php
                                 echo $fac;
 ?>&page=<?php
-                                echo $_GET[page];
+                                echo $_GET['page'];
 ?>&user_id=<?php
                                 echo $uid;
 ?>&fac=<?php
@@ -9463,7 +9268,7 @@ if ($_GET[page] == 'all') {
                             }
                             //check also for rain on same day if outdoor
                             $sqloutdoor    = "SELECT type FROM facility WHERE unique_no = '$unique_no'";
-                            $resultoutdoor = mysql_query($sqloutdoor);
+                            $resultoutdoor = mysqli_query($conn,$sqloutdoor);
                             $outdoorrow    = mysqli_fetch_array($resultoutdoor);
                             if ($outdoorrow['type'] == 1) {
                                 $breakfromtime      = explode(":", $from_time_recorded);
@@ -9485,7 +9290,7 @@ if ($_GET[page] == 'all') {
 ?>&id=<?php
                                     echo $fac;
 ?>&page=<?php
-                                    echo $_GET[page];
+                                    echo $_GET['page'];
 ?>&user_id=<?php
                                     echo $uid;
 ?>&fac=<?php
@@ -9525,7 +9330,7 @@ if ($_GET[page] == 'all') {
 ?>&id=<?php
                         echo $fac;
 ?>&page=<?php
-                        echo $_GET[page];
+                        echo $_GET['page'];
 ?>&user_id=<?php
                         echo $uid;
 ?>&fac=<?php
@@ -9559,7 +9364,7 @@ if ($_GET[page] == 'all') {
 ?>&id=<?php
                             echo $fac;
 ?>&page=<?php
-                            echo $_GET[page];
+                            echo $_GET['page'];
 ?>&user_id=<?php
                             echo $uid;
 ?>&fac=<?php
@@ -9583,7 +9388,7 @@ if ($_GET[page] == 'all') {
 ?>&id=<?php
                             echo $fac;
 ?>&page=<?php
-                            echo $_GET[page];
+                            echo $_GET['page'];
 ?>&user_id=<?php
                             echo $uid;
 ?>&fac=<?php
@@ -9616,7 +9421,7 @@ if ($_GET[page] == 'all') {
 ?>&id=<?php
                             echo $fac;
 ?>&page=<?php
-                            echo $_GET[page];
+                            echo $_GET['page'];
 ?>&user_id=<?php
                             echo $uid;
 ?>&fac=<?php
@@ -9652,7 +9457,7 @@ if ($_GET[page] == 'all') {
 ?>&id=<?php
                             echo $fac;
 ?>&page=<?php
-                            echo $_GET[page];
+                            echo $_GET['page'];
 ?>&user_id=<?php
                             echo $uid;
 ?>&fac=<?php
@@ -9694,7 +9499,7 @@ if ($_GET[page] == 'all') {
 ?>&id=<?php
                                 echo $fac;
 ?>&page=<?php
-                                echo $_GET[page];
+                                echo $_GET['page'];
 ?>&user_id=<?php
                                 echo $uid;
 ?>&fac=<?php
@@ -9719,7 +9524,7 @@ if ($_GET[page] == 'all') {
                             }
                             //check also for rain on same day if outdoor
                             $sqloutdoor    = "SELECT type FROM facility WHERE unique_no = '$unique_no'";
-                            $resultoutdoor = mysql_query($sqloutdoor);
+                            $resultoutdoor = mysqli_query($conn,$sqloutdoor);
                             $outdoorrow    = mysqli_fetch_array($resultoutdoor);
                             if ($outdoorrow['type'] == 1) {
                                 $breakfromtime      = explode(":", $from_time_recorded);
@@ -9741,7 +9546,7 @@ if ($_GET[page] == 'all') {
 ?>&id=<?php
                                     echo $fac;
 ?>&page=<?php
-                                    echo $_GET[page];
+                                    echo $_GET['page'];
 ?>&user_id=<?php
                                     echo $uid;
 ?>&fac=<?php
@@ -9824,7 +9629,7 @@ if ($_GET[page] == 'all') {
                 }
                 if ($row[cancelled_by] != '' && $row[cancelled_by] != '0') {
                     $queryuser = "select * from user_account where id = '$row[cancelled_by]' limit 1";
-                    $resultuser = mysql_query($queryuser) or die(mysqli_error($conn));
+                    $resultuser = mysqli_query($conn,$queryuser) or die(mysqli_error($conn));
                     //$count = mysqli_num_rows($result);
                     $rowuser = mysqli_fetch_array($resultuser);
                     echo " cancelled by $rowuser[username]";
@@ -9876,7 +9681,7 @@ if ($_GET[page] == 'all') {
                 			</p>
 
                   			<?php
-if ($_GET[page] == 'group' and $user_type == '1') {
+if ($_GET['page'] == 'group' and $user_type == '1') {
 ?>
 
                             <table width="75%" border="0" align="center">
@@ -9982,39 +9787,22 @@ if ($_GET[page] == 'group' and $user_type == '1') {
                   		<?php
 }
 ?>
-
                 		</p>
-
           </td>
-
 		  </tr>
-
 		  </table>
-
 	</td>
-
 					<td class="ctrrgt" vAlign="top" align="right" width="29">
-
 					<img height="82" src="img/ctrrighttop.gif" width="29"></td>
-
 </tr>
-
 				<tr>
-
 					<td background="img/leftbotbg.gif"><SPACER type="block" height="20">
-
 					</td>
-
 					<td vAlign="top" align="left" background="img/ctrbotctr.gif">
-
 					<img height="20" src="img/ctrleftbot.gif" width="29"></td>
-
 					<td class="ctrbot" vAlign="top">&nbsp;</td>
-
 					<td vAlign="top" align="right" background="img/ctrbotctr.gif">
-
 					<img height="20" src="img/ctrrgtbot.gif" width="29"></td>
-
 				</tr>
 
 </table>

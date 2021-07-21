@@ -2,14 +2,14 @@
 session_start();
 include_once("includes/config.php");
 $s_id = $_SESSION['basic_is_logged_in'];
-$query = "select * from user_account  where crypted  = '$_GET[crypted]' and id = '$s_id' limit 1";
-	$result= mysql_query($query) or die(mysql_error());
-	$count = mysql_num_rows($result);
-	while($row = mysql_fetch_array($result))
+$query = "SELECT * FROM user_account  WHERE crypted  = '".$_GET['crypted']."' and id = '".$s_id."' limit 1";
+	$result= mysqli_query($conn, $query) or die(mysqli_error($conn));
+	$count = mysqli_num_rows($result);
+	while($row = mysqli_fetch_array($result))
 	{
-			 $id = $row[id];
-			 $user_type = $row[user_type];
-			 $username = $row[username];
+			 $id = $row['id'];
+			 $user_type = $row['user_type'];
+			 $username = $row['username'];
 			 
 	}
 	
@@ -19,16 +19,16 @@ $query = "select * from user_account  where crypted  = '$_GET[crypted]' and id =
 	 echo "<script type=text/javascript language=javascript> window.location.href = '../login.php?ops=2'; </script> ";
 			exit;
 	}	
-if(isset($_POST[szID]))
+if(isset($_POST['szID']))
 {
-	$query  = "SELECT * FROM user_account  where username = '$_POST[szID]' and password = '$_POST[szPassword]' and active = '1'";
-	$result = mysql_query($query) or die(mysql_error()) ;
+	$query  = "SELECT * FROM user_account  where username = '".$_POST['szID']."' and password = '".$_POST['szPassword']."' and active = '1'";
+	$result = mysqli_query($conn, $query) or die(mysqli_error($conn)) ;
 	
-	$count = mysql_num_rows($result);
+	$count = mysqli_num_rows($result);
 	
 	if($count != '0' )
 	{
- 		while($row = mysql_fetch_array($result, MYSQL_ASSOC))
+ 		while($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
  		{
     		
 			$id = $row['id'];
@@ -36,7 +36,7 @@ if(isset($_POST[szID]))
 		 	$_SESSION['basic_is_logged_in'] = "$id";
 			include_once('random_char.php');
 			$query = "update user_account set crypted = '$pwd' where id = '$id' limit 1";
-			$result = mysql_query($query) or die(mysql_error()) ; 
+			$result = mysqli_query($conn, $query) or die(mysqli_error($conn)) ; 
 			echo "<script type=text/javascript language=javascript> window.location.href = 'mem/index.php?crypted=$pwd'; </script> ";
 			
 		
@@ -56,7 +56,7 @@ if(isset($_POST[szID]))
 
 
  ?>
-<? include ("../headermem.php"); ?>
+<?php include ("../headermem.php"); ?>
 <style type="text/css">
 .contentbylaws {
 text-align:justify;
@@ -103,7 +103,7 @@ type="block"></SPACER></td>
 				</table>
 				</td>
 			</tr>
-            <? if($user_type=='1')
+            <?php if($user_type=='1')
 				 {
 				 include ("internal-adminmenu.php"); 
 				}
@@ -2755,4 +2755,4 @@ hours of the booking, failing which the Entertainment Room will be made open for
 		<img height="20" src="img/ctrrgtbot.gif" width="29"></td>
 	</tr>
 </table>
-<? include ("../footer.php"); ?>
+<?php include ("../footer.php"); ?>

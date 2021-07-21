@@ -3,14 +3,14 @@
 	include_once("includes/config.php");
 	
 	$s_id = $_SESSION['basic_is_logged_in'];
-	$query = "select * from user_account  where crypted  = '$_GET[crypted]' and id = '$s_id' limit 1";
-	$result= mysql_query($query) or die(mysql_error());
-	$count = mysql_num_rows($result);
-	while($row = mysql_fetch_array($result))
+	$query = "SELECT * FROM user_account  WHERE crypted  = '$_GET[crypted]' and id = '$s_id' limit 1";
+	$result= mysqli_query($conn, $query) or die(mysqli_error($conn));
+	$count = mysqli_num_rows($result);
+	while($row = mysqli_fetch_array($result))
 	{
-			 $id = $row[id];
-			  $user_type = $row[user_type];
-			  $username = $row[username];
+			 $id = $row['id'];
+			  $user_type = $row['user_type'];
+			  $username = $row['username'];
 	}
 	
 	if($_SESSION['basic_is_logged_in'] != $id or $_SESSION['basic_is_logged_in'] =='')
@@ -23,7 +23,7 @@
 
 
  ?>
- <? include ("../headermem.php"); ?>
+ <?php include ("../headermem.php"); ?>
 <table cellSpacing="0" cellPadding="0" width="100%" border="0" id="table4">
 	<tr>
 		<td vAlign="top" align="left" width="8" rowSpan="3">&nbsp;</td>
@@ -63,7 +63,7 @@ type="block"></SPACER></td>
 					</tr>
 				</table>
 				</td>
-			</tr><? 
+			</tr><?php 
             if($user_type=='1')
 				 {
 				 
@@ -90,35 +90,35 @@ type="block"></SPACER></td>
 					<tr>
 					  <td class="houserules">
 						<ol>
-                        <li style="text-indent:-5px;">&nbsp;&nbsp;&nbsp;<a class="bold" href="general.php?crypted=<? echo $_GET['crypted']; ?>">Introduction</a></li>
-                        <li style="text-indent:-5px;">&nbsp;&nbsp;&nbsp;<a class="bold" href="general.php?crypted=<? echo $_GET['crypted']; ?>#definitions">Definitions</a></li>
-						<li style="text-indent:-5px;">&nbsp;&nbsp;&nbsp;<a class="bold" href="general.php?crypted=<? echo $_GET['crypted']; ?>#occupancy">Occupancy</a></li>
-                        <li style="text-indent:-5px;">&nbsp;&nbsp;&nbsp;<a class="bold" href="general.php?crypted=<? echo $_GET['crypted']; ?>#common">Common Areas</a></li>
-                        <li style="text-indent:-5px;">&nbsp;&nbsp;&nbsp;<a class="bold" href="general.php?crypted=<? echo $_GET['crypted']; ?>#resident">Resident Cards</a></li>
-                        <li style="text-indent:-5px;">&nbsp;&nbsp;&nbsp;<a class="bold" href="general.php?crypted=<? echo $_GET['crypted']; ?>#proximity">Resident Proximity Card</a></li>
-                        <li style="text-indent:-5px;">&nbsp;&nbsp;&nbsp;<a class="bold" href="general.php?crypted=<? echo $_GET['crypted']; ?>#supplementary">Supplementary Card</a></li>
-						<li style="text-indent:-5px;">&nbsp;&nbsp;&nbsp;<a class="bold" href="general.php?crypted=<? echo $_GET['crypted']; ?>#renovation">Renovation</a></li>
-						<li style="text-indent:-5px;">&nbsp;&nbsp;&nbsp;<a class="bold" href="general.php?crypted=<? echo $_GET['crypted']; ?>#bulk">Bulk Delivery and House Removal</a></li>
-						<li style="text-indent:-5px;">&nbsp;&nbsp;&nbsp;<a class="bold" href="general.php?crypted=<? echo $_GET['crypted']; ?>#carparking">Car Parking</a></li>
-						<li style="text-indent:-5px;">&nbsp;&nbsp;&nbsp;<a class="bold" href="general.php?crypted=<? echo $_GET['crypted']; ?>#pet">Pet Owners</a></li>
-						<li style="text-indent:-5px;">&nbsp;&nbsp;&nbsp;<a class="bold" href="general.php?crypted=<? echo $_GET['crypted']; ?>#employees">Employees/ Domestic Helpers/ Drivers</a></li>
-						<li style="text-indent:-5px;">&nbsp;&nbsp;&nbsp;<a class="bold1" href="general.php?crypted=<? echo $_GET['crypted']; ?>#refuse">Refuse Disposal</a></li>
-						<li style="text-indent:-5px;">&nbsp;&nbsp;&nbsp;<a class="bold" href="general.php?crypted=<? echo $_GET['crypted']; ?>#general">General Rules and Regulations Governing the use of 
+                        <li style="text-indent:-5px;">&nbsp;&nbsp;&nbsp;<a class="bold" href="general.php?crypted=<?php echo $_GET['crypted']; ?>">Introduction</a></li>
+                        <li style="text-indent:-5px;">&nbsp;&nbsp;&nbsp;<a class="bold" href="general.php?crypted=<?php echo $_GET['crypted']; ?>#definitions">Definitions</a></li>
+						<li style="text-indent:-5px;">&nbsp;&nbsp;&nbsp;<a class="bold" href="general.php?crypted=<?php echo $_GET['crypted']; ?>#occupancy">Occupancy</a></li>
+                        <li style="text-indent:-5px;">&nbsp;&nbsp;&nbsp;<a class="bold" href="general.php?crypted=<?php echo $_GET['crypted']; ?>#common">Common Areas</a></li>
+                        <li style="text-indent:-5px;">&nbsp;&nbsp;&nbsp;<a class="bold" href="general.php?crypted=<?php echo $_GET['crypted']; ?>#resident">Resident Cards</a></li>
+                        <li style="text-indent:-5px;">&nbsp;&nbsp;&nbsp;<a class="bold" href="general.php?crypted=<?php echo $_GET['crypted']; ?>#proximity">Resident Proximity Card</a></li>
+                        <li style="text-indent:-5px;">&nbsp;&nbsp;&nbsp;<a class="bold" href="general.php?crypted=<?php echo $_GET['crypted']; ?>#supplementary">Supplementary Card</a></li>
+						<li style="text-indent:-5px;">&nbsp;&nbsp;&nbsp;<a class="bold" href="general.php?crypted=<?php echo $_GET['crypted']; ?>#renovation">Renovation</a></li>
+						<li style="text-indent:-5px;">&nbsp;&nbsp;&nbsp;<a class="bold" href="general.php?crypted=<?php echo $_GET['crypted']; ?>#bulk">Bulk Delivery and House Removal</a></li>
+						<li style="text-indent:-5px;">&nbsp;&nbsp;&nbsp;<a class="bold" href="general.php?crypted=<?php echo $_GET['crypted']; ?>#carparking">Car Parking</a></li>
+						<li style="text-indent:-5px;">&nbsp;&nbsp;&nbsp;<a class="bold" href="general.php?crypted=<?php echo $_GET['crypted']; ?>#pet">Pet Owners</a></li>
+						<li style="text-indent:-5px;">&nbsp;&nbsp;&nbsp;<a class="bold" href="general.php?crypted=<?php echo $_GET['crypted']; ?>#employees">Employees/ Domestic Helpers/ Drivers</a></li>
+						<li style="text-indent:-5px;">&nbsp;&nbsp;&nbsp;<a class="bold1" href="general.php?crypted=<?php echo $_GET['crypted']; ?>#refuse">Refuse Disposal</a></li>
+						<li style="text-indent:-5px;">&nbsp;&nbsp;&nbsp;<a class="bold" href="general.php?crypted=<?php echo $_GET['crypted']; ?>#general">General Rules and Regulations Governing the use of 
 						Recreational Facilities</a></li>
-						<li style="text-indent:-5px;">&nbsp;&nbsp;&nbsp;<a class="bold" href="general.php?crypted=<? echo $_GET['crypted']; ?>#swimmingpool">Swimming Pool / Jacuzzi / Children&acute;s Pool</a></li>
-						<li style="text-indent:-5px;">&nbsp;&nbsp;&nbsp;<a class="bold" href="general.php?crypted=<? echo $_GET['crypted']; ?>#sauna">Saunas</a></li>
-						<li style="text-indent:-5px;">&nbsp;&nbsp;&nbsp;<a class="bold" href="general.php?crypted=<? echo $_GET['crypted']; ?>#tennis">Tennis Courts</a></li>
-						<li style="text-indent:-5px;">&nbsp;&nbsp;&nbsp;<a class="bold" href="general.php?crypted=<? echo $_GET['crypted']; ?>#function">Function Rooms</a></li>
-						<li style="text-indent:-5px;">&nbsp;&nbsp;&nbsp;<a class="bold" href="general.php?crypted=<? echo $_GET['crypted']; ?>#gym">Gymnasium</a></li>
-						<li style="text-indent:-5px;">&nbsp;&nbsp;&nbsp;<a class="bold" href="general.php?crypted=<? echo $_GET['crypted']; ?>#jogging">Jogging Track and Fitness Corner</a></li>
-						<li style="text-indent:-5px;">&nbsp;&nbsp;&nbsp;<a class="bold" href="general.php?crypted=<? echo $_GET['crypted']; ?>#children">Children&acute;s Playground</a></li>
-						<li style="text-indent:-5px;">&nbsp;&nbsp;&nbsp;<a class="bold" href="general.php?crypted=<? echo $_GET['crypted']; ?>#koi">Koi Pond</a></li>
-						<li style="text-indent:-5px;">&nbsp;&nbsp;&nbsp;<a class="bold" href="general.php?crypted=<? echo $_GET['crypted']; ?>#multi">Multi-Purpose Court (MPC)</a></li>
-						<li style="text-indent:-5px;">&nbsp;&nbsp;&nbsp;<a class="bold" href="general.php?crypted=<? echo $_GET['crypted']; ?>#hr">Kitchen at The North Function Room</a></li>
-                        <li style="text-indent:-5px;">&nbsp;&nbsp;&nbsp;<a class="bold" href="general.php?crypted=<? echo $_GET['crypted']; ?>#StorageL">Storage Lockers</a></li>
-                        <li style="text-indent:-5px;">&nbsp;&nbsp;&nbsp;<a class="bold" href="general.php?crypted=<? echo $_GET['crypted']; ?>#BBQF">BBQ Facilities</a></li>
-                        <li style="text-indent:-5px;">&nbsp;&nbsp;&nbsp;<a class="bold" href="general.php?crypted=<? echo $_GET['crypted']; ?>#UNIFORM">Uniform Appearance of Building Facade</a></li>
-                        <li style="text-indent:-5px;">&nbsp;&nbsp;&nbsp;<a class="bold" href="general.php?crypted=<? echo $_GET['crypted']; ?>#POOLTABLE">Pool &amp; Entertainment Room</a></li>
+						<li style="text-indent:-5px;">&nbsp;&nbsp;&nbsp;<a class="bold" href="general.php?crypted=<?php echo $_GET['crypted']; ?>#swimmingpool">Swimming Pool / Jacuzzi / Children&acute;s Pool</a></li>
+						<li style="text-indent:-5px;">&nbsp;&nbsp;&nbsp;<a class="bold" href="general.php?crypted=<?php echo $_GET['crypted']; ?>#sauna">Saunas</a></li>
+						<li style="text-indent:-5px;">&nbsp;&nbsp;&nbsp;<a class="bold" href="general.php?crypted=<?php echo $_GET['crypted']; ?>#tennis">Tennis Courts</a></li>
+						<li style="text-indent:-5px;">&nbsp;&nbsp;&nbsp;<a class="bold" href="general.php?crypted=<?php echo $_GET['crypted']; ?>#function">Function Rooms</a></li>
+						<li style="text-indent:-5px;">&nbsp;&nbsp;&nbsp;<a class="bold" href="general.php?crypted=<?php echo $_GET['crypted']; ?>#gym">Gymnasium</a></li>
+						<li style="text-indent:-5px;">&nbsp;&nbsp;&nbsp;<a class="bold" href="general.php?crypted=<?php echo $_GET['crypted']; ?>#jogging">Jogging Track and Fitness Corner</a></li>
+						<li style="text-indent:-5px;">&nbsp;&nbsp;&nbsp;<a class="bold" href="general.php?crypted=<?php echo $_GET['crypted']; ?>#children">Children&acute;s Playground</a></li>
+						<li style="text-indent:-5px;">&nbsp;&nbsp;&nbsp;<a class="bold" href="general.php?crypted=<?php echo $_GET['crypted']; ?>#koi">Koi Pond</a></li>
+						<li style="text-indent:-5px;">&nbsp;&nbsp;&nbsp;<a class="bold" href="general.php?crypted=<?php echo $_GET['crypted']; ?>#multi">Multi-Purpose Court (MPC)</a></li>
+						<li style="text-indent:-5px;">&nbsp;&nbsp;&nbsp;<a class="bold" href="general.php?crypted=<?php echo $_GET['crypted']; ?>#hr">Kitchen at The North Function Room</a></li>
+                        <li style="text-indent:-5px;">&nbsp;&nbsp;&nbsp;<a class="bold" href="general.php?crypted=<?php echo $_GET['crypted']; ?>#StorageL">Storage Lockers</a></li>
+                        <li style="text-indent:-5px;">&nbsp;&nbsp;&nbsp;<a class="bold" href="general.php?crypted=<?php echo $_GET['crypted']; ?>#BBQF">BBQ Facilities</a></li>
+                        <li style="text-indent:-5px;">&nbsp;&nbsp;&nbsp;<a class="bold" href="general.php?crypted=<?php echo $_GET['crypted']; ?>#UNIFORM">Uniform Appearance of Building Facade</a></li>
+                        <li style="text-indent:-5px;">&nbsp;&nbsp;&nbsp;<a class="bold" href="general.php?crypted=<?php echo $_GET['crypted']; ?>#POOLTABLE">Pool &amp; Entertainment Room</a></li>
                         </ol>			
                         <p>&nbsp;&nbsp;<a href="BYLAW-Yr-2018.pdf" target="_blank"><img border="0" src="images/d-pdf_02.gif"></a><br/>&nbsp;&nbsp;<span style="font:Arial, Helvetica, sans-serif; font-size:10px">Download the complete by-laws in pdf format.</span>
                                                     
@@ -144,4 +144,4 @@ type="block"></SPACER></td>
 		<img height="20" src="../img/ctrrgtbot.gif" width="29"></td>
 	</tr>
 </table>
-<? include ("../footer.php"); ?>
+<?php include ("../footer.php"); ?>

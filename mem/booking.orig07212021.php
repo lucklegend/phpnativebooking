@@ -3,7 +3,17 @@ session_start();
 date_default_timezone_set('Asia/Singapore'); //TimeZone Set
 include_once("includes/config.php");
 include("../lapsed.php");
-$page                        = $_GET['page'];
+if(isset($_GET['page'])){
+    $page = $_GET['page'];
+}else{
+    $page = '';
+}
+if(isset($_GET['next'])){
+    $getNext = $_GET['next'];
+}else{
+    $getNext = '';
+}
+
 $userid                      = $_GET['user_id'];
 $Crypted                     = $_GET['crypted'];
 $all_system_disabled_peak    = '0';
@@ -28,17 +38,20 @@ function changeformat($datein) {
     return $dateout[2] . "-" . $dateout[1] . "-" . $dateout[0];
 }
 /*if (preg_match ('/[^a-z]/i', $page)) { 
+
 if(stristr($page, '_') == TRUE) {
 //echo '"earth" not found in string';
 }
 else
 {
+
 echo '<script language=JavaScript>';
 echo 'alert("Invalid Entry1!");';
 echo 'self.location.href="profile.php?crypted='.$_GET['crypted'].'";';
 echo '</script>';
 }
 }
+
 if (!is_numeric($userid) && isset($userid) && $userid != '')
 {
 echo '<script language=JavaScript>';
@@ -46,6 +59,7 @@ echo 'alert("Invalid Entry2!");';
 echo 'self.location.href="profile.php?crypted='.$_GET['crypted'].'";';
 echo '</script>';
 }
+
 */
 $s_id  = $_SESSION['basic_is_logged_in'];
 $query = "SELECT * FROM user_account WHERE crypted  = '".$_GET['crypted']."' AND id = '".$s_id."' LIMIT 1";
@@ -85,7 +99,7 @@ if (isset($_POST['szID'])) {
             $crypted                        = $row['crypt'];
             $_SESSION['basic_is_logged_in'] = "$id";
             include_once('random_char.php');
-            $query = "UPDATE user_account SET crypted = '$pwd' WHERE id = '$id' LIMIT 1";
+            $query = "UPDATE user_account SET crypted = '$pwd' WHERE id = '".$id."' LIMIT 1";
             $result = mysqli_query($conn,$query) or die(mysqli_error($conn));
             echo "<script type=text/javascript language=javascript> window.location.href = 'mem/index.php?crypted=$pwd'; </script> ";
         }
@@ -106,9 +120,6 @@ if(isset($_GET['newbook'])){
 // }
 
 ?>
-
-
-
 <script language="javascript">
 function validateprompt()
 {
@@ -484,6 +495,7 @@ if ($user_type == '1') {
 		</tr>
 		<?php
 /* 
+
 if($user_type =='1')
 {
 ?>
@@ -495,6 +507,7 @@ if($user_type =='1')
 </tr>
 <?php
 }
+
 else
 {
 echo "";
@@ -543,7 +556,7 @@ $start_month = date('-m-Y');
         $to_date_day           = $to_date[0];
         $to_date_month         = $to_date[1];
         $to_date_year          = $to_date[2];
-        // print_r($_SESSION[facility]);
+        // print_r($_SESSION['facility']);
         $query                 = "INSERT INTO facility (unique_no,created_by,created_on,name,deposite,auto_apporve,max_booking_per_day,rule1_1,rule1_2,rule1_3,relation_rule_1,rule2_1,rule2_2,rule2_3,relation_rule_2,rule3_1,rule3_2,rule3_3,open_from,closed_at,os,from_time,max_time,hours,auto_close_date,auto_close_start_day,auto_close_start_month,auto_close_start_year,auto_close_end_day,auto_close_end_month,auto_close_end_year,from_date,to_date,frame,message,auto_cal,type,month_blocked,absent_amount,month_period) VALUES ('".$_SESSION['track']."','".$id."','".$_POST['creation_date']."','".$_POST['name']."','".$_POST['deposite']."','".$_POST['auto']."','".$_POST['booking_per_day']."','".$_POST['rule1_1']."','".$_POST['rule1_2']."','".$_POST['rule1_3']."','".$_POST['logic_one']."','".$_POST['rule2_1']."','".$_POST['rule2_2']."','".$_POST['rule2_3']."','".$_POST['logic_two']."','$"._POST['rule3_1']."','".$_POST['rule3_2']."','".$_POST['rule3_3']."','".$_POST['open_from']."','".$_POST['closed_at']."','".$_POST['os']."','".$_POST['from']."','".$_POST['max']."','".$_POST['hrs']."','".$from_date_start_day."','".$from_date_start_month."','".$from_date_start_year."','".$to_date_day."','".$to_date_month."','".$to_date_year."','".$_POST['auto_close']."','".$_POST['from_date']."','".$_POST['to_date']."','".$_POST['frame']."','".$_POST['message']."','".$_POST['auto_cal']."','".$_POST['type']."','".$_POST['month_blocked']."','".$_POST['absent_amount']."','".$_POST['month_period']."')";
         mysqli_query($conn,$query) or die(mysqli_error($conn));
         $dayfromenter   = explode(".", $_POST['from_date']);
@@ -874,7 +887,7 @@ $start_month = date('-m-Y');
 
                     <?php
                         }
-                        // Continue here........
+                        
                     ?>
 
                 	<br>                	</td>
@@ -1210,8 +1223,7 @@ $start_month = date('-m-Y');
                                 <option value="30" <?php echo $rule2_1_30; ?>>30</option>
                             </select>
 
-                            <?php // why there is 2 of this?? Comes to think if shashi know what hes doing? 
-?>
+                            <?php // why there is 2 of this?? Comes to think if shashi know what hes doing? ?>
 
                             </select>
 
@@ -1700,489 +1712,327 @@ $start_month = date('-m-Y');
                     	<td width="11%">From</td>
                         <td width="7%"><strong>:</strong></td>
                         <td width="20%"><label>
-                        <input name="from_date" type="text" size="10" maxlength="10" readonly="" <?php
-    echo $disabled;
-?> value="<?php
-    echo $_SESSION[facility][from_date];
-?>">
-
-                        <img src="images/icon-calender.gif" width="19" height="18"  onclick="displayCalendar(document.forms[0].from_date,'dd.mm.yyyy',this)" value="Cal"></label></td>
-
+                            <input name="from_date" type="text" size="10" maxlength="10" readonly="" <?php echo $disabled; ?> value="<?php echo $_SESSION['facility']['from_date']; ?>">
+                            <img src="images/icon-calender.gif" width="19" height="18"  onclick="displayCalendar(document.forms[0].from_date,'dd.mm.yyyy',this)" value="Cal"></label></td>
                         <td width="13%">&nbsp;</td>
-
                         <td width="7%">To</td>
-
                         <td width="3%"><strong>:</strong></td>
-
-                        <td width="15%"><input name="to_date" type="text" size="10" maxlength="10" readonly="" <?php
-    echo $disabled;
-?> value="<?php
-    echo $_SESSION[facility][to_date];
-?>">
-
-                        <img src="images/icon-calender.gif" width="19" height="18"  onclick="displayCalendar(document.forms[0].to_date,'dd.mm.yyyy',this)" value="Cal"></td>
+                        <td width="15%">
+                            <input name="to_date" type="text" size="10" maxlength="10" readonly="" <?php echo $disabled; ?> value="<?php echo $_SESSION['facility']['to_date'];?>">
+                            <img src="images/icon-calender.gif" width="19" height="18"  onclick="displayCalendar(document.forms[0].to_date,'dd.mm.yyyy',this)" value="Cal"></td>
 
                         <td width="6%"><div align="right">Frame</div></td>
-
+                                
                         <td width="1%"><strong>:</strong></td>
 
                         <td colspan="4"><label>
 
                         <?php
-    if ($_SESSION[facility][frame] == '0') {
-        $frame_1 = "selected = selected";
-    } else {
-        $frame_2 = "selected = selected";
-    }
-?>
+                            if ($_SESSION['facility']['frame'] == '0') {
+                                $frame_1 = "selected = selected";
+                            } else {
+                                $frame_2 = "selected = selected";
+                            }
+                        ?>
 
-                        <select name="frame" <?php
-    echo $disabled;
-?> tooltiptext="You want to disable this facilities on every month or every year of specified dates ?">
+                            <select name="frame" <?php echo $disabled; ?> tooltiptext="You want to disable this facilities on every month or every year of specified dates ?">
+                                <option value="0" <?php echo $frame_1; ?>>Month</option>
+                                <option value="1" <?php echo $frame_2; ?>>Year</option>
+                            </select>
 
-                        	<option value="0" <?php
-    echo $frame_1;
-?>>Month</option>
-
-                            <option value="1" <?php
-    echo $frame_2;
-?>>Year</option>
-
-                        </select>
-
-                        </label>                        </td>
-
+                        </label>                        
+                        </td>
 					</tr>
 
                     <tr>
-
                     	<td colspan="2">Message</td>
-
                         <td><label>
-
-                        <input type="text" name="message" <?php
-    echo $disabled;
-?> value="<?php
-    echo $_SESSION[facility][message];
-?>" >
-
-                        </label>                        </td>
-
+                            <input type="text" name="message" <?php echo $disabled; ?> value="<?php echo $_SESSION['facility']['message']; ?>" >
+                        </label>                        
+                        </td>
                         <td colspan="2"><div align="right">Add to Calender </div></td>
-
                         <td><strong>:</strong></td>
-
                         <td><label>
-
-                        <?php
-    if ($_SESSION[facility][auto_cal] == '1') {
-        $auto_cal = "checked=checked";
-    } else {
-        $auto_cal = "";
-    }
-?>
-
-                        <input type="checkbox" name="auto_cal" value="1" <?php
-    echo $disabled;
-?> <?php
-    echo $auto_cal;
-?> tooltiptext="Check this box if you want system to display this event on calander.">
-
-                        </label>                        </td>
-
+                            <?php
+                                if ($_SESSION['facility']['auto_cal'] == '1') {
+                                    $auto_cal = "checked=checked";
+                                } else {
+                                    $auto_cal = "";
+                                }
+                            ?>
+                            <input type="checkbox" name="auto_cal" value="1" <?php echo $disabled; ?> <?php echo $auto_cal; ?> tooltiptext="Check this box if you want system to display this event on calander.">
+                        </label>
+                        </td>
                         <td colspan="6">&nbsp;</td>
-
                     </tr>
 
                     <tr>
-
                     	<td colspan="13" bgcolor="#944542" style="border-left:1px solid #b09852;border-right:1px solid #b09852; padding-left:15px; padding-top:5px; padding-bottom:5px;"><span class="fontitle"><strong>&nbsp;Barring Rules </strong></span></td>
-
 					</tr>
-
                     <tr>
-
-                    	<td colspan="13" style="border-left:0px solid #b09852;border-right:0px solid #b09852; padding-left:5px; padding-top:5px; padding-bottom:5px;">User will be barred from booking this facility for <select name="month_blocked">
-
-                        <option value="0" selected>0</option>
-
-                        <option value="1">1</option>
-
-                        <option value="2">2</option>
-
-                        <option value="3">3</option>
-
-                        <option value="4">4</option>
-
-                        <option value="5">5</option>
-
-                        </select> month(s) if they are absent <select name="absent_amount"> 
-
-                        <option value="0" selected>0</option>
-
-                        <option value="1">1</option>
-
-                        <option value="2">2</option>
-
-                        <option value="3">3</option>
-
-                        <option value="4">4</option>
-
-                        <option value="5">5</option></select> times over a period of <select name="month_period"> <option value="0" selected>0</option>
-
-                        <option value="1">1</option>
-
-                        <option value="2">2</option>
-
-                        <option value="3">3</option>
-
-                        <option value="4">4</option>
-
-                        <option value="5">5</option>
-
-                        </select> month(s).</td>
-
+                    	<td colspan="13" style="border-left:0px solid #b09852;border-right:0px solid #b09852; padding-left:5px; padding-top:5px; padding-bottom:5px;">User will be barred from booking this facility for 
+                            <select name="month_blocked">
+                                <option value="0" selected>0</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                            </select> month(s) if they are absent 
+                            <select name="absent_amount"> 
+                                <option value="0" selected>0</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                            </select> times over a period of <select name="month_period"> 
+                                <option value="0" selected>0</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                            </select> month(s).
+                        </td>
 					</tr>
-
-
-
-					</table>                    </td>
-
+					</table>
+                </td>
 				</tr>
 
                 <tr>
-
-                  <td colspan="13"><div align="right">
-
-                    <label></label>
-
-                    <input type="submit" name="Submit" value="Submit" <?php
-    echo $disabled;
-?>>
-
-                    </div>                    <label></label></td>
+                    <td colspan="13"><div align="right">
+                        <label></label>
+                        <input type="submit" name="Submit" value="Submit" <?php echo $disabled; ?>>
+                        </div>                    <label></label>
+                    </td>
 
                 </tr>
-
-                </table>
-
-                </form>
-
+            </table>
+            </form>
                 </td>
-
 			</tr>
 
             <tr>
-
             	<td colspan="3">&nbsp;</td>
-
             </tr>
-
-            </table>
+        </table>
 
             <p> 
 
             <?php
-} elseif ($_GET[page] == 'view' and $user_type == '1') {
-    if (isset($_GET[dele])) {
-        $query = "update facility  set enable ='0' where sno = '$_GET[dele]' limit 1";
-        mysqli_query($conn,$query);
-    }
-?>
+            } elseif ($_GET['page'] == 'view' and $user_type == '1') {
+                if (isset($_GET['dele'])) {
+                    $query = "UPDATE facility  SET enable ='0' where sno = '".$_GET['dele']."' LIMIT 1";
+                    mysqli_query($conn,$query);
+                }
+            ?>
 
 				<br>
-
               	<b>To place online bookings, please select the respective facility and click on [ Book Now ] Button. </b> </p>
-
 		        <p><b><font color="#FF0000">Note:</font></b><br>
-
-        		<font size="2">Please refer to the <a href="bylaws.php?crypted=<?php
-    echo $_GET['crypted'];
-?>">By-Laws</a> for regulations and booking restrictions.</font><br>
-
+        		<font size="2">Please refer to the <a href="bylaws.php?crypted=<?php echo $_GET['crypted']; ?>">By-Laws</a> for regulations and booking restrictions.</font><br>
             	</p>
 
             	<table width="100%" border="0" align="center" class="sk_bok_green" cellpadding="5" cellspacing="0">
-
-              	<tr bgcolor="#FCECC7"> 
-
-               		<td> 
-
-                  	<div align="center"><strong>Sno.</strong></div>                </td>
-
-                	<td style="border-left:1px solid #990011;"> 
-
-                  	<div align="center"><strong>Facilities</strong></div>                </td>
-
-                	<td style="border-left:1px solid #990011;"> 
-
-                  	<div align="center"><strong>Type</strong></div>                </td>
-
-                	<td style="border-left:1px solid #990011;"> 
-
-                  	<div align="center"><strong>Deposit</strong></div>                </td>
-
-                	<td style="border-left:1px solid #990011;"> 
-
-                  	<div align="center"><strong>Action</strong></div>                </td>
-
-              	</tr>
+                    <tr bgcolor="#FCECC7"> 
+                        <td> 
+                            <div align="center"><strong>Sno.</strong></div>                
+                        </td>
+                        <td style="border-left:1px solid #990011;"> 
+                            <div align="center"><strong>Facilities</strong></div>
+                        </td>
+                        <td style="border-left:1px solid #990011;"> 
+                            <div align="center"><strong>Type</strong></div>
+                        </td>
+                        <td style="border-left:1px solid #990011;"> 
+                            <div align="center"><strong>Deposit</strong></div>
+                        </td>
+                        <td style="border-left:1px solid #990011;"> 
+                            <div align="center"><strong>Action</strong></div>
+                        </td>
+                    </tr>
 
               	<?php
-    $sr     = 1;
-    $query  = "select * from facility  where enable ='1' ORDER BY name ASC";
-    $result = mysqli_query($conn,$query);
-    while ($row = mysqli_fetch_array($result)) {
-        $indooroutdoor = $row['type'];
-        if ($row[deposite] > 0) {
-            $deposite = $row[deposite];
-            $deposite = "<font color=bue >SGD $deposite </font>";
-        } else {
-            $deposite = "<font color=green>Free</font>";
-        }
-        if ($row[os] == 'sess') {
-            $type = "Session based";
-        } else {
-            $type = "Time Based";
-        }
-?>
-
+                    $sr     = 1;
+                    $query  = "SELECT * FROM facility  WHERE enable ='1' ORDER BY name ASC";
+                    $result = mysqli_query($conn,$query);
+                    while ($row = mysqli_fetch_array($result)) {
+                        $indooroutdoor = $row['type'];
+                        if ($row['deposite'] > 0) {
+                            $deposite = $row['deposite'];
+                            $deposite = "<font color=bue >SGD $deposite </font>";
+                        } else {
+                            $deposite = "<font color=green>Free</font>";
+                        }
+                        if ($row['os'] == 'sess') {
+                            $type = "Session based";
+                        } else {
+                            $type = "Time Based";
+                        }
+                ?>
               		<tr> 
-
                 		<td width="4%" style="border-top:1px solid #990011;"> 
+                  		    <div align="center"> <?php echo $sr; ?></div>
+                        </td>
+                		<td width="31%" align="center" style="border-left:1px solid #990011; border-top:1px solid #990011;">
+                            <a href="booking.php?crypted=<?php echo $_GET['crypted']; ?>&page=edit&facility=<?php echo $row['sno']; ?>"> 
+                  		        <?php echo $row['name']; ?>
 
-                  		<div align="center"> 
-
-                    	<?php
-        echo $sr;
-?></div>                        </td>
-
-                		<td width="31%" align="center" style="border-left:1px solid #990011; border-top:1px solid #990011;"><a href="booking.php?crypted=<?php
-        echo $_GET[crypted];
-?>&page=edit&facility=<?php
-        echo $row[sno];
-?>"> 
-
-                  		<?php
-        echo $row[name];
-?>
-
-                  		</a>                        </td>
-
+                  		    </a>
+                        </td>
                 		<td width="20%" align="center" style="border-left:1px solid #990011; border-top:1px solid #990011;"> 
-
-                  		<?php
-        echo $type;
-?>                </td>
-
+                  		    <?php echo $type; ?>
+                        </td>
                 		<td width="19%" align="center" style="border-left:1px solid #990011; border-top:1px solid #990011;"> 
-
-                  		<?php
-        echo $deposite;
-?>                </td>
-
+                  		    <?php echo $deposite; ?> 
+                        </td>
                 		<!--td style="border-left:1px solid #990011; border-top:1px solid #990011;"> 
-                			<div align="center"><a href="booking.php?crypted=<?php // echo "$_GET[crypted]&page=group&group=$row[sno]"; 
-?>">Grouping</a></div></td-->
+                			<div align="center"><a href="booking.php?crypted=<?php // echo "$_GET[crypted]&page=group&group=$row[sno]"; ?>">Grouping</a></div></td-->
 
                 		<td style="border-left:1px solid #990011; border-top:1px solid #990011;"> 
-
-                  		<div align="center"> <a href="booking.php?crypted=<?php
-        echo $_GET[crypted];
-?>&page=edit&facility=<?php
-        echo $row[sno];
-?>"> 
-
-                  		Edit
-
-                  		</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<a href=booking.php?crypted=<?php
-        echo $_GET[crypted]."&page=view&dele=$row[sno]";
-?> onClick="return confirm('Deleting this facility will affect the booking report. Are you sure you want to delete this facility?');"><font color="#993300">Delete</font></a></div>                		</td>
-
+                  		    <div align="center"> 
+                            <a href="booking.php?crypted=<?php echo $_GET['crypted']; ?>&page=edit&facility=<?php echo $row['sno']; ?>"> 
+                            Edit
+                  		    </a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<a href="booking.php?crypted=<?php echo $_GET['crypted']."&page=view&dele=".$row['sno']; ?> onClick="return confirm('Deleting this facility will affect the booking report. Are you sure you want to delete this facility?');"><font color="#993300">Delete</font></a>
+                            </div>
+                        </td>
            		    </tr>
 
               		<?php
-        $sr++;
-    }
+                            $sr++;
+                    }//while loop for $sr above
+                    ?>
+       		    </table>
+
+<?php
+} elseif ($_GET['page'] == 'view' and ($user_type == '0' || $user_type == '2')) {
 ?>
 
-       		  </table>
-
-            		<?php
-} elseif ($_GET[page] == 'view' and ($user_type == '0' || $user_type == '2')) {
-?>
-
-            	<p><b>To place online bookings, please select the respective facility and 
-
-              	click on [ Book Now ] Button. </b> </p>
-
+            	<p><b>To place online bookings, please select the respective facility and click on [ Book Now ] Button. </b> </p>
             	<p><b><font color="#FF0000">Note:</font></b><br>
-
-              	<font size="2">Please refer to the <a href="bylaws.php?crypted=<?php
-    echo $_GET['crypted'];
-?>">By-Laws</a> for regulations and booking restrictions.</font></p>
-
+              	<font size="2">Please refer to the <a href="bylaws.php?crypted=<?php echo $_GET['crypted']; ?>">By-Laws</a> for regulations and booking restrictions.</font></p>
             	<table width="100%" border="0" align="center" class="sk_bok_green" height="100%" cellpadding="5" cellspacing="0">
-
               	<tr bgcolor="#FCECC7"> 
-
                 	<td> 
-
-                  	<div align="center"><strong>#</strong></div>
-
+                  	    <div align="center"><strong>#</strong></div>
                 	</td>
-
                 	<td style="border-left:1px solid #990011;"> 
-
-                  	<div align="center"><strong>Facilities</strong></div>
-
+                  	    <div align="center"><strong>Facilities</strong></div>
                 	</td>
-
                 	<td style="border-left:1px solid #990011;"> 
-
-                  	<div align="center"><strong>Type</strong></div>
-
+                  	    <div align="center"><strong>Type</strong></div>
                 	</td>
-
-               	  <td style="border-left:1px solid #990011;"> 
-
-                  	<div align="center"><strong>Deposit</strong></div>
-
-               	  </td>
-
+               	    <td style="border-left:1px solid #990011;"> 
+                  	    <div align="center"><strong>Deposit</strong></div>
+               	    </td>
                 </tr>
 
               	<?php
-    $sr     = 1;
-    $query  = "select * from facility where enable ='1' ORDER BY name ASC";
-    $result = mysqli_query($conn,$query);
-    while ($row = mysqli_fetch_array($result)) {
-        $indooroutdoor = $row['type'];
-        if ($row[deposite] > 0) {
-            $deposite = $row[deposite];
-            $deposite = "<font color=bue >SGD $deposite </font>";
-        } else {
-            $deposite = "<font color=green>Free</font>";
-        }
-        if ($row[os] == 'sess') {
-            $type = "Session based";
-        } else {
-            $type = "Time Based";
-        }
-?>
-
+                    $sr     = 1;
+                    $query  = "SELECT * FROM facility WHERE enable ='1' ORDER BY name ASC";
+                    $result = mysqli_query($conn,$query);
+                    while ($row = mysqli_fetch_array($result)) {
+                        $indooroutdoor = $row['type'];
+                        if ($row['deposite'] > 0) {
+                            $deposite = $row['deposite'];
+                            $deposite = "<font color=bue >SGD $deposite </font>";
+                        } else {
+                            $deposite = "<font color=green>Free</font>";
+                        }
+                        if ($row['os'] == 'sess') {
+                            $type = "Session based";
+                        } else {
+                            $type = "Time Based";
+                        }
+                ?>
               	<tr> 
-
                 	<td width="4%" style="border-top:1px solid #990011;"> 
-
-                  	<div align="center"> 
-
-                    <?php
-        echo $sr;
-?>
-
-                  	</div>
-
-                </td>
-
-                <td width="31%" align="center" style="border-left:1px solid #990011; border-top:1px solid #990011;"> 
-
-                  <?php
-        echo $row[name];
-?>
-
-                </td>
-
-                <td width="20%" align="center" style="border-left:1px solid #990011; border-top:1px solid #990011;"> 
-
-                  <?php
-        echo $type;
-?>
-
-                </td>
-
-                <td width="19%" align="center" style="border-left:1px solid #990011; border-top:1px solid #990011;"> 
-
-                  <?php
-        echo $deposite;
-?>
-
-                </td>
-
-            </tr>
-
-            <?php
-        $sr++;
-    }
-?>
-
+                        <div align="center"> 
+                            <?php echo $sr; ?>
+                        </div>
+                    </td>
+                    <td width="31%" align="center" style="border-left:1px solid #990011; border-top:1px solid #990011;"> 
+                        <?php echo $row['name']; ?>
+                    </td>
+                    <td width="20%" align="center" style="border-left:1px solid #990011; border-top:1px solid #990011;"> 
+                    <?php echo $type; ?>
+                    </td>
+                    <td width="19%" align="center" style="border-left:1px solid #990011; border-top:1px solid #990011;"> 
+                    <?php echo $deposite; ?>
+                    </td>
+                </tr>
+                <?php
+                    $sr++;
+                    }//end of WHILE Loop
+                ?>
             </table>
 
             <?php
-} elseif ($_GET[page] == 'edit' and $user_type == '1') {
+} elseif ($_GET['page'] == 'edit' and $user_type == '1') {
     // print_r($_POST);
-    $query = "select * from facility where  sno = '$_GET[facility]' and enable ='1' limit 1";
+    $query = "SELECT * FROM facility WHERE  sno = '".$_GET['facility']."' AND enable ='1' LIMIT 1";
     $result = mysqli_query($conn,$query) or die(mysqli_error($conn));
     while ($row = mysqli_fetch_array($result)) {
-        if (isset($_POST[name2])) {
-            $_SESSION[facility] = $_POST;
+        if (isset($_POST['name2'])) {
+            $_SESSION['facility'] = $_POST;
         } else {
-            $_SESSION[facility][name2]           = $row[name];
-            $_SESSION[facility][type]            = $row[type];
-            $_SESSION[facility][month_blocked]   = $row[month_blocked];
-            $_SESSION[facility][absent_amount]   = $row[absent_amount];
-            $_SESSION[facility][month_period]    = $row[month_period];
-            $_SESSION[facility][deposite2]       = $row[deposite];
-            $_SESSION[facility][auto2]           = $row[auto_apporve];
+            $_SESSION['facility']['name2']           = $row['name'];
+            $_SESSION['facility']['type']            = $row['type'];
+            $_SESSION['facility']['month_blocked']   = $row['month_blocked'];
+            $_SESSION['facility']['absent_amount']   = $row['absent_amount'];
+            $_SESSION['facility']['month_period']    = $row['month_period'];
+            $_SESSION['facility']['deposite2']       = $row['deposite'];
+            $_SESSION['facility']['auto2']           = $row['auto_apporve'];
             //booking_per_day
-            $_SESSION[facility][booking_per_day] = $row[max_booking_per_day];
-            $_SESSION[facility][rule1_1]         = $row[rule1_1];
-            $_SESSION[facility][rule1_2]         = $row[rule1_2];
-            $_SESSION[facility][rule1_3]         = $row[rule1_3];
-            $_SESSION[facility][logic_one]       = $row[relation_rule_1];
-            $_SESSION[facility][rule2_1]         = $row[rule2_1];
-            $_SESSION[facility][rule2_2]         = $row[rule2_2];
-            $_SESSION[facility][rule2_3]         = $row[rule2_3];
-            $_SESSION[facility][logic_two]       = $row[relation_rule_2];
-            //$_SESSION[facility][logic_two] = $row[relation_rule_4];//Added by vasanth to add rules for tennis
-            $_SESSION[facility][rule3_1]         = $row[rule3_1];
-            $_SESSION[facility][rule3_2]         = $row[rule3_2];
-            $_SESSION[facility][rule3_3]         = $row[rule3_3];
-            $_SESSION[facility][os]              = $row[os];
-            $_SESSION[facility][from]            = $row[from_time];
-            $_SESSION[facility]['max']           = $row[max_time];
-            $_SESSION[facility][hrs]             = $row[hours];
-            $_SESSION[facility][open_from]       = $row[open_from];
-            $_SESSION[facility][closed_at]       = $row[closed_at];
-            $_SESSION[facility][auto_close]      = $row[auto_close_date];
-            $_SESSION[facility][from_date]       = $row[from_date];
-            $_SESSION[facility][to_date]         = $row[to_date];
-            $_SESSION[facility][frame]           = $row[frame];
-            $_SESSION[facility][auto_cal]        = $row[auto_cal];
-            $_SESSION[facility][message]         = $row[message];
+            $_SESSION['facility']['booking_per_day'] = $row['max_booking_per_day'];
+            $_SESSION['facility']['rule1_1']         = $row['rule1_1'];
+            $_SESSION['facility']['rule1_2']         = $row['rule1_2'];
+            $_SESSION['facility']['rule1_3']         = $row['rule1_3'];
+            $_SESSION['facility']['logic_one']       = $row['relation_rule_1'];
+            $_SESSION['facility']['rule2_1']         = $row['rule2_1'];
+            $_SESSION['facility']['rule2_2']         = $row['rule2_2'];
+            $_SESSION['facility']['rule2_3']         = $row['rule2_3'];
+            $_SESSION['facility']['logic_two']       = $row['relation_rule_2'];
+            //$_SESSION['facility'][logic_two] = $row[relation_rule_4];//Added by vasanth to add rules for tennis
+            $_SESSION['facility']['rule3_1']         = $row['rule3_1'];
+            $_SESSION['facility']['rule3_2']         = $row['rule3_2'];
+            $_SESSION['facility']['rule3_3']         = $row['rule3_3'];
+            $_SESSION['facility']['os']              = $row['os'];
+            $_SESSION['facility']['from']            = $row['from_time'];
+            $_SESSION['facility']['max']           = $row['max_time'];
+            $_SESSION['facility']['hrs']             = $row['hours'];
+            $_SESSION['facility']['open_from']       = $row['open_from'];
+            $_SESSION['facility']['closed_at']       = $row['closed_at'];
+            $_SESSION['facility']['auto_close']      = $row['auto_close_date'];
+            $_SESSION['facility']['from_date']       = $row['from_date'];
+            $_SESSION['facility']['to_date']         = $row['to_date'];
+            $_SESSION['facility']['frame']           = $row['frame'];
+            $_SESSION['facility']['auto_cal']        = $row['auto_cal'];
+            $_SESSION['facility']['message']         = $row['message'];
         }
-        $date          = $row[created_on];
-        $unique_no     = $row[unique_no];
-        $type          = $row[type];
-        $month_blocked = $row[month_blocked];
-        $absent_amount = $row[absent_amount];
-        $month_period  = $row[month_period];
+        $date          = $row['created_on'];
+        $unique_no     = $row['unique_no'];
+        $type          = $row['type'];
+        $month_blocked = $row['month_blocked'];
+        $absent_amount = $row['absent_amount'];
+        $month_period  = $row['month_period'];
         /*Code added to display Advanced Booking period*/
         $_fac_id       = (int) $_GET['facility'];
-        $sql           = "SELECT num_days FROM `advance_booking`  WHERE facility_id='$_fac_id'";
-        $res_adv       = mysql_query($sql);
+        $sql           = "SELECT num_days FROM `advance_booking`  WHERE facility_id='".$_fac_id."'";
+        $res_adv       = mysqli_query($conn,$sql);
         $row_adv       = mysqli_fetch_array($res_adv);
         $adv_book_days = $row_adv['num_days'];
         /*Code added to display Advanced Booking period*/
     }
-    if (isset($_POST[Submit2])) {
-        $query = "update facility set name ='$_POST[name2]',deposite ='$_POST[deposite2]',auto_apporve  = '$_POST[auto2]',max_booking_per_day ='$_POST[booking_per_day]',rule1_1 ='$_POST[rule1_1]',rule1_2 ='$_POST[rule1_2]',rule1_3 ='$_POST[rule1_3]',relation_rule_1='$_POST[logic_one]',rule2_1 = '$_POST[rule2_1]',rule2_2 ='$_POST[rule2_2]',rule2_3 = '$_POST[rule2_3]',relation_rule_2='$_POST[logic_two]',rule3_1 ='$_POST[rule3_1]', rule3_2 ='$_POST[rule3_2]',rule3_3 ='$_POST[rule3_3]',open_from ='$_POST[open_from]',closed_at ='$_POST[closed_at]',os ='$_POST[os]',from_time ='$_POST[from]',max_time ='$_POST[max]',hours ='$_POST[hrs]',auto_close_date ='$_POST[auto_close]',auto_close_start_day ='$_POST[hrs]',auto_close_date  = '$_POST[auto_close]',auto_close_start_day  ='',auto_close_start_month ='',auto_close_start_year ='',auto_close_end_day ='',auto_close_end_month ='',auto_close_end_year ='',from_date ='$_POST[from_date]',to_date ='$_POST[to_date]',frame='$_POST[frame]',message ='$_POST[message]',auto_cal ='$_POST[auto_cal]',type ='$_POST[type]',month_blocked ='$_POST[month_blocked]',absent_amount ='$_POST[absent_amount]',month_period ='$_POST[month_period]' where unique_no = '$unique_no' limit 1";
+    if (isset($_POST['Submit2'])) {
+        $query = "UPDATE facility SET name ='".$_POST['name2']."',deposite ='".$_POST['deposite2']."',auto_apporve  = '".$_POST['auto2']."',max_booking_per_day ='".$_POST['booking_per_day']."',rule1_1 ='".$_POST['rule1_1']."',rule1_2 ='".$_POST['rule1_2']."',rule1_3 ='".$_POST['rule1_3']."',relation_rule_1='".$_POST['logic_one']."',rule2_1 = '".$_POST['rule2_1']."',rule2_2 ='".$_POST['rule2_2']."',rule2_3 = '".$_POST['rule2_3']."',relation_rule_2='".$_POST['logic_two']."',rule3_1 ='".$_POST['rule3_1']."', rule3_2 ='".$_POST['rule3_2']."',rule3_3 ='".$_POST['rule3_3']."',open_from ='".$_POST['open_from']."',closed_at ='".$_POST['closed_at']."',os ='".$_POST['os']."',from_time ='".$_POST['from']."',max_time ='".$_POST['max']."',hours ='".$_POST['hrs']."',auto_close_date ='".$_POST['auto_close']."',auto_close_start_day ='".$_POST['hrs']."',auto_close_date  = '".$_POST['auto_close']."',auto_close_start_day  ='',auto_close_start_month ='',auto_close_start_year ='',auto_close_end_day ='',auto_close_end_month ='',auto_close_end_year ='',from_date ='".$_POST['from_date']."',to_date ='".$_POST['to_date']."',frame='".$_POST['frame']."',message ='".$_POST['message']."',auto_cal ='".$_POST['auto_cal']."',type ='".$_POST['type']."',month_blocked ='".$_POST['month_blocked']."',absent_amount ='".$_POST['absent_amount']."',month_period ='".$_POST['month_period']."' where unique_no = '".$unique_no."' limit 1";
         mysqli_query($conn,$query) or die(mysqli_error($conn));
         /*Code added to set Advanced Booking period*/
         $_fac_id       = (int) $_GET['facility'];
         $adv_book_days = (int) $_POST['adv_book_days'];
-        $sql           = "UPDATE `advance_booking`  SET 	num_days='$adv_book_days' WHERE facility_id='$_fac_id'";
-        mysql_query($sql);
+        $sql           = "UPDATE `advance_booking`  SET num_days='".$adv_book_days."' WHERE facility_id='".$_fac_id."'";
+        mysqli_query($conn, $sql);
         /*Code added to set Advanced Booking period*/
         $dayfromenter   = explode(".", $_POST['from_date']);
         $dayenterfrom   = $dayfromenter[0];
@@ -2192,268 +2042,186 @@ $start_month = date('-m-Y');
         $dayenterto     = $daytoenter[0];
         $monthenterto   = $daytoenter[1];
         $yearenterto    = $daytoenter[2];
-        if ($_POST[auto_cal] == 1) {
+        if ($_POST['auto_cal'] == 1) {
             // check first if have same day entry
-            $query     = "SELECT * FROM calender_event WHERE heading = '$_POST[message]' AND day = '$dayenterfrom' AND month_no = '$monthenterfrom' AND year = '$yearenterfrom'";
+            $query     = "SELECT * FROM calender_event WHERE heading = '".$_POST['message']."' AND day = '".$dayenterfrom."' AND month_no = '".$monthenterfrom."' AND year = '".$yearenterfrom."'";
             $resulting = mysqli_query($conn,$query);
             $foundalso = mysqli_num_rows($resulting);
             if ($foundalso == 0) {
-                $query = "select * from user_account  where crypted  = '".$_GET['crypted']."' and id = '$s_id' limit 1";
+                $query = "SELECT * FROM user_account WHERE crypted  = '".$_GET['crypted']."' and id = '".$s_id."' LIMIT 1";
                 $result = mysqli_query($conn,$query) or die(mysqli_error($conn));
                 //$count = mysqli_num_rows($result);
                 $row   = mysqli_fetch_array($result);
-                $id    = $row[id];
-                $query = "insert into calender_event (uid,heading,details,day,month_no,year) values ('$id','$_POST[message]','$_POST[name2]','$dayenterfrom','$monthenterfrom','$yearenterfrom')";
+                $id    = $row['id'];
+                $query = "INSERT INTO calender_event (uid,heading,details,day,month_no,year) values ('".$id."','".$_POST['message']."','".$_POST['name2']."','".$dayenterfrom."','".$monthenterfrom."','".$yearenterfrom."')";
                 mysqli_query($conn,$query);
                 // insert
             } else {
                 $foundfrom = mysqli_fetch_array($resulting);
-                $query     = "select * from user_account  where crypted  = '".$_GET['crypted']."' and id = '$s_id' limit 1";
+                $query     = "SELECT * FROM user_account  where crypted  = '".$_GET['crypted']."' and id = '".$s_id."' LIMIT 1";
                 $result = mysqli_query($conn,$query) or die(mysqli_error($conn));
                 //$count = mysqli_num_rows($result);
                 $row   = mysqli_fetch_array($result);
-                $id    = $row[id];
-                $query = "update calender_event set uid='$id',heading = '$_POST[message]',details='$_POST[name2]' where sno ='$foundfrom[sno]' ";
+                $id    = $row['id'];
+                $query = "UPDATE calender_event SET uid='".$id."',heading = '".$_POST['message']."',details='".$_POST['name2']."' where sno ='".$foundfrom['sno']."' ";
                 mysqli_query($conn,$query);
                 // update
             }
-            $query     = "SELECT * FROM calender_event WHERE heading = '$_POST[message]' AND day = '$dayenterto' AND month_no = '$monthenterto' AND year = '$yearenterto'";
+            $query     = "SELECT * FROM calender_event WHERE heading = '".$_POST['message']."' AND day = '".$dayenterto."' AND month_no = '".$monthenterto."' AND year = '".$yearenterto."'";
             $resulting = mysqli_query($conn,$query);
             $foundalso = mysqli_num_rows($resulting);
             if ($foundalso == 0) {
-                $query = "select * from user_account  where crypted  = '".$_GET['crypted']."' and id = '$s_id' limit 1";
+                $query = "SELECT * FROM user_account WHERE crypted  = '".$_GET['crypted']."' AND id = '".$s_id."' LIMIT 1";
                 $result = mysqli_query($conn,$query) or die(mysqli_error($conn));
                 //$count = mysqli_num_rows($result);
                 $row   = mysqli_fetch_array($result);
-                $id    = $row[id];
-                $query = "insert into calender_event (uid,heading,details,day,month_no,year) values ('$id','$_POST[message]','$_POST[name2]','$dayenterto','$monthenterto','$yearenterto')";
+                $id    = $row['id'];
+                $query = "INSERT INTO calender_event (uid,heading,details,day,month_no,year) values ('".$id."','".$_POST['message']."','".$_POST['name2']."','".$dayenterto."','".$monthenterto."','".$yearenterto."')";
                 mysqli_query($conn,$query);
                 // insert
             } else {
                 $foundfrom = mysqli_fetch_array($resulting);
-                $query     = "select * from user_account  where crypted  = '".$_GET['crypted']."' and id = '$s_id' limit 1";
+                $query     = "SELECT * FROM user_account WHERE crypted  = '".$_GET['crypted']."' AND id = '".$s_id."' LIMIT 1";
                 $result = mysqli_query($conn,$query) or die(mysqli_error($conn));
                 //$count = mysqli_num_rows($result);
                 $row   = mysqli_fetch_array($result);
-                $id    = $row[id];
-                $query = "update calender_event set uid='$id',heading = '$_POST[message]',details='$_POST[name2]' where sno ='$foundfrom[sno]' ";
+                $id    = $row['id'];
+                $query = "UPDATE calender_event SET uid='".$id."',heading = '".$_POST['message']."',details='".$_POST['name2']."' where sno ='".$foundfrom['sno']."' ";
                 mysqli_query($conn,$query);
                 // update
             }
         }
     }
-    if (isset($_POST[down2])) {
-        if ($_POST[from_time2] > $_POST[to_time2]) {
+    if (isset($_POST['down2'])) {
+        if ($_POST['from_time2'] > $_POST['to_time2']) {
             $er = 1;
         } else {
-            $query = "select * from track_time where track = '$unique_no'";
+            $query = "SELECT * FROM track_time WHERE track = '".$unique_no."'";
             $result = mysqli_query($conn,$query) or die(mysqli_error($conn));
             while ($row = mysqli_fetch_array($result)) {
-                if (($_POST[from_time2] < $row[to_time]) and ($_POST[week2] == '0' or $_POST[week2] == $row[weak])) {
+                if (($_POST['from_time2'] < $row['to_time']) and ($_POST['week2'] == '0' or $_POST['week2'] == $row['weak'])) {
                     echo $er = 1;
                 }
             }
         }
         //print_r($_POST);
         if ($er != '1') {
-            $query = "insert into track_time (track,from_time,to_time,peak,weak) values ('$unique_no','$_POST[from_time2]','$_POST[to_time2]','$_POST[peak2]','$_POST[week2]')";
+            $query = "INSERT INTO track_time (track,from_time,to_time,peak,weak) values ('".$unique_no."','".$_POST['from_time2']."','".$_POST['to_time2']."','".$_POST['peak2']."','".$_POST['week2']."')";
             mysqli_query($conn,$query);
         } else {
             echo "<div align=center><font color=red>Either The time range is already in use or the time range is not right</font></div>";
         }
     }
 ?>
-
-                <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
-
+            <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
                 <tr>
-
                 	<td style="background-repeat:no-repeat"><div align="right"><img src="images/left_win_10.gif" width="21" height="30" border="0"></div></td>
-
                     <td width="100%" background="images/middle_win_11.gif"><span class="fontitle style1"><strong>Edit Facilities</strong></span></td>
-
                     <td><img src="images/right_win_14.gif" width="17" height="30"></td>
-
                 </tr>
 
                 <tr>
-
                 	<td colspan="3"><form name="form" method="post" action="">
-
                     <table width="100%" border="0" align="right" cellpadding="0" cellspacing="0">
+                        <tr>
+                            <td colspan="13" bgcolor="#944542" class="fontitle txtgrey" style="border-left:1px solid #b09852;border-right:1px solid #b09852; padding-left:15px; padding-top:5px; padding-bottom:5px;"><span class="fontitle">&nbsp;<strong>Basic Details </strong></span></td>
+                        </tr>
+                        <tr>
+                            <td style="padding-left:15px; padding-top:5px; padding-bottom:5px; border-left:1px solid #990011;"> Name </td>
+                            <td style="padding-left:15px; padding-top:5px; padding-bottom:5px;"><strong>:</strong></td>
+                            <td colspan="5" style="padding-left:15px; padding-top:5px; padding-bottom:5px;"><label>
+                                <input name="name2" type="text" value="<?php echo $_SESSION['facility']['name2']; ?>" tooltipText="Type In Facilite Name Here (e.g: Tennies Court)" >
+                                </label>
+                            </td>
+                            <td style="padding-left:15px; padding-top:5px; padding-bottom:5px;"><div align="right">Creation Date </div></td>
+                            <td width="6"><strong>:</strong></td>
+                            <td width="247" style="border-right:0px solid #990011;"><b> <?php echo $date; ?></td>
+                            <td width="46" style="border-right:0px solid #990011;">Type</td>
+                            <td width="5" style="border-right:0px solid #990011;"><strong>:</strong></td>
+                            <td width="121" style="border-right:1px solid #990011;">
+                                <select name="type">
+                                    <option value="0" <?php if ($_SESSION['facility']['type'] == '0') { echo "selected"; } ?>>Indoor</option>
+                                    <option value="1" <?php if ($_SESSION['facility']['type'] == '1') { echo "selected"; } ?>>Outdoor</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="13" bgcolor="#944542" style="border-left:1px solid #b09852;border-right:1px solid #b09852; padding-left:15px; padding-top:5px; padding-bottom:5px;"><span class="fontitle"><strong>&nbsp;Booking Time Range </strong></span></td>
+                        </tr>
 
-                    <tr>
-
-                    	<td colspan="13" bgcolor="#944542" class="fontitle txtgrey" style="border-left:1px solid #b09852;border-right:1px solid #b09852; padding-left:15px; padding-top:5px; padding-bottom:5px;"><span class="fontitle">&nbsp;<strong>Basic Details </strong></span></td>
-
-                    </tr>
-
-                    <tr>
-
-                    	<td style="padding-left:15px; padding-top:5px; padding-bottom:5px; border-left:1px solid #990011;"> Name </td>
-
-                        <td style="padding-left:15px; padding-top:5px; padding-bottom:5px;"><strong>:</strong></td>
-
-                        <td colspan="5" style="padding-left:15px; padding-top:5px; padding-bottom:5px;"><label>
-
-                        <input name="name2" type="text" value="<?php
-    echo $_SESSION[facility][name2];
-?>" tooltipText="Type In Facilite Name Here (e.g: Tennies Court)" >
-
-                        </label></td>
-
-                        <td style="padding-left:15px; padding-top:5px; padding-bottom:5px;"><div align="right">Creation Date </div></td>
-
-                        <td width="6"><strong>:</strong></td>
-
-                        <td width="247" style="border-right:0px solid #990011;"><b> <?php
-    echo $date;
-?></td>
-
-					    <td width="46" style="border-right:0px solid #990011;">Type</td>
-
-					    <td width="5" style="border-right:0px solid #990011;"><strong>:</strong></td>
-
-                        <td width="121" style="border-right:1px solid #990011;"><select name="type">
-
-                    <option value="0" <?php
-    if ($_SESSION[facility][type] == '0') {
-        echo "selected";
-    }
-?>>Indoor</option>
-
-                    <option value="1" <?php
-    if ($_SESSION[facility][type] == '1') {
-        echo "selected";
-    }
-?>>Outdoor</option>
-
-                    </select></td>
-
-                    </tr>
-
-                    <tr>
-
-                    	<td colspan="13" bgcolor="#944542" style="border-left:1px solid #b09852;border-right:1px solid #b09852; padding-left:15px; padding-top:5px; padding-bottom:5px;"><span class="fontitle"><strong>&nbsp;Booking Time Range </strong></span></td>
-
-					</tr>
-
-                    <tr>
-
+                        <tr>
                     	<td colspan="13" style="border-left:1px solid #990011; border-right:1px solid #990011;">
-
+                        
                         <table width="100%" border="0" align="center">
-
                     	<tr>
-
                         	<td>
-
                             <table width="100%" border="0" align="center">
-
                             <tr>
+                                <td width="8%" style="padding-left:10px;">From </td>
+                                <td width="1%"><strong>:</strong></td>
+                                <td width="9%"><label></label>
+                                    <label>
+                                    <select name="from_time2" tooltipText="Select the start timing of the facility. (e.g: if the faility is open from morning 10:00 AM then select 10:00 from drop down option)">
+                                    <?php
+                                        $query  = "SELECT * FROM time_slot ";
+                                        $result = mysqli_query($conn,$query);
+                                        while ($row = mysqli_fetch_array($result)) {
+                                            echo "<option value=".$row['id'].">".$row['time_slot']."</option>";
+                                        }
+                                    ?>
 
-                            <td width="8%" style="padding-left:10px;">From </td>
+                                 </select>
+                                </label></td>
+                                <td width="4%">To </td>
+                                <td width="1%"><strong>:</strong></td>
+                                <td width="12%"><label>
+                                    <select name="to_time2" tooltipText="Select the closing timing of the facility. (e.g: if the faility closes at evening 10:00 PM then select 22:00 from drop down option)">
+                                    <?php
+                                        $query  = "SELECT * FROM time_slot ";
+                                        $result = mysqli_query($conn,$query);
+                                        while ($row = mysqli_fetch_array($result)) {
+                                            echo "<option value=".$row['id'].">".$row['time_slot']."</option>";
+                                        }
+                                    ?>
+                                    </select>
+                                    </label></td>
+                                <td width="7%"><label>Type</label></td>
+                                <td width="2%"><strong>:</strong></td>
+                                <td width="16%">
+                                    <select name="peak2" tooltipText="Do you want to take this time range as Peak Time or Non-Peak Time, Tip : Remmber you can enter more then one open and close time of a facilities and decalre any time range as Peak Time or Non-Peak Time. ">
+                                        <option value="1">Peak Time</option>
+                                        <option value="0" selected>Non-Peak Time</option>
+                                    </select></td>
 
-                            <td width="1%"><strong>:</strong></td>
+                                <td width="17%"><div align="right">
+                                    <select name="week2" tooltiptext="After you have selected the time range, you can define this range to specify day of week or all week. Please note that system will verify the range and mis-conflict of time range for you.">
+                                        <option value="0" selected>All Week</option>
+                                        <option value="1">Sunday</option>
+                                        <option value="2">Monday</option>
+                                        <option value="3">Tuesday</option>
+                                        <option value="4">Wednesday</option>
+                                        <option value="5">Thursday</option>
+                                        <option value="6">Friday</option>
+                                        <option value="7">Saturday</option>
+                                    </select>
+                                </div></td>
+                                <td width="23%"><div align="left">
+                                    <input type="submit" name="down2" value="V">
+                                </div></td>
 
-                            <td width="9%"><label></label>
-
-                            <label>
-
-                            <select name="from_time2" tooltipText="Select the start timing of the facility. (e.g: if the faility is open from morning 10:00 AM then select 10:00 from drop down option)">
-
-                            <?php
-    $query  = "select * from time_slot ";
-    $result = mysqli_query($conn,$query);
-    while ($row = mysqli_fetch_array($result)) {
-        echo "<option value=$row[id]>$row[time_slot]</option>";
-    }
-?>
-
-                            </select>
-
-                            </label></td>
-
-                            <td width="4%">To </td>
-
-                            <td width="1%"><strong>:</strong></td>
-
-                            <td width="12%"><label>
-
-                            <select name="to_time2" tooltipText="Select the closing timing of the facility. (e.g: if the faility closes at evening 10:00 PM then select 22:00 from drop down option)">
-
-                            <?php
-    $query  = "select * from time_slot ";
-    $result = mysqli_query($conn,$query);
-    while ($row = mysqli_fetch_array($result)) {
-        echo "<option value=$row[id]>$row[time_slot]</option>";
-    }
-?>
-
-                            </select>
-
-                            </label></td>
-
-                            <td width="7%"><label>Type</label></td>
-
-                            <td width="2%"><strong>:</strong></td>
-
-                            <td width="16%">
-
-                            <select name="peak2" tooltipText="Do you want to take this time range as Peak Time or Non-Peak Time, Tip : Remmber you can enter more then one open and close time of a facilities and decalre any time range as Peak Time or Non-Peak Time. ">
-
-                            	<option value="1">Peak Time</option>
-
-                                <option value="0" selected>Non-Peak Time</option>
-
-                            </select></td>
-
-                            <td width="17%"><div align="right">
-
-                            <select name="week2" tooltiptext="After you have selected the time range, you can define this range to specify day of week or all week. Please note that system will verify the range and mis-conflict of time range for you.">
-
-                            	<option value="0" selected>All Week</option>
-
-                                <option value="1">Sunday</option>
-
-                                <option value="2">Monday</option>
-
-                                <option value="3">Tuesday</option>
-
-                                <option value="4">Wednesday</option>
-
-                                <option value="5">Thursday</option>
-
-                                <option value="6">Friday</option>
-
-                                <option value="7">Saturday</option>
-
-                            </select>
-
-                            </div></td>
-
-                            <td width="23%"><div align="left">
-
-                            <input type="submit" name="down2" value="V">
-
-                            </div></td>
-
-						</tr>
-
-                        </table>                        </td>
-
+						    </tr>
+                            </table>
+                        </td>
 					</tr>
-
                     </table>
-
                     <?php
     //	 print_r($_POST);
-    if (isset($_POST[Delete2])) {
-        $delete = explode('x', $_POST[Delete2]);
+    if (isset($_POST['Delete2'])) {
+        $delete = explode('x', $_POST['Delete2']);
         //	print_r($delete);
-        mysql_query("delete from track_time where sno = '$delete[1]' limit 1") or die(mysqli_error($conn));
+        mysqli_query($conn,"DELETE FROM track_time WHERE sno = '".$delete[1]."' LIMIT 1") or die(mysqli_error($conn));
     }
-    $query  = "select * from track_time where track = '$unique_no'";
+    $query  = "SELECT * FROM track_time where track = '".$unique_no."'";
     $result = mysqli_query($conn,$query);
     $count  = mysqli_num_rows($result);
     if ($count == '0') {
@@ -2465,1888 +2233,1027 @@ $start_month = date('-m-Y');
     if ($count >= '1') {
 ?>
 
-                    <table width="100%" border="0" align="center" class="sk_bok" cellspacing="0" cellpadding="5">
-
+                <table width="100%" border="0" align="center" class="sk_bok" cellspacing="0" cellpadding="5">
                     <tr>
-
                         <td width="4%" bgcolor="#FCECC7"><div align="center"><strong>#</strong></div></td>
-
                         <td width="23%" bgcolor="#FCECC7" style="border-left:1px solid #990011;"><div align="center"><strong>From</strong></div></td>
-
                         <td width="23%" bgcolor="#FCECC7" style="border-left:1px solid #990011;"><div align="center"><strong>To</strong></div></td>
-
                         <td width="21%" bgcolor="#FCECC7" style="border-left:1px solid #990011;"><div align="center"><strong>Peak / Non Peak</strong> </div></td>
-
                         <td width="21%" bgcolor="#FCECC7" style="border-left:1px solid #990011;"><div align="center"><strong>Week</strong></div></td>
-
                     </tr>
 
                     <?php
-        $sr = 1;
-        while ($row = mysqli_fetch_array($result)) {
-            $query1  = "select * from time_slot where id ='$row[from_time]' limit 1";
-            $result1 = mysqli_query($conn, $query1);
-            while ($row1 = mysqli_fetch_array($result1)) {
-                $from_time = $row1[time_slot];
-            }
-            $query1  = "select * from time_slot where id ='$row[to_time]' limit 1";
-            $result1 = mysqli_query($conn, $query1);
-            while ($row1 = mysqli_fetch_array($result1)) {
-                $to_time = $row1[time_slot];
-            }
-?>
+                    $sr = 1;
+                    while ($row = mysqli_fetch_array($result)) {
+                        $query1  = "SELECT * FROM time_slot WHERE id ='".$row['from_time']."' LIMIT 1";
+                        $result1 = mysqli_query($conn, $query1);
+                        while ($row1 = mysqli_fetch_array($result1)) {
+                            $from_time = $row1['time_slot'];
+                        }
+                        $query1  = "SELECT * FROM time_slot WHERE id ='".$row['to_time']."' LIMIT 1";
+                        $result1 = mysqli_query($conn, $query1);
+                        while ($row1 = mysqli_fetch_array($result1)) {
+                            $to_time = $row1['time_slot'];
+                        }
+                    ?>
+                    <tr align="center">
+                        <td style="border-top:1px solid #990011;"><?php echo $sr; ?></td>
+                        <td style="border-left:1px solid #990011; border-top:1px solid #990011;"><?php echo "$from_time"; ?></td>
+                        <td style="border-left:1px solid #990011; border-top:1px solid #990011;"><?php echo "$to_time "; ?></td>
+                        <td style="border-left:1px solid #990011; border-top:1px solid #990011;">
+                            <?php if ($row['peak'] == '1') {
+                                    echo "Peak Hour";
+                                } else {
+                                    echo "Non - Peak Hour";
+                                }
+                            ?>                            
+                        </td>
+                        <td style="border-left:1px solid #990011; border-top:1px solid #990011;">
+                            <?php
+                                if ($row['weak'] == '0') {
+                                    echo "All Week";
+                                } elseif ($row['weak'] == '1') {
+                                    echo "Sunday";
+                                } elseif ($row['weak'] == '2') {
+                                    echo "Monday";
+                                } elseif ($row['weak'] == '3') {
+                                    echo "Tuesday";
+                                } elseif ($row['weak'] == '4') {
+                                    echo "Wednesday";
+                                } elseif ($row['weak'] == '5') {
+                                    echo "Thursday";
+                                } elseif ($row['weak'] == '6') {
+                                    echo "Friday";
+                                } elseif ($row['weak'] == '7') {
+                                    echo "Saturday";
+                                }
+                            ?>                            
+                        </td>
+                    </tr>
+                    <?php
+                        $sr++;
+                    }
+                    ?>
+                </table>
 
-                        <tr align="center">
-
-                        	<td style="border-top:1px solid #990011;"><?php
-            echo $sr;
-?></td>
-
-                            <td style="border-left:1px solid #990011; border-top:1px solid #990011;"><?php
-            echo "$from_time";
-?></td>
-
-                            <td style="border-left:1px solid #990011; border-top:1px solid #990011;"><?php
-            echo "$to_time ";
-?></td>
-
-                            <td style="border-left:1px solid #990011; border-top:1px solid #990011;"><?php
-            if ($row[peak] == '1') {
-                echo "Peak Hour";
-            } else {
-                echo "Non - Peak Hour";
-            }
-?>                            </td>
-
-                            <td style="border-left:1px solid #990011; border-top:1px solid #990011;"><?php
-            if ($row[weak] == '0') {
-                echo "All Week";
-            } elseif ($row[weak] == '1') {
-                echo "Sunday";
-            } elseif ($row[weak] == '2') {
-                echo "Monday";
-            } elseif ($row[weak] == '3') {
-                echo "Tuesday";
-            } elseif ($row[weak] == '4') {
-                echo "Wednesday";
-            } elseif ($row[weak] == '5') {
-                echo "Thursday";
-            } elseif ($row[weak] == '6') {
-                echo "Friday";
-            } elseif ($row[weak] == '7') {
-                echo "Saturday";
-            }
-?>                            </td>
-
-                        </tr>
-
-                        <?php
-            $sr++;
-        }
-?>
-
-                        </table>
-
-                        <?php
-    }
-?>
-
+            <?php
+                }
+            ?>
 						<script type="text/javascript">
-
                             window.onload = function() {
-
                             setupDependencies('form'); //name of form(s). Seperate each with a comma (ie: 'weboptions', 'myotherform' )
-
-      };
-
+                            };
                         </script>
-
-                        <br>						</td>
-
+                        <br>						
+                    </td>
 					</tr>
 
                     <tr>
-
                     	<td colspan="13" bgcolor="#944542" style="border-left:1px solid #b09852;border-right:1px solid #b09852; padding-left:15px; padding-top:5px; padding-bottom:5px;"><span class="fontitle"><strong>&nbsp;Advance Rules </strong></span></td>
-
 					</tr>
 
                     <tr>
-
                     	<td colspan="13" style="border-left:1px solid #990011; border-right:1px solid #990011; border-bottom:1px solid #990011;">
-
                         <table width="100%" border="0" align="center" cellpadding="5" cellspacing="0">
-
                         <tr>
-
                         	<td>Deposit(SGD)</td>
-
                             <td><strong>:</strong></td>
-
-                            <td><input name="deposite2" type="text" value="<?php
-    echo $_SESSION[facility][deposite2];
-?>" size="5" maxlength="5" tooltipText="Enter the amount which will be displayed to user while booking the facilities and recipt of same will be issued, If the amount is ZERO then it will be consider as NO CHARGES" <?php
-    echo $disabled;
-?>></td>
-
+                            <td><input name="deposite2" type="text" value="<?php echo $_SESSION['facility']['deposite2']; ?>" size="5" maxlength="5" tooltipText="Enter the amount which will be displayed to user while booking the facilities and recipt of same will be issued, If the amount is ZERO then it will be consider as NO CHARGES" <?php echo $disabled; ?>></td>
                             <td><div align="right">Auto Approve </div></td>
-
                             <td><strong>:</strong></td>
+                            <td colspan="8">
+                                <?php
+                                    if ($_SESSION['facility']['auto2'] == '1') {
+                                        $checked = "checked";
+                                    } else {
+                                        $checked = "";
+                                    }
+                                ?>
 
-                            <td colspan="8"><?php
-    if ($_SESSION[facility][auto2] == '1') {
-        $checked = "checked";
-    } else {
-        $checked = "";
-    }
-?>
-
-                            <input name="auto2" type="checkbox" value="1" <?php
-    echo $checked;
-?> tooltipText="Do you want system to auto aprove the booking as soon as it is requested" <?php
-    echo $disabled;
-?>></td>
-
+                                <input name="auto2" type="checkbox" value="1" <?php echo $checked; ?> tooltipText="Do you want system to auto aprove the booking as soon as it is requested" <?php echo $disabled; ?>></td>
                             </tr>
 
-                        <tr>
-
-                        	<td colspan="13" bgcolor="#FCECC7">Limit : </td>
-
-						</tr>
-
-                        <tr>
-
-                        	<td colspan="13">
-
-                            <table width="100%" border="0" class="sk_bok" cellpadding="5" cellspacing="0">
+                            <tr>
+                                <td colspan="13" bgcolor="#FCECC7">Limit : </td>
+                            </tr>
 
                             <tr>
+                        	    <td colspan="13">
+                                <table width="100%" border="0" class="sk_bok" cellpadding="5" cellspacing="0">
+                                <tr>
 
-                            	<td width="31%">Maximum Booking Allowed Per Day </td>
+                                    <td width="31%">Maximum Booking Allowed Per Day </td>
 
-                                <td width="39%"><?php
-    if ($_SESSION[facility][booking_per_day] == '1') {
-        $sel1 = "selected = selected";
-    } elseif ($_SESSION[facility][booking_per_day] == '2') {
-        $sel2 = "selected = selected";
-    } elseif ($_SESSION[facility][booking_per_day] == '3') {
-        $sel3 = "selected = selected";
-    } elseif ($_SESSION[facility][booking_per_day] == '4') {
-        $sel4 = "selected = selected";
-    } elseif ($_SESSION[facility][booking_per_day] == '5') {
-        $sel5 = "selected = selected";
-    } elseif ($_SESSION[facility][booking_per_day] == '6') {
-        $sel6 = "selected = selected";
-    }
-?>
+                                    <td width="39%">
+                                        <?php
+                                        if ($_SESSION['facility']['booking_per_day'] == '1') {
+                                            $sel1 = "selected = selected";
+                                        } elseif ($_SESSION['facility']['booking_per_day'] == '2') {
+                                            $sel2 = "selected = selected";
+                                        } elseif ($_SESSION['facility']['booking_per_day'] == '3') {
+                                            $sel3 = "selected = selected";
+                                        } elseif ($_SESSION['facility']['booking_per_day'] == '4') {
+                                            $sel4 = "selected = selected";
+                                        } elseif ($_SESSION['facility']['booking_per_day'] == '5') {
+                                            $sel5 = "selected = selected";
+                                        } elseif ($_SESSION['facility']['booking_per_day'] == '6') {
+                                            $sel6 = "selected = selected";
+                                        }
+                                    ?>
 
-                                <select name="booking_per_day" <?php
-    echo $disabled;
-?>>
+                                        <select name="booking_per_day" <?php echo $disabled; ?>>
+                                            <option value="1" <?php echo $sel1; ?>>1 Booking Per Day</option>
+                                            <option value="2" <?php echo $sel2; ?>>2 Booking Per Day</option>
+                                            <option value="3" <?php echo $sel3; ?>>3 Booking Per Day</option>
+                                            <option value="4" <?php echo $sel4; ?>>4 Booking Per Day</option>
+                                            <option value="5" <?php echo $sel5; ?>>5 Booking Per Day</option>
+                                            <option value="6" <?php echo $sel6; ?>>6 Booking Per Day</option>
+                                        </select>
+                                    </td>
+                                    <td width="30%" rowspan="6" valign="top"><div align="justify">Note : <br>
+                                              All rules and limit will be ignored below the step where N/A is selected. For example if you have selected Rule 1 as N/A in first drop down box then Rule 2 and rule 3 will be ignored. </div>
+                                    </td>
+							    </tr>
 
-                                	<option value="1" <?php
-    echo $sel1;
-?>>1 Booking Per Day</option>
+                                <tr>
+                            	    <td>Rule 1 </td>
+                                    <td>
+                                        <?php
+                                            if ($_SESSION['facility']['rule1_1'] == '0') {
+                                                $selrule1_0 = "selected = selected";
+                                            } elseif ($_SESSION['facility']['rule1_1'] == '1') {
+                                                $selrule1_1 = "selected = selected";
+                                            } elseif ($_SESSION['facility']['rule1_1'] == '2') {
+                                                $selrule1_2 = "selected = selected";
+                                            } elseif ($_SESSION['facility']['rule1_1'] == '3') {
+                                                $selrule1_3 = "selected = selected";
+                                            } elseif ($_SESSION['facility']['rule1_1'] == '4') {
+                                                $selrule1_4 = "selected = selected";
+                                            } elseif ($_SESSION['facility']['rule1_1'] == '5') {
+                                                $selrule1_5 = "selected = selected";
+                                            } elseif ($_SESSION['facility']['rule1_1'] == '6') {
+                                                $selrule1_6 = "selected = selected";
+                                            } elseif ($_SESSION['facility']['rule1_1'] == '6') {
+                                                $selrule1_6 = "selected = selected";
+                                            } elseif ($_SESSION['facility']['rule1_1'] == '7') {
+                                                $selrule1_7 = "selected = selected";
+                                            } elseif ($_SESSION['facility']['rule1_1'] == '8') {
+                                                $selrule1_8 = "selected = selected";
+                                            } elseif ($_SESSION['facility']['rule1_1'] == '9') {
+                                                $selrule1_9 = "selected = selected";
+                                            } elseif ($_SESSION['facility']['rule1_1'] == '9') {
+                                                $selrule1_9 = "selected = selected";
+                                            } elseif ($_SESSION['facility']['rule1_1'] == '10') {
+                                                $selrule1_10 = "selected = selected";
+                                            } elseif ($_SESSION['facility']['rule1_1'] == '11') {
+                                                $selrule1_11 = "selected = selected";
+                                            } elseif ($_SESSION['facility']['rule1_1'] == '12') {
+                                                $selrule1_12 = "selected = selected";
+                                            } elseif ($_SESSION['facility']['rule1_1'] == '13') {
+                                                $selrule1_13 = "selected = selected";
+                                            } elseif ($_SESSION['facility']['rule1_1'] == '14') {
+                                                $selrule1_14 = "selected = selected";
+                                            } elseif ($_SESSION['facility']['rule1_1'] == '15') {
+                                                $selrule1_15 = "selected = selected";
+                                            } elseif ($_SESSION['facility']['rule1_1'] == '16') {
+                                                $selrule1_16 = "selected = selected";
+                                            } elseif ($_SESSION['facility']['rule1_1'] == '17') {
+                                                $selrule1_17 = "selected = selected";
+                                            } elseif ($_SESSION['facility']['rule1_1'] == '18') {
+                                                $selrule1_18 = "selected = selected";
+                                            } elseif ($_SESSION['facility']['rule1_1'] == '19') {
+                                                $selrule1_19 = "selected = selected";
+                                            } elseif ($_SESSION['facility']['rule1_1'] == '20') {
+                                                $selrule1_20 = "selected = selected";
+                                            } elseif ($_SESSION['facility']['rule1_1'] == '21') {
+                                                $selrule1_21 = "selected = selected";
+                                            } elseif ($_SESSION['facility']['rule1_1'] == '22') {
+                                                $selrule1_22 = "selected = selected";
+                                            } elseif ($_SESSION['facility']['rule1_1'] == '23') {
+                                                $selrule1_23 = "selected = selected";
+                                            } elseif ($_SESSION['facility']['rule1_1'] == '24') {
+                                                $selrule1_24 = "selected = selected";
+                                            } elseif ($_SESSION['facility']['rule1_1'] == '25') {
+                                                $selrule1_25 = "selected = selected";
+                                            } elseif ($_SESSION['facility']['rule1_1'] == '26') {
+                                                $selrule1_26 = "selected = selected";
+                                            } elseif ($_SESSION['facility']['rule1_1'] == '27') {
+                                                $selrule1_27 = "selected = selected";
+                                            } elseif ($_SESSION['facility']['rule1_1'] == '28') {
+                                                $selrule1_28 = "selected = selected";
+                                            } elseif ($_SESSION['facility']['rule1_1'] == '29') {
+                                                $selrule1_29 = "selected = selected";
+                                            } elseif ($_SESSION['facility']['rule1_1'] == '30') {
+                                                $selrule1_30 = "selected = selected";
+                                            }
+                                        ?>
 
-                                    <option value="2" <?php
-    echo $sel2;
-?>>2 Booking Per Day</option>
-
-                                    <option value="3" <?php
-    echo $sel3;
-?>>3 Booking Per Day</option>
-
-                                    <option value="4" <?php
-    echo $sel4;
-?>>4 Booking Per Day</option>
-
-                                    <option value="5" <?php
-    echo $sel5;
-?>>5 Booking Per Day</option>
-
-                                    <option value="6" <?php
-    echo $sel6;
-?>>6 Booking Per Day</option>
-
-								</select></td>
-
-                                <td width="30%" rowspan="6" valign="top"><div align="justify">Note : <br>
-
-                                              All rules and limit will be ignored below the step where N/A is selected. For example if you have selected Rule 1 as N/A in first drop down box then Rule 2 and rule 3 will be ignored. </div></td>
-
-							</tr>
-
-                            <tr>
-
-                            	<td>Rule 1 </td>
-
-                                <td><?php
-    if ($_SESSION[facility][rule1_1] == '0') {
-        $selrule1_0 = "selected = selected";
-    } elseif ($_SESSION[facility][rule1_1] == '1') {
-        $selrule1_1 = "selected = selected";
-    } elseif ($_SESSION[facility][rule1_1] == '2') {
-        $selrule1_2 = "selected = selected";
-    } elseif ($_SESSION[facility][rule1_1] == '3') {
-        $selrule1_3 = "selected = selected";
-    } elseif ($_SESSION[facility][rule1_1] == '4') {
-        $selrule1_4 = "selected = selected";
-    } elseif ($_SESSION[facility][rule1_1] == '5') {
-        $selrule1_5 = "selected = selected";
-    } elseif ($_SESSION[facility][rule1_1] == '6') {
-        $selrule1_6 = "selected = selected";
-    } elseif ($_SESSION[facility][rule1_1] == '6') {
-        $selrule1_6 = "selected = selected";
-    } elseif ($_SESSION[facility][rule1_1] == '7') {
-        $selrule1_7 = "selected = selected";
-    } elseif ($_SESSION[facility][rule1_1] == '8') {
-        $selrule1_8 = "selected = selected";
-    } elseif ($_SESSION[facility][rule1_1] == '9') {
-        $selrule1_9 = "selected = selected";
-    } elseif ($_SESSION[facility][rule1_1] == '9') {
-        $selrule1_9 = "selected = selected";
-    } elseif ($_SESSION[facility][rule1_1] == '10') {
-        $selrule1_10 = "selected = selected";
-    } elseif ($_SESSION[facility][rule1_1] == '11') {
-        $selrule1_11 = "selected = selected";
-    } elseif ($_SESSION[facility][rule1_1] == '12') {
-        $selrule1_12 = "selected = selected";
-    } elseif ($_SESSION[facility][rule1_1] == '13') {
-        $selrule1_13 = "selected = selected";
-    } elseif ($_SESSION[facility][rule1_1] == '14') {
-        $selrule1_14 = "selected = selected";
-    } elseif ($_SESSION[facility][rule1_1] == '15') {
-        $selrule1_15 = "selected = selected";
-    } elseif ($_SESSION[facility][rule1_1] == '16') {
-        $selrule1_16 = "selected = selected";
-    } elseif ($_SESSION[facility][rule1_1] == '17') {
-        $selrule1_17 = "selected = selected";
-    } elseif ($_SESSION[facility][rule1_1] == '18') {
-        $selrule1_18 = "selected = selected";
-    } elseif ($_SESSION[facility][rule1_1] == '19') {
-        $selrule1_19 = "selected = selected";
-    } elseif ($_SESSION[facility][rule1_1] == '20') {
-        $selrule1_20 = "selected = selected";
-    } elseif ($_SESSION[facility][rule1_1] == '21') {
-        $selrule1_21 = "selected = selected";
-    } elseif ($_SESSION[facility][rule1_1] == '22') {
-        $selrule1_22 = "selected = selected";
-    } elseif ($_SESSION[facility][rule1_1] == '23') {
-        $selrule1_23 = "selected = selected";
-    } elseif ($_SESSION[facility][rule1_1] == '24') {
-        $selrule1_24 = "selected = selected";
-    } elseif ($_SESSION[facility][rule1_1] == '25') {
-        $selrule1_25 = "selected = selected";
-    } elseif ($_SESSION[facility][rule1_1] == '26') {
-        $selrule1_26 = "selected = selected";
-    } elseif ($_SESSION[facility][rule1_1] == '27') {
-        $selrule1_27 = "selected = selected";
-    } elseif ($_SESSION[facility][rule1_1] == '28') {
-        $selrule1_28 = "selected = selected";
-    } elseif ($_SESSION[facility][rule1_1] == '29') {
-        $selrule1_29 = "selected = selected";
-    } elseif ($_SESSION[facility][rule1_1] == '30') {
-        $selrule1_30 = "selected = selected";
-    }
-?>
-
-                                <select name="rule1_1" <?php
-    echo $disabled;
-?>>
-
-                                      <option value="0" <?php
-    echo $selrule1_0;
-?>>N/A</option>
-
-                                      <option value="1" <?php
-    echo $selrule1_1;
-?>>1</option>
-
-                                      <option value="2" <?php
-    echo $selrule1_2;
-?>>2</option>
-
-                                      <option value="3" <?php
-    echo $selrule1_3;
-?>>3</option>
-
-                                      <option value="4" <?php
-    echo $selrule1_4;
-?>>4</option>
-
-                                      <option value="5" <?php
-    echo $selrule1_5;
-?>>5</option>
-
-                                      <option value="6" <?php
-    echo $selrule1_6;
-?>>6</option>
-
-                                      <option value="7" <?php
-    echo $selrule1_7;
-?>>7</option>
-
-                                      <option value="8" <?php
-    echo $selrule1_8;
-?>>8</option>
-
-                                      <option value="9" <?php
-    echo $selrule1_9;
-?>>9</option>
-
-                                      <option value="10" <?php
-    echo $selrule1_10;
-?>>10</option>
-
-                                      <option value="11" <?php
-    echo $selrule1_11;
-?>>11</option>
-
-                                      <option value="12" <?php
-    echo $selrule1_12;
-?>>12</option>
-
-                                      <option value="13" <?php
-    echo $selrule1_13;
-?>>13</option>
-
-                                      <option value="14" <?php
-    echo $selrule1_14;
-?>>14</option>
-
-                                      <option value="15" <?php
-    echo $selrule1_15;
-?>>15</option>
-
-                                      <option value="16" <?php
-    echo $selrule1_16;
-?>>16</option>
-
-                                      <option value="17" <?php
-    echo $selrule1_17;
-?>>17</option>
-
-                                      <option value="19" <?php
-    echo $selrule1_18;
-?>>18</option>
-
-                                      <option value="20" <?php
-    echo $selrule1_19;
-?>>19</option>
-
-                                      <option value="21" <?php
-    echo $selrule1_20;
-?>>20</option>
-
-                                      <option value="22" <?php
-    echo $selrule1_21;
-?>>21</option>
-
-                                      <option value="23" <?php
-    echo $selrule1_22;
-?>>22</option>
-
-                                      <option value="24" <?php
-    echo $selrule1_24;
-?>>24</option>
-
-                                      <option value="25" <?php
-    echo $selrule1_25;
-?>>25</option>
-
-                                      <option value="26" <?php
-    echo $selrule1_26;
-?>>26</option>
-
-                                      <option value="27" <?php
-    echo $selrule1_27;
-?>>27</option>
-
-                                      <option value="28" <?php
-    echo $selrule1_28;
-?>>28</option>
-
-                                      <option value="29" <?php
-    echo $selrule1_29;
-?>>29</option>
-
-                                      <option value="30" <?php
-    echo $selrule1_30;
-?>>30</option>
-
-									</select>
-
-                                    <select name="rule1_2" <?php
-    echo $disabled;
-?>>
+                                        <select name="rule1_1" <?php echo $disabled; ?>>
+                                            <option value="0" <?php echo $selrule1_0; ?>>N/A</option>
+                                            <option value="1" <?php echo $selrule1_1; ?>>1</option>
+                                            <option value="2" <?php echo $selrule1_2; ?>>2</option>
+                                            <option value="3" <?php echo $selrule1_3; ?>>3</option>
+                                            <option value="4" <?php echo $selrule1_4; ?>>4</option>
+                                            <option value="5" <?php echo $selrule1_5; ?>>5</option>
+                                            <option value="6" <?php echo $selrule1_6; ?>>6</option>
+                                            <option value="7" <?php echo $selrule1_7; ?>>7</option>
+                                            <option value="8" <?php echo $selrule1_8; ?>>8</option>
+                                            <option value="9" <?php echo $selrule1_9; ?>>9</option>
+                                            <option value="10" <?php echo $selrule1_10; ?>>10</option>
+                                            <option value="11" <?php echo $selrule1_11; ?>>11</option>
+                                            <option value="12" <?php echo $selrule1_12; ?>>12</option>
+                                            <option value="13" <?php echo $selrule1_13; ?>>13</option>
+                                            <option value="14" <?php echo $selrule1_14; ?>>14</option>
+                                            <option value="15" <?php echo $selrule1_15; ?>>15</option>
+                                            <option value="16" <?php echo $selrule1_16; ?>>16</option>
+                                            <option value="17" <?php echo $selrule1_17; ?>>17</option>
+                                            <option value="19" <?php echo $selrule1_18; ?>>18</option>
+                                            <option value="20" <?php echo $selrule1_19; ?>>19</option>
+                                            <option value="21" <?php echo $selrule1_20; ?>>20</option>
+                                            <option value="22" <?php echo $selrule1_21; ?>>21</option>
+                                            <option value="23" <?php echo $selrule1_22; ?>>22</option>
+                                            <option value="24" <?php echo $selrule1_24; ?>>24</option>
+                                            <option value="25" <?php echo $selrule1_25; ?>>25</option>
+                                            <option value="26" <?php echo $selrule1_26; ?>>26</option>
+                                            <option value="27" <?php echo $selrule1_27; ?>>27</option>
+                                            <option value="28" <?php echo $selrule1_28; ?>>28</option>
+                                            <option value="29" <?php echo $selrule1_29; ?>>29</option>
+                                            <option value="30" <?php echo $selrule1_30; ?>>30</option>
+                                        </select>
+                                        <select name="rule1_2" <?php echo $disabled; ?>>
+                                            <?php
+                                                if ($_SESSION['facility']['rule1_2'] == '0') {
+                                                    $sel_rule2_1 = "selected = selected";
+                                                } else {
+                                                    $sel_rule2_2 = "selected = selected";
+                                                }
+                                            ?>
+                                                <option value="0" <?php echo $sel_rule2_1; ?>>Week</option>
+                                                <option value="1" <?php echo $sel_rule2_2; ?>>Month</option>
+                                        </select>
 
                                     <?php
-    if ($_SESSION[facility][rule1_2] == '0') {
-        $sel_rule2_1 = "selected = selected";
-    } else {
-        $sel_rule2_2 = "selected = selected";
-    }
-?>
+                                        if ($_SESSION['facility']['rule1_3'] == '0') {
+                                            $rule1_3_1 = "selected = selected";
+                                        } elseif ($_SESSION['facility']['rule1_3'] == '1') {
+                                            $rule1_3_2 = "selected = selected";
+                                        } else {
+                                            $rule1_3_3 = "selected = selected";
+                                        }
+                                    ?>
 
-                                    	<option value="0" <?php
-    echo $sel_rule2_1;
-?>>Week</option>
-
-                                        <option value="1" <?php
-    echo $sel_rule2_2;
-?>>Month</option>
-
-									</select>
-
-                                    <?php
-    if ($_SESSION[facility][rule1_3] == '0') {
-        $rule1_3_1 = "selected = selected";
-    } elseif ($_SESSION[facility][rule1_3] == '1') {
-        $rule1_3_2 = "selected = selected";
-    } else {
-        $rule1_3_3 = "selected = selected";
-    }
-?>
-
-                                    <select name="rule1_3" <?php
-    echo $disabled;
-?>>
-
-										<option value="0"  <?php
-    echo $rule1_3_1;
-?>>Peak Time</option>
-
-                                        <option value="1" <?php
-    echo $rule1_3_2;
-?>>Non-Peak Time</option>
-
-                                        <option value="2" <?php
-    echo $rule1_3_3;
-?>>Any Time</option>
-
-                                    </select></td>
-
+                                        <select name="rule1_3" <?php echo $disabled; ?>>
+                                            <option value="0" <?php echo $rule1_3_1; ?>>Peak Time</option>
+                                            <option value="1" <?php echo $rule1_3_2; ?>>Non-Peak Time</option>
+                                            <option value="2" <?php echo $rule1_3_3; ?>>Any Time</option>
+                                        </select>
+                                    </td>
                                 </tr>
 
                                 <tr>
-
 	                                <td>Relation with Rule 1 </td>
+                                    <td>
+                                        <?php
+                                            if ($_SESSION['facility']['logic_one'] == '0') {
+                                                $logic_one_1 = "selected = selected";
+                                            } else {
+                                                $logic_one_2 = "selected = selected";
+                                            }
+                                        ?>
 
-                                    <td><?php
-    if ($_SESSION[facility][logic_one] == '0') {
-        $logic_one_1 = "selected = selected";
-    } else {
-        $logic_one_2 = "selected = selected";
-    }
-?>
-
-                                    <select name="logic_one" <?php
-    echo $disabled;
-?>>
-
-                                        <option value="0" <?php
-    echo $logic_one_1;
-?>>and</option>
-
-                                        <option value="1" <?php
-    echo $logic_one_2;
-?>>or</option>
-
-                                    </select></td>
-
+                                        <select name="logic_one" <?php echo $disabled; ?>>
+                                            <option value="0" <?php echo $logic_one_1; ?>>and</option>
+                                            <option value="1" <?php echo $logic_one_2; ?>>or</option>
+                                        </select>
+                                    </td>
 								</tr>
 
                                 <tr>
-
                                 	<td>Rule 2 </td>
-
-                                    <td><?php
-    if ($_SESSION[facility][rule2_1] == '0') {
-        $rule2_1_0 = "selected = selected";
-    } elseif ($_SESSION[facility][rule2_1] == '1') {
-        $rule2_1_1 = "selected = selected";
-    } elseif ($_SESSION[facility][rule2_1] == '2') {
-        $rule2_1_2 = "selected = selected";
-    } elseif ($_SESSION[facility][rule2_1] == '3') {
-        $rule2_1_3 = "selected = selected";
-    } elseif ($_SESSION[facility][rule2_1] == '4') {
-        $rule2_1_4 = "selected = selected";
-    } elseif ($_SESSION[facility][rule2_1] == '5') {
-        $rule2_1_5 = "selected = selected";
-    } elseif ($_SESSION[facility][rule2_1] == '6') {
-        $rule2_1_6 = "selected = selected";
-    } elseif ($_SESSION[facility][rule2_1] == '6') {
-        $rule2_1_6 = "selected = selected";
-    } elseif ($_SESSION[facility][rule2_1] == '7') {
-        $rule2_1_7 = "selected = selected";
-    } elseif ($_SESSION[facility][rule2_1] == '8') {
-        $rule2_1_8 = "selected = selected";
-    } elseif ($_SESSION[facility][rule2_1] == '9') {
-        $rule2_1_9 = "selected = selected";
-    } elseif ($_SESSION[facility][rule2_1] == '9') {
-        $rule2_1_9 = "selected = selected";
-    } elseif ($_SESSION[facility][rule2_1] == '10') {
-        $rule2_1_10 = "selected = selected";
-    } elseif ($_SESSION[facility][rule2_1] == '11') {
-        $rule2_1_11 = "selected = selected";
-    } elseif ($_SESSION[facility][rule2_1] == '12') {
-        $rule2_1_12 = "selected = selected";
-    } elseif ($_SESSION[facility][rule2_1] == '13') {
-        $rule2_1_13 = "selected = selected";
-    } elseif ($_SESSION[facility][rule2_1] == '14') {
-        $rule2_1_14 = "selected = selected";
-    } elseif ($_SESSION[facility][rule2_1] == '15') {
-        $rule2_1_15 = "selected = selected";
-    } elseif ($_SESSION[facility][rule2_1] == '16') {
-        $rule2_1_16 = "selected = selected";
-    } elseif ($_SESSION[facility][rule2_1] == '17') {
-        $rule2_1_17 = "selected = selected";
-    } elseif ($_SESSION[facility][rule2_1] == '18') {
-        $rule2_1_18 = "selected = selected";
-    } elseif ($_SESSION[facility][rule2_1] == '19') {
-        $rule2_1_19 = "selected = selected";
-    } elseif ($_SESSION[facility][rule2_1] == '20') {
-        $rule2_1_20 = "selected = selected";
-    } elseif ($_SESSION[facility][rule2_1] == '21') {
-        $rule2_1_21 = "selected = selected";
-    } elseif ($_SESSION[facility][rule2_1] == '22') {
-        $rule2_1_22 = "selected = selected";
-    } elseif ($_SESSION[facility][rule2_1] == '23') {
-        $rule2_1_23 = "selected = selected";
-    } elseif ($_SESSION[facility][rule2_1] == '24') {
-        $rule2_1_24 = "selected = selected";
-    } elseif ($_SESSION[facility][rule2_1] == '25') {
-        $rule2_1_25 = "selected = selected";
-    } elseif ($_SESSION[facility][rule2_1] == '26') {
-        $rule2_1_26 = "selected = selected";
-    } elseif ($_SESSION[facility][rule2_1] == '27') {
-        $rule2_1_27 = "selected = selected";
-    } elseif ($_SESSION[facility][rule2_1] == '28') {
-        $rule2_1_28 = "selected = selected";
-    } elseif ($_SESSION[facility][rule2_1] == '29') {
-        $rule2_1_29 = "selected = selected";
-    } elseif ($_SESSION[facility][rule2_1] == '30') {
-        $rule2_1_30 = "selected = selected";
-    }
-?>
-
-                                    <select name="rule2_1" <?php
-    echo $disabled;
-?>>
-
-                                    	<option value="0" <?php
-    echo $rule2_1_0;
-?>>N/A</option>
-
-                                        <option value="1" <?php
-    echo $rule2_1_1;
-?>>1</option>
-
-										<option value="2" <?php
-    echo $rule2_1_2;
-?>>2</option>
-
-                                        <option value="3" <?php
-    echo $rule2_1_3;
-?>>3</option>
-
-                                        <option value="4" <?php
-    echo $rule2_1_4;
-?>>4</option>
-
-                                        <option value="5" <?php
-    echo $rule2_1_5;
-?>>5</option>
-
-                                        <option value="6" <?php
-    echo $rule2_1_6;
-?>>6</option>
-
-                                        <option value="7" <?php
-    echo $rule2_1_7;
-?>>7</option>
-
-                                        <option value="8" <?php
-    echo $rule2_1_8;
-?>>8</option>
-
-                                        <option value="9" <?php
-    echo $rule2_1_9;
-?>>9</option>
-
-                                        <option value="10" <?php
-    echo $rule2_1_10;
-?>>10</option>
-
-                                        <option value="11" <?php
-    echo $rule2_1_11;
-?>>11</option>
-
-                                        <option value="12" <?php
-    echo $rule2_1_12;
-?>>12</option>
-
-                                        <option value="13" <?php
-    echo $rule2_1_13;
-?>>13</option>
-
-                                       	<option value="14" <?php
-    echo $rule2_1_14;
-?>>14</option>
-
-                                       	<option value="15" <?php
-    echo $rule2_1_15;
-?>>15</option>
-
-                                       	<option value="16" <?php
-    echo $rule2_1_16;
-?>>16</option>
-
-                                       	<option value="17" <?php
-    echo $rule2_1_17;
-?>>17</option>
-
-                                       	<option value="19" <?php
-    echo $rule2_1_18;
-?>>18</option>
-
-                                       	<option value="20" <?php
-    echo $rule2_1_19;
-?>>19</option>
-
-                                       	<option value="21" <?php
-    echo $rule2_1_20;
-?>>20</option>
-
-                                       	<option value="22" <?php
-    echo $rule2_1_21;
-?>>21</option>
-
-                                       	<option value="23" <?php
-    echo $rule2_1_22;
-?>>22</option>
-
-                                       	<option value="24" <?php
-    echo $rule2_1_24;
-?>>24</option>
-
-                                       	<option value="25" <?php
-    echo $rule2_1_25;
-?>>25</option>
-
-                                       	<option value="26" <?php
-    echo $rule2_1_26;
-?>>26</option>
-
-                                       	<option value="27" <?php
-    echo $rule2_1_27;
-?>>27</option>
-
-                                       	<option value="28" <?php
-    echo $rule2_1_28;
-?>>28</option>
-
-                                       	<option value="29" <?php
-    echo $rule2_1_29;
-?>>29</option>
-
-                                       	<option value="30" <?php
-    echo $rule2_1_30;
-?>>30</option>
-
-									</select>
+                                    <td>
+                                        <?php
+                                            if ($_SESSION['facility']['rule2_1'] == '0') {
+                                                $rule2_1_0 = "selected = selected";
+                                            } elseif ($_SESSION['facility']['rule2_1'] == '1') {
+                                                $rule2_1_1 = "selected = selected";
+                                            } elseif ($_SESSION['facility']['rule2_1'] == '2') {
+                                                $rule2_1_2 = "selected = selected";
+                                            } elseif ($_SESSION['facility']['rule2_1'] == '3') {
+                                                $rule2_1_3 = "selected = selected";
+                                            } elseif ($_SESSION['facility']['rule2_1'] == '4') {
+                                                $rule2_1_4 = "selected = selected";
+                                            } elseif ($_SESSION['facility']['rule2_1'] == '5') {
+                                                $rule2_1_5 = "selected = selected";
+                                            } elseif ($_SESSION['facility']['rule2_1'] == '6') {
+                                                $rule2_1_6 = "selected = selected";
+                                            } elseif ($_SESSION['facility']['rule2_1'] == '6') {
+                                                $rule2_1_6 = "selected = selected";
+                                            } elseif ($_SESSION['facility']['rule2_1'] == '7') {
+                                                $rule2_1_7 = "selected = selected";
+                                            } elseif ($_SESSION['facility']['rule2_1'] == '8') {
+                                                $rule2_1_8 = "selected = selected";
+                                            } elseif ($_SESSION['facility']['rule2_1'] == '9') {
+                                                $rule2_1_9 = "selected = selected";
+                                            } elseif ($_SESSION['facility']['rule2_1'] == '9') {
+                                                $rule2_1_9 = "selected = selected";
+                                            } elseif ($_SESSION['facility']['rule2_1'] == '10') {
+                                                $rule2_1_10 = "selected = selected";
+                                            } elseif ($_SESSION['facility']['rule2_1'] == '11') {
+                                                $rule2_1_11 = "selected = selected";
+                                            } elseif ($_SESSION['facility']['rule2_1'] == '12') {
+                                                $rule2_1_12 = "selected = selected";
+                                            } elseif ($_SESSION['facility']['rule2_1'] == '13') {
+                                                $rule2_1_13 = "selected = selected";
+                                            } elseif ($_SESSION['facility']['rule2_1'] == '14') {
+                                                $rule2_1_14 = "selected = selected";
+                                            } elseif ($_SESSION['facility']['rule2_1'] == '15') {
+                                                $rule2_1_15 = "selected = selected";
+                                            } elseif ($_SESSION['facility']['rule2_1'] == '16') {
+                                                $rule2_1_16 = "selected = selected";
+                                            } elseif ($_SESSION['facility']['rule2_1'] == '17') {
+                                                $rule2_1_17 = "selected = selected";
+                                            } elseif ($_SESSION['facility']['rule2_1'] == '18') {
+                                                $rule2_1_18 = "selected = selected";
+                                            } elseif ($_SESSION['facility']['rule2_1'] == '19') {
+                                                $rule2_1_19 = "selected = selected";
+                                            } elseif ($_SESSION['facility']['rule2_1'] == '20') {
+                                                $rule2_1_20 = "selected = selected";
+                                            } elseif ($_SESSION['facility']['rule2_1'] == '21') {
+                                                $rule2_1_21 = "selected = selected";
+                                            } elseif ($_SESSION['facility']['rule2_1'] == '22') {
+                                                $rule2_1_22 = "selected = selected";
+                                            } elseif ($_SESSION['facility']['rule2_1'] == '23') {
+                                                $rule2_1_23 = "selected = selected";
+                                            } elseif ($_SESSION['facility']['rule2_1'] == '24') {
+                                                $rule2_1_24 = "selected = selected";
+                                            } elseif ($_SESSION['facility']['rule2_1'] == '25') {
+                                                $rule2_1_25 = "selected = selected";
+                                            } elseif ($_SESSION['facility']['rule2_1'] == '26') {
+                                                $rule2_1_26 = "selected = selected";
+                                            } elseif ($_SESSION['facility']['rule2_1'] == '27') {
+                                                $rule2_1_27 = "selected = selected";
+                                            } elseif ($_SESSION['facility']['rule2_1'] == '28') {
+                                                $rule2_1_28 = "selected = selected";
+                                            } elseif ($_SESSION['facility']['rule2_1'] == '29') {
+                                                $rule2_1_29 = "selected = selected";
+                                            } elseif ($_SESSION['facility']['rule2_1'] == '30') {
+                                                $rule2_1_30 = "selected = selected";
+                                            }
+                                        ?>
+                                        <select name="rule2_1" <?php echo $disabled; ?>>
+                                    	    <option value="0" <?php echo $rule2_1_0; ?>>N/A</option>
+                                            <option value="1" <?php echo $rule2_1_1; ?>>1</option>
+                                            <option value="2" <?php echo $rule2_1_2; ?>>2</option>
+                                            <option value="3" <?php echo $rule2_1_3; ?>>3</option>
+                                            <option value="4" <?php echo $rule2_1_4; ?>>4</option>
+                                            <option value="5" <?php echo $rule2_1_5; ?>>5</option>
+                                            <option value="6" <?php echo $rule2_1_6; ?>>6</option>
+                                            <option value="7" <?php echo $rule2_1_7; ?>>7</option>
+                                            <option value="8" <?php echo $rule2_1_8; ?>>8</option>
+                                            <option value="9" <?php echo $rule2_1_9; ?>>9</option>
+                                            <option value="10" <?php echo $rule2_1_10; ?>>10</option>
+                                            <option value="11" <?php echo $rule2_1_11; ?>>11</option>
+                                            <option value="12" <?php echo $rule2_1_12; ?>>12</option>
+                                            <option value="13" <?php echo $rule2_1_13; ?>>13</option>
+                                            <option value="14" <?php echo $rule2_1_14; ?>>14</option>
+                                            <option value="15" <?php echo $rule2_1_15; ?>>15</option>
+                                            <option value="16" <?php echo $rule2_1_16; ?>>16</option>
+                                            <option value="17" <?php echo $rule2_1_17; ?>>17</option>
+                                            <option value="19" <?php echo $rule2_1_18; ?>>18</option>
+                                            <option value="20" <?php echo $rule2_1_19; ?>>19</option>
+                                            <option value="21" <?php echo $rule2_1_20; ?>>20</option>
+                                            <option value="22" <?php echo $rule2_1_21; ?>>21</option>
+                                            <option value="23" <?php echo $rule2_1_22; ?>>22</option>
+                                            <option value="24" <?php echo $rule2_1_24; ?>>24</option>
+                                            <option value="25" <?php echo $rule2_1_25; ?>>25</option>
+                                            <option value="26" <?php echo $rule2_1_26; ?>>26</option>
+                                            <option value="27" <?php echo $rule2_1_27; ?>>27</option>
+                                            <option value="28" <?php echo $rule2_1_28; ?>>28</option>
+                                            <option value="29" <?php echo $rule2_1_29; ?>>29</option>
+                                            <option value="30" <?php echo $rule2_1_30; ?>>30</option>
+                                        </select>
 
                                     <?php
-    if ($_SESSION[facility][rule2_2] == '0') {
-        $rule2_2_1 = "selected = selected";
-    } else {
-        $rule2_2_2 = "selected = selected";
-    }
-?>
+                                        if ($_SESSION['facility']['rule2_2'] == '0') {
+                                            $rule2_2_1 = "selected = selected";
+                                        } else {
+                                            $rule2_2_2 = "selected = selected";
+                                        }
+                                    ?>
 
-                                    <select name="rule2_2" <?php
-    echo $disabled;
-?>>
-
-                                    	<option value="0" <?php
-    echo $rule2_2_1;
-?>>Week</option>
-
-                                        <option value="1" <?php
-    echo $rule2_2_2;
-?>>Month</option>
-
-                                    </select>
-
+                                        <select name="rule2_2" <?php echo $disabled; ?>>
+                                            <option value="0" <?php echo $rule2_2_1; ?>>Week</option>
+                                            <option value="1" <?php echo $rule2_2_2; ?>>Month</option>
+                                        </select>
                                     <?php
-    if ($_SESSION[facility][rule2_3] == '0') {
-        $rule2_3_1 = "selected = selected";
-    } else {
-        $rule2_3_2 = "selected = selected";
-    }
-?>
+                                        if ($_SESSION['facility']['rule2_3'] == '0') {
+                                            $rule2_3_1 = "selected = selected";
+                                        } else {
+                                            $rule2_3_2 = "selected = selected";
+                                        }
+                                    ?>
 
-                                    <select name="rule2_3" <?php
-    echo $disabled;
-?>>
-
-                                    	<option value="0" <?php
-    echo $rule2_3_1;
-?>>Peak Time</option>
-
-                                        <option value="1" <?php
-    echo $rule2_3_2;
-?>>Non-Peak Time</option>
-
-                                    </select>                                    </td>
-
+                                        <select name="rule2_3" <?php echo $disabled; ?>>
+                                            <option value="0" <?php echo $rule2_3_1; ?>>Peak Time</option>
+                                            <option value="1" <?php echo $rule2_3_2; ?>>Non-Peak Time</option>
+                                        </select>                                    
+                                    </td>
 								</tr>
 
                                 <tr>
-
                                 	<td>Relation with rule 2 </td>
 
-                                    <td><?php
-    if ($_SESSION[facility][logic_two] == '0') {
-        $logic_two_1 = "selected = selected";
-    } else {
-        $logic_two_2 = "selected = selected";
-    }
-?>
-
-                                    <select name="logic_two" <?php
-    echo $disabled;
-?>>
-
-                                    	<option value="0" <?php
-    echo $logic_two_1;
-?>>and</option>
-
-										<option value="1" <?php
-    echo $logic_two_2;
-?>>or</option>
-
-                                    </select></td>
-
+                                    <td>
+                                        <?php
+                                            if ($_SESSION['facility']['logic_two'] == '0') {
+                                                $logic_two_1 = "selected = selected";
+                                            } else {
+                                                $logic_two_2 = "selected = selected";
+                                            }
+                                        ?>
+                                        <select name="logic_two" <?php echo $disabled; ?>>
+                                            <option value="0" <?php echo $logic_two_1; ?>>and</option>
+                                            <option value="1" <?php echo $logic_two_2; ?>>or</option>
+                                        </select>
+                                    </td>
                                 </tr>
 
                                 <tr>
-
 	                                <td>Rule 3 </td>
+                                    <td>
+                                        <?php
+                                            if ($_SESSION['facility']['rule3_1'] == '0') {
+                                                $rule3_1_0 = "selected = selected";
+                                            } elseif ($_SESSION['facility']['rule3_1'] == '1') {
+                                                $rule3_1_1 = "selected = selected";
+                                            } elseif ($_SESSION['facility']['rule3_1'] == '2') {
+                                                $rule3_1_2 = "selected = selected";
+                                            } elseif ($_SESSION['facility']['rule3_1'] == '3') {
+                                                $rule3_1_3 = "selected = selected";
+                                            } elseif ($_SESSION['facility']['rule3_1'] == '4') {
+                                                $rule3_1_4 = "selected = selected";
+                                            } elseif ($_SESSION['facility']['rule3_1'] == '5') {
+                                                $rule3_1_5 = "selected = selected";
+                                            } elseif ($_SESSION['facility']['rule3_1'] == '6') {
+                                                $rule3_1_6 = "selected = selected";
+                                            } elseif ($_SESSION['facility']['rule3_1'] == '6') {
+                                                $rule3_1_6 = "selected = selected";
+                                            } elseif ($_SESSION['facility']['rule3_1'] == '7') {
+                                                $rule3_1_7 = "selected = selected";
+                                            } elseif ($_SESSION['facility']['rule3_1'] == '8') {
+                                                $rule3_1_8 = "selected = selected";
+                                            } elseif ($_SESSION['facility']['rule3_1'] == '9') {
+                                                $rule3_1_9 = "selected = selected";
+                                            } elseif ($_SESSION['facility']['rule3_1'] == '9') {
+                                                $rule3_1_9 = "selected = selected";
+                                            } elseif ($_SESSION['facility']['rule3_1'] == '10') {
+                                                $rule3_1_10 = "selected = selected";
+                                            } elseif ($_SESSION['facility']['rule3_1'] == '11') {
+                                                $rule3_1_11 = "selected = selected";
+                                            } elseif ($_SESSION['facility']['rule3_1'] == '12') {
+                                                $rule3_1_12 = "selected = selected";
+                                            } elseif ($_SESSION['facility']['rule3_1'] == '13') {
+                                                $rule3_1_13 = "selected = selected";
+                                            } elseif ($_SESSION['facility']['rule3_1'] == '14') {
+                                                $rule3_1_14 = "selected = selected";
+                                            } elseif ($_SESSION['facility']['rule3_1'] == '15') {
+                                                $rule3_1_15 = "selected = selected";
+                                            } elseif ($_SESSION['facility']['rule3_1'] == '16') {
+                                                $rule3_1_16 = "selected = selected";
+                                            } elseif ($_SESSION['facility']['rule3_1'] == '17') {
+                                                $rule3_1_17 = "selected = selected";
+                                            } elseif ($_SESSION['facility']['rule3_1'] == '18') {
+                                                $rule3_1_18 = "selected = selected";
+                                            } elseif ($_SESSION['facility']['rule3_1'] == '19') {
+                                                $rule3_1_19 = "selected = selected";
+                                            } elseif ($_SESSION['facility']['rule3_1'] == '20') {
+                                                $rule3_1_20 = "selected = selected";
+                                            } elseif ($_SESSION['facility']['rule3_1'] == '21') {
+                                                $rule3_1_21 = "selected = selected";
+                                            } elseif ($_SESSION['facility']['rule3_1'] == '22') {
+                                                $rule3_1_22 = "selected = selected";
+                                            } elseif ($_SESSION['facility']['rule3_1'] == '23') {
+                                                $rule3_1_23 = "selected = selected";
+                                            } elseif ($_SESSION['facility']['rule3_1'] == '24') {
+                                                $rule3_1_24 = "selected = selected";
+                                            } elseif ($_SESSION['facility']['rule3_1'] == '25') {
+                                                $rule3_1_25 = "selected = selected";
+                                            } elseif ($_SESSION['facility']['rule3_1'] == '26') {
+                                                $rule3_1_26 = "selected = selected";
+                                            } elseif ($_SESSION['facility']['rule3_1'] == '27') {
+                                                $rule3_1_27 = "selected = selected";
+                                            } elseif ($_SESSION['facility']['rule3_1'] == '28') {
+                                                $rule3_1_28 = "selected = selected";
+                                            } elseif ($_SESSION['facility']['rule3_1'] == '29') {
+                                                $rule3_1_29 = "selected = selected";
+                                            } elseif ($_SESSION['facility']['rule3_1'] == '30') {
+                                                $rule3_1_30 = "selected = selected";
+                                            }
+                                        ?>
 
-                                    <td><?php
-    if ($_SESSION[facility][rule3_1] == '0') {
-        $rule3_1_0 = "selected = selected";
-    } elseif ($_SESSION[facility][rule3_1] == '1') {
-        $rule3_1_1 = "selected = selected";
-    } elseif ($_SESSION[facility][rule3_1] == '2') {
-        $rule3_1_2 = "selected = selected";
-    } elseif ($_SESSION[facility][rule3_1] == '3') {
-        $rule3_1_3 = "selected = selected";
-    } elseif ($_SESSION[facility][rule3_1] == '4') {
-        $rule3_1_4 = "selected = selected";
-    } elseif ($_SESSION[facility][rule3_1] == '5') {
-        $rule3_1_5 = "selected = selected";
-    } elseif ($_SESSION[facility][rule3_1] == '6') {
-        $rule3_1_6 = "selected = selected";
-    } elseif ($_SESSION[facility][rule3_1] == '6') {
-        $rule3_1_6 = "selected = selected";
-    } elseif ($_SESSION[facility][rule3_1] == '7') {
-        $rule3_1_7 = "selected = selected";
-    } elseif ($_SESSION[facility][rule3_1] == '8') {
-        $rule3_1_8 = "selected = selected";
-    } elseif ($_SESSION[facility][rule3_1] == '9') {
-        $rule3_1_9 = "selected = selected";
-    } elseif ($_SESSION[facility][rule3_1] == '9') {
-        $rule3_1_9 = "selected = selected";
-    } elseif ($_SESSION[facility][rule3_1] == '10') {
-        $rule3_1_10 = "selected = selected";
-    } elseif ($_SESSION[facility][rule3_1] == '11') {
-        $rule3_1_11 = "selected = selected";
-    } elseif ($_SESSION[facility][rule3_1] == '12') {
-        $rule3_1_12 = "selected = selected";
-    } elseif ($_SESSION[facility][rule3_1] == '13') {
-        $rule3_1_13 = "selected = selected";
-    } elseif ($_SESSION[facility][rule3_1] == '14') {
-        $rule3_1_14 = "selected = selected";
-    } elseif ($_SESSION[facility][rule3_1] == '15') {
-        $rule3_1_15 = "selected = selected";
-    } elseif ($_SESSION[facility][rule3_1] == '16') {
-        $rule3_1_16 = "selected = selected";
-    } elseif ($_SESSION[facility][rule3_1] == '17') {
-        $rule3_1_17 = "selected = selected";
-    } elseif ($_SESSION[facility][rule3_1] == '18') {
-        $rule3_1_18 = "selected = selected";
-    } elseif ($_SESSION[facility][rule3_1] == '19') {
-        $rule3_1_19 = "selected = selected";
-    } elseif ($_SESSION[facility][rule3_1] == '20') {
-        $rule3_1_20 = "selected = selected";
-    } elseif ($_SESSION[facility][rule3_1] == '21') {
-        $rule3_1_21 = "selected = selected";
-    } elseif ($_SESSION[facility][rule3_1] == '22') {
-        $rule3_1_22 = "selected = selected";
-    } elseif ($_SESSION[facility][rule3_1] == '23') {
-        $rule3_1_23 = "selected = selected";
-    } elseif ($_SESSION[facility][rule3_1] == '24') {
-        $rule3_1_24 = "selected = selected";
-    } elseif ($_SESSION[facility][rule3_1] == '25') {
-        $rule3_1_25 = "selected = selected";
-    } elseif ($_SESSION[facility][rule3_1] == '26') {
-        $rule3_1_26 = "selected = selected";
-    } elseif ($_SESSION[facility][rule3_1] == '27') {
-        $rule3_1_27 = "selected = selected";
-    } elseif ($_SESSION[facility][rule3_1] == '28') {
-        $rule3_1_28 = "selected = selected";
-    } elseif ($_SESSION[facility][rule3_1] == '29') {
-        $rule3_1_29 = "selected = selected";
-    } elseif ($_SESSION[facility][rule3_1] == '30') {
-        $rule3_1_30 = "selected = selected";
-    }
-?>
-
-                                    <select name="rule3_1" <?php
-    echo $disabled;
-?>>
-
-                                    	<option value="0" <?php
-    echo $rule3_1_0;
-?>>N/A</option>
-
-                                        <option value="1" <?php
-    echo $rule3_1_1;
-?>>1</option>
-
-                                        <option value="2" <?php
-    echo $rule3_1_2;
-?>>2</option>
-
-                                        <option value="3" <?php
-    echo $rule3_1_3;
-?>>3</option>
-
-                                        <option value="4" <?php
-    echo $rule3_1_4;
-?>>4</option>
-
-                                        <option value="5" <?php
-    echo $rule3_1_5;
-?>>5</option>
-
-                                        <option value="6" <?php
-    echo $rule3_1_6;
-?>>6</option>
-
-                                        <option value="7" <?php
-    echo $rule3_1_7;
-?>>7</option>
-
-                                        <option value="8" <?php
-    echo $rule3_1_8;
-?>>8</option>
-
-                                        <option value="9" <?php
-    echo $rule3_1_9;
-?>>9</option>
-
-                                        <option value="10" <?php
-    echo $rule3_1_10;
-?>>10</option>
-
-                                        <option value="11" <?php
-    echo $rule3_1_11;
-?>>11</option>
-
-                                        <option value="12" <?php
-    echo $rule3_1_12;
-?>>12</option>
-
-                                        <option value="13" <?php
-    echo $rule3_1_13;
-?>>13</option>
-
-                                        <option value="14" <?php
-    echo $rule3_1_14;
-?>>14</option>
-
-                                        <option value="15" <?php
-    echo $rule3_1_15;
-?>>15</option>
-
-                                        <option value="16" <?php
-    echo $rule3_1_16;
-?>>16</option>
-
-                                        <option value="17" <?php
-    echo $rule3_1_17;
-?>>17</option>
-
-                                        <option value="19" <?php
-    echo $rule3_1_18;
-?>>18</option>
-
-                                        <option value="20" <?php
-    echo $rule3_1_19;
-?>>19</option>
-
-                                        <option value="21" <?php
-    echo $rule3_1_20;
-?>>20</option>
-
-                                        <option value="22" <?php
-    echo $rule3_1_21;
-?>>21</option>
-
-                                        <option value="23" <?php
-    echo $rule3_1_22;
-?>>22</option>
-
-                                        <option value="24" <?php
-    echo $rule3_1_24;
-?>>24</option>
-
-                                        <option value="25" <?php
-    echo $rule3_1_25;
-?>>25</option>
-
-										<option value="26" <?php
-    echo $rule3_1_26;
-?>>26</option>
-
-                                        <option value="27" <?php
-    echo $rule3_1_27;
-?>>27</option>
-
-                                        <option value="28" <?php
-    echo $rule3_1_28;
-?>>28</option>
-
-                                        <option value="29" <?php
-    echo $rule3_1_29;
-?>>29</option>
-
-                                        <option value="30" <?php
-    echo $rule3_1_30;
-?>>30</option>
-
-									</select>
+                                        <select name="rule3_1" <?php echo $disabled; ?>>
+                                            <option value="0" <?php echo $rule3_1_0; ?>>N/A</option>
+                                            <option value="1" <?php echo $rule3_1_1; ?>>1</option>
+                                            <option value="2" <?php echo $rule3_1_2; ?>>2</option>
+                                            <option value="3" <?php echo $rule3_1_3; ?>>3</option>
+                                            <option value="4" <?php echo $rule3_1_4; ?>>4</option>
+                                            <option value="5" <?php echo $rule3_1_5; ?>>5</option>
+                                            <option value="6" <?php echo $rule3_1_6; ?>>6</option>
+                                            <option value="7" <?php echo $rule3_1_7; ?>>7</option>
+                                            <option value="8" <?php echo $rule3_1_8; ?>>8</option>
+                                            <option value="9" <?php echo $rule3_1_9; ?>>9</option>
+                                            <option value="10" <?php echo $rule3_1_10; ?>>10</option>
+                                            <option value="11" <?php echo $rule3_1_11; ?>>11</option>
+                                            <option value="12" <?php echo $rule3_1_12; ?>>12</option>
+                                            <option value="13" <?php echo $rule3_1_13; ?>>13</option>
+                                            <option value="14" <?php echo $rule3_1_14; ?>>14</option>
+                                            <option value="15" <?php echo $rule3_1_15; ?>>15</option>
+                                            <option value="16" <?php echo $rule3_1_16; ?>>16</option>
+                                            <option value="17" <?php echo $rule3_1_17; ?>>17</option>
+                                            <option value="19" <?php echo $rule3_1_18; ?>>18</option>
+                                            <option value="20" <?php echo $rule3_1_19; ?>>19</option>
+                                            <option value="21" <?php echo $rule3_1_20; ?>>20</option>
+                                            <option value="22" <?php echo $rule3_1_21; ?>>21</option>
+                                            <option value="23" <?php echo $rule3_1_22; ?>>22</option>
+                                            <option value="24" <?php echo $rule3_1_24; ?>>24</option>
+                                            <option value="25" <?php echo $rule3_1_25; ?>>25</option>
+                                            <option value="26" <?php echo $rule3_1_26; ?>>26</option>
+                                            <option value="27" <?php echo $rule3_1_27; ?>>27</option>
+                                            <option value="28" <?php echo $rule3_1_28; ?>>28</option>
+                                            <option value="29" <?php echo $rule3_1_29; ?>>29</option>
+                                            <option value="30" <?php echo $rule3_1_30; ?>>30</option>
+                                        </select>
 
                                     <?php
-    if ($_SESSION[facility][rule3_2] == '0') {
-        $rule3_2_1 = "selected = selected";
-    } else {
-        $rule3_2_2 = "selected = selected";
-    }
-?>
+                                        if ($_SESSION['facility']['rule3_2'] == '0') {
+                                            $rule3_2_1 = "selected = selected";
+                                        } else {
+                                            $rule3_2_2 = "selected = selected";
+                                        }
+                                    ?>
 
-                                    <select name="rule3_2" <?php
-    echo $disabled;
-?>>
-
-                                    	<option value="0" <?php
-    echo $rule3_2_1;
-?>>Week</option>
-
-                                        <option value="1" <?php
-    echo $rule3_2_2;
-?>>Month</option>
-
-                                    </select>
+                                        <select name="rule3_2" <?php echo $disabled; ?>>
+                                            <option value="0" <?php echo $rule3_2_1; ?>>Week</option>
+                                            <option value="1" <?php echo $rule3_2_2; ?>>Month</option>
+                                        </select>
 
                                     <?php
-    if ($_SESSION[facility][rule3_3] == '0') {
-        $rule3_3_1 = "selected = selected";
-    } else {
-        $rule3_3_2 = "selected = selected";
-    }
-?>
+                                        if ($_SESSION['facility']['rule3_3'] == '0') {
+                                            $rule3_3_1 = "selected = selected";
+                                        } else {
+                                            $rule3_3_2 = "selected = selected";
+                                        }
+                                    ?>
 
-                                    <select name="rule3_3" <?php
-    echo $disabled;
-?>>
-
-                                    	<option value="0" <?php
-    echo $rule3_3_1;
-?>>Peak Time</option>
-
-										<option value="1" <?php
-    echo $rule3_3_2;
-?>>Non-Peak Time</option>
-
-                                    </select></td>
-
+                                        <select name="rule3_3" <?php echo $disabled; ?>>
+                                            <option value="0" <?php echo $rule3_3_1; ?>>Peak Time</option>
+                                            <option value="1" <?php echo $rule3_3_2; ?>>Non-Peak Time</option>
+                                        </select>
+                                    </td>
 								</tr>
-
-                                </table>                                </td>
-
+                                </table>                                
+                            </td>
 							</tr>
 
                             <tr>
-
                             	<td colspan="3" bgcolor="#FDF5E1">&nbsp;</td>
-
                                 <td colspan="5" bgcolor="#FDF5E1">&nbsp;</td>
-
                                 <td colspan="3" bgcolor="#FDF5E1">&nbsp;</td>
-
 							    <td colspan="2" bgcolor="#FDF5E1">&nbsp;</td>
-
                             </tr>
 
                             <tr>
-
                             	<td colspan="8" bgcolor="#FDF5E1">Booking Open From
+                                    <label></label>
+                                    <?php
+                                        if ($_SESSION['facility']['open_from'] == '0') {
+                                            $open_from_0 = "selected = selected";
+                                        } elseif ($_SESSION['facility']['open_from'] == '1') {
+                                            $open_from_1 = "selected = selected";
+                                        } elseif ($_SESSION['facility']['open_from'] == '2') {
+                                            $open_from_2 = "selected = selected";
+                                        } elseif ($_SESSION['facility']['open_from'] == '3') {
+                                            $open_from_3 = "selected = selected";
+                                        } elseif ($_SESSION['facility']['open_from'] == '4') {
+                                            $open_from_4 = "selected = selected";
+                                        } elseif ($_SESSION['facility']['open_from'] == '5') {
+                                            $open_from_5 = "selected = selected";
+                                        } elseif ($_SESSION['facility']['open_from'] == '6') {
+                                            $open_from_6 = "selected = selected";
+                                        } elseif ($_SESSION['facility']['open_from'] == '6') {
+                                            $open_from_6 = "selected = selected";
+                                        } elseif ($_SESSION['facility']['open_from'] == '7') {
+                                            $open_from_7 = "selected = selected";
+                                        } elseif ($_SESSION['facility']['open_from'] == '8') {
+                                            $open_from_8 = "selected = selected";
+                                        } elseif ($_SESSION['facility']['open_from'] == '9') {
+                                            $open_from_9 = "selected = selected";
+                                        } elseif ($_SESSION['facility']['open_from'] == '9') {
+                                            $open_from_9 = "selected = selected";
+                                        } elseif ($_SESSION['facility']['open_from'] == '10') {
+                                            $open_from_10 = "selected = selected";
+                                        } elseif ($_SESSION['facility']['open_from'] == '11') {
+                                            $open_from_11 = "selected = selected";
+                                        } elseif ($_SESSION['facility']['open_from'] == '12') {
+                                            $open_from_12 = "selected = selected";
+                                        } elseif ($_SESSION['facility']['open_from'] == '13') {
+                                            $open_from_13 = "selected = selected";
+                                        } elseif ($_SESSION['facility']['open_from'] == '14') {
+                                            $open_from_14 = "selected = selected";
+                                        } elseif ($_SESSION['facility']['open_from'] == '15') {
+                                            $open_from_15 = "selected = selected";
+                                        } elseif ($_SESSION['facility']['open_from'] == '16') {
+                                            $open_from_16 = "selected = selected";
+                                        } elseif ($_SESSION['facility']['open_from'] == '17') {
+                                            $open_from_17 = "selected = selected";
+                                        } elseif ($_SESSION['facility']['open_from'] == '18') {
+                                            $open_from_18 = "selected = selected";
+                                        } elseif ($_SESSION['facility']['open_from'] == '19') {
+                                            $open_from_19 = "selected = selected";
+                                        } elseif ($_SESSION['facility']['open_from'] == '20') {
+                                            $open_from_20 = "selected = selected";
+                                        } elseif ($_SESSION['facility']['open_from'] == '21') {
+                                            $open_from_21 = "selected = selected";
+                                        } elseif ($_SESSION['facility']['open_from'] == '22') {
+                                            $open_from_22 = "selected = selected";
+                                        } elseif ($_SESSION['facility']['open_from'] == '23') {
+                                            $open_from_23 = "selected = selected";
+                                        } elseif ($_SESSION['facility']['open_from'] == '24') {
+                                            $open_from_24 = "selected = selected";
+                                        } elseif ($_SESSION['facility']['open_from'] == '25') {
+                                            $open_from_25 = "selected = selected";
+                                        } elseif ($_SESSION['facility']['open_from'] == '26') {
+                                            $open_from_26 = "selected = selected";
+                                        } elseif ($_SESSION['facility']['open_from'] == '27') {
+                                            $open_from_27 = "selected = selected";
+                                        } elseif ($_SESSION['facility']['open_from'] == '28') {
+                                            $open_from_28 = "selected = selected";
+                                        } elseif ($_SESSION['facility']['open_from'] == '29') {
+                                            $open_from_29 = "selected = selected";
+                                        } elseif ($_SESSION['facility']['open_from'] == '30') {
+                                            $open_from_30 = "selected = selected";
+                                        } elseif ($_SESSION['facility']['open_from'] == '60') {
+                                            $open_from_60 = "selected = selected";
+                                        }
+                                    ?>
 
-                                <label></label>
-
-                                <?php
-    if ($_SESSION[facility][open_from] == '0') {
-        $open_from_0 = "selected = selected";
-    } elseif ($_SESSION[facility][open_from] == '1') {
-        $open_from_1 = "selected = selected";
-    } elseif ($_SESSION[facility][open_from] == '2') {
-        $open_from_2 = "selected = selected";
-    } elseif ($_SESSION[facility][open_from] == '3') {
-        $open_from_3 = "selected = selected";
-    } elseif ($_SESSION[facility][open_from] == '4') {
-        $open_from_4 = "selected = selected";
-    } elseif ($_SESSION[facility][open_from] == '5') {
-        $open_from_5 = "selected = selected";
-    } elseif ($_SESSION[facility][open_from] == '6') {
-        $open_from_6 = "selected = selected";
-    } elseif ($_SESSION[facility][open_from] == '6') {
-        $open_from_6 = "selected = selected";
-    } elseif ($_SESSION[facility][open_from] == '7') {
-        $open_from_7 = "selected = selected";
-    } elseif ($_SESSION[facility][open_from] == '8') {
-        $open_from_8 = "selected = selected";
-    } elseif ($_SESSION[facility][open_from] == '9') {
-        $open_from_9 = "selected = selected";
-    } elseif ($_SESSION[facility][open_from] == '9') {
-        $open_from_9 = "selected = selected";
-    } elseif ($_SESSION[facility][open_from] == '10') {
-        $open_from_10 = "selected = selected";
-    } elseif ($_SESSION[facility][open_from] == '11') {
-        $open_from_11 = "selected = selected";
-    } elseif ($_SESSION[facility][open_from] == '12') {
-        $open_from_12 = "selected = selected";
-    } elseif ($_SESSION[facility][open_from] == '13') {
-        $open_from_13 = "selected = selected";
-    } elseif ($_SESSION[facility][open_from] == '14') {
-        $open_from_14 = "selected = selected";
-    } elseif ($_SESSION[facility][open_from] == '15') {
-        $open_from_15 = "selected = selected";
-    } elseif ($_SESSION[facility][open_from] == '16') {
-        $open_from_16 = "selected = selected";
-    } elseif ($_SESSION[facility][open_from] == '17') {
-        $open_from_17 = "selected = selected";
-    } elseif ($_SESSION[facility][open_from] == '18') {
-        $open_from_18 = "selected = selected";
-    } elseif ($_SESSION[facility][open_from] == '19') {
-        $open_from_19 = "selected = selected";
-    } elseif ($_SESSION[facility][open_from] == '20') {
-        $open_from_20 = "selected = selected";
-    } elseif ($_SESSION[facility][open_from] == '21') {
-        $open_from_21 = "selected = selected";
-    } elseif ($_SESSION[facility][open_from] == '22') {
-        $open_from_22 = "selected = selected";
-    } elseif ($_SESSION[facility][open_from] == '23') {
-        $open_from_23 = "selected = selected";
-    } elseif ($_SESSION[facility][open_from] == '24') {
-        $open_from_24 = "selected = selected";
-    } elseif ($_SESSION[facility][open_from] == '25') {
-        $open_from_25 = "selected = selected";
-    } elseif ($_SESSION[facility][open_from] == '26') {
-        $open_from_26 = "selected = selected";
-    } elseif ($_SESSION[facility][open_from] == '27') {
-        $open_from_27 = "selected = selected";
-    } elseif ($_SESSION[facility][open_from] == '28') {
-        $open_from_28 = "selected = selected";
-    } elseif ($_SESSION[facility][open_from] == '29') {
-        $open_from_29 = "selected = selected";
-    } elseif ($_SESSION[facility][open_from] == '30') {
-        $open_from_30 = "selected = selected";
-    } elseif ($_SESSION[facility][open_from] == '60') {
-        $open_from_60 = "selected = selected";
-    }
-?>
-
-                                <select name="open_from" <?php
-    echo $disabled;
-?>>
-
-                                	<option value="0" <?php
-    echo $open_from_0;
-?>>N/A</option>
-
-                                    <option value="1" <?php
-    echo $open_from_1;
-?>>1</option>
-
-                                    <option value="2" <?php
-    echo $open_from_2;
-?>>2</option>
-
-                                    <option value="3" <?php
-    echo $open_from_3;
-?>>3</option>
-
-                                    <option value="4" <?php
-    echo $open_from_4;
-?>>4</option>
-
-                                    <option value="5" <?php
-    echo $open_from_5;
-?>>5</option>
-
-                                    <option value="6" <?php
-    echo $open_from_6;
-?>>6</option>
-
-                                    <option value="7" <?php
-    echo $open_from_7;
-?>>7</option>
-
-                                    <option value="8" <?php
-    echo $open_from_8;
-?>>8</option>
-
-                                    <option value="9" <?php
-    echo $open_from_9;
-?>>9</option>
-
-                                    <option value="10" <?php
-    echo $open_from_10;
-?>>10</option>
-
-                                    <option value="11" <?php
-    echo $open_from_11;
-?>>11</option>
-
-                                  	<option value="12" <?php
-    echo $open_from_12;
-?>>12</option>
-
-                                  	<option value="13" <?php
-    echo $open_from_13;
-?>>13</option>
-
-                                  	<option value="14" <?php
-    echo $open_from_14;
-?>>14</option>
-
-                                  	<option value="15" <?php
-    echo $open_from_15;
-?>>15</option>
-
-                                  	<option value="16" <?php
-    echo $open_from_16;
-?>>16</option>
-
-                                  	<option value="17" <?php
-    echo $open_from_17;
-?>>17</option>
-
-                                  	<option value="19" <?php
-    echo $open_from_18;
-?>>18</option>
-
-                                  	<option value="20" <?php
-    echo $open_from_19;
-?>>19</option>
-
-                                  	<option value="21" <?php
-    echo $open_from_20;
-?>>20</option>
-
-                                  	<option value="22" <?php
-    echo $open_from_21;
-?>>21</option>
-
-                                  	<option value="23" <?php
-    echo $open_from_22;
-?>>22</option>
-
-                                  	<option value="24" <?php
-    echo $open_from_24;
-?>>24</option>
-
-                                  	<option value="25" <?php
-    echo $open_from_25;
-?>>25</option>
-
-                                  	<option value="26" <?php
-    echo $open_from_26;
-?>>26</option>
-
-                                  	<option value="27" <?php
-    echo $open_from_27;
-?>>27</option>
-
-                                  	<option value="28" <?php
-    echo $open_from_28;
-?>>28</option>
-
-                                  	<option value="29" <?php
-    echo $open_from_29;
-?>>29</option>
-
-                                  	<option value="30" <?php
-    echo $open_from_30;
-?>>30</option>
-
-								  	<option value="60" <?php
-    echo $open_from_60;
-?>>60</option>
-
-								</select>
-
+                                    <select name="open_from" <?php echo $disabled; ?>>
+                                        <option value="0" <?php echo $open_from_0; ?>>N/A</option>
+                                        <option value="1" <?php echo $open_from_1; ?>>1</option>
+                                        <option value="2" <?php echo $open_from_2; ?>>2</option>
+                                        <option value="3" <?php echo $open_from_3; ?>>3</option>
+                                        <option value="4" <?php echo $open_from_4; ?>>4</option>
+                                        <option value="5" <?php echo $open_from_5; ?>>5</option>
+                                        <option value="6" <?php echo $open_from_6; ?>>6</option>
+                                        <option value="7" <?php echo $open_from_7; ?>>7</option>
+                                        <option value="8" <?php echo $open_from_8; ?>>8</option>
+                                        <option value="9" <?php echo $open_from_9; ?>>9</option>
+                                        <option value="10" <?php echo $open_from_10; ?>>10</option>
+                                        <option value="11" <?php echo $open_from_11; ?>>11</option>
+                                        <option value="12" <?php echo $open_from_12; ?>>12</option>
+                                        <option value="13" <?php echo $open_from_13; ?>>13</option>
+                                        <option value="14" <?php echo $open_from_14; ?>>14</option>
+                                        <option value="15" <?php echo $open_from_15;?>>15</option>
+                                        <option value="16" <?php echo $open_from_16; ?>>16</option>
+                                        <option value="17" <?php echo $open_from_17; ?>>17</option>
+                                        <option value="19" <?php echo $open_from_18; ?>>18</option>
+                                        <option value="20" <?php echo $open_from_19; ?>>19</option>
+                                        <option value="21" <?php echo $open_from_20; ?>>20</option>
+                                        <option value="22" <?php echo $open_from_21; ?>>21</option>
+                                        <option value="23" <?php echo $open_from_22; ?>>22</option>
+                                        <option value="24" <?php echo $open_from_24; ?>>24</option>
+                                        <option value="25" <?php echo $open_from_25; ?>>25</option>
+                                        <option value="26" <?php echo $open_from_26; ?>>26</option>
+                                        <option value="27" <?php echo $open_from_27; ?>>27</option>
+                                        <option value="28" <?php echo $open_from_28; ?>>28</option>
+                                        <option value="29" <?php echo $open_from_29; ?>>29</option>
+                                        <option value="30" <?php echo $open_from_30; ?>>30</option>
+                                        <option value="60" <?php echo $open_from_60; ?>>60</option>
+                                    </select>
                                 Days and will be cancelled before
-
                                 <?php
-    if ($_SESSION[facility][closed_at] == '0') {
-        $closed_at_0 = "selected = selected";
-    } elseif ($_SESSION[facility][closed_at] == '1') {
-        $closed_at_1 = "selected = selected";
-    } elseif ($_SESSION[facility][closed_at] == '2') {
-        $closed_at_2 = "selected = selected";
-    } elseif ($_SESSION[facility][closed_at] == '3') {
-        $closed_at_3 = "selected = selected";
-    } elseif ($_SESSION[facility][closed_at] == '4') {
-        $closed_at_4 = "selected = selected";
-    } elseif ($_SESSION[facility][closed_at] == '5') {
-        $closed_at_5 = "selected = selected";
-    } elseif ($_SESSION[facility][closed_at] == '6') {
-        $closed_at_6 = "selected = selected";
-    } elseif ($_SESSION[facility][closed_at] == '6') {
-        $closed_at_6 = "selected = selected";
-    } elseif ($_SESSION[facility][closed_at] == '7') {
-        $closed_at_7 = "selected = selected";
-    } elseif ($_SESSION[facility][closed_at] == '8') {
-        $closed_at_8 = "selected = selected";
-    } elseif ($_SESSION[facility][closed_at] == '9') {
-        $closed_at_9 = "selected = selected";
-    } elseif ($_SESSION[facility][closed_at] == '9') {
-        $closed_at_9 = "selected = selected";
-    } elseif ($_SESSION[facility][closed_at] == '10') {
-        $closed_at_10 = "selected = selected";
-    } elseif ($_SESSION[facility][closed_at] == '11') {
-        $closed_at_11 = "selected = selected";
-    } elseif ($_SESSION[facility][closed_at] == '12') {
-        $closed_at_12 = "selected = selected";
-    } elseif ($_SESSION[facility][closed_at] == '13') {
-        $closed_at_13 = "selected = selected";
-    } elseif ($_SESSION[facility][closed_at] == '14') {
-        $closed_at_14 = "selected = selected";
-    } elseif ($_SESSION[facility][closed_at] == '15') {
-        $closed_at_15 = "selected = selected";
-    } elseif ($_SESSION[facility][closed_at] == '16') {
-        $closed_at_16 = "selected = selected";
-    } elseif ($_SESSION[facility][closed_at] == '17') {
-        $closed_at_17 = "selected = selected";
-    } elseif ($_SESSION[facility][closed_at] == '18') {
-        $closed_at_18 = "selected = selected";
-    } elseif ($_SESSION[facility][closed_at] == '19') {
-        $closed_at_19 = "selected = selected";
-    } elseif ($_SESSION[facility][closed_at] == '20') {
-        $closed_at_20 = "selected = selected";
-    } elseif ($_SESSION[facility][closed_at] == '21') {
-        $closed_at_21 = "selected = selected";
-    } elseif ($_SESSION[facility][closed_at] == '22') {
-        $closed_at_22 = "selected = selected";
-    } elseif ($_SESSION[facility][closed_at] == '23') {
-        $closed_at_23 = "selected = selected";
-    } elseif ($_SESSION[facility][closed_at] == '24') {
-        $closed_at_24 = "selected = selected";
-    } elseif ($_SESSION[facility][closed_at] == '25') {
-        $closed_at_25 = "selected = selected";
-    } elseif ($_SESSION[facility][closed_at] == '26') {
-        $closed_at_26 = "selected = selected";
-    } elseif ($_SESSION[facility][closed_at] == '27') {
-        $closed_at_27 = "selected = selected";
-    } elseif ($_SESSION[facility][closed_at] == '28') {
-        $closed_at_28 = "selected = selected";
-    } elseif ($_SESSION[facility][closed_at] == '29') {
-        $closed_at_29 = "selected = selected";
-    } elseif ($_SESSION[facility][closed_at] == '30') {
-        $closed_at_30 = "selected = selected";
-    } elseif ($_SESSION[facility][closed_at] == '48') {
-        $closed_at_48 = "selected = selected";
-    } elseif ($_SESSION[facility][closed_at] == '72') {
-        $closed_at_72 = "selected = selected";
-    }
-?>
+                                    if ($_SESSION['facility']['closed_at'] == '0') {
+                                        $closed_at_0 = "selected = selected";
+                                    } elseif ($_SESSION['facility']['closed_at'] == '1') {
+                                        $closed_at_1 = "selected = selected";
+                                    } elseif ($_SESSION['facility']['closed_at'] == '2') {
+                                        $closed_at_2 = "selected = selected";
+                                    } elseif ($_SESSION['facility']['closed_at'] == '3') {
+                                        $closed_at_3 = "selected = selected";
+                                    } elseif ($_SESSION['facility']['closed_at'] == '4') {
+                                        $closed_at_4 = "selected = selected";
+                                    } elseif ($_SESSION['facility']['closed_at'] == '5') {
+                                        $closed_at_5 = "selected = selected";
+                                    } elseif ($_SESSION['facility']['closed_at'] == '6') {
+                                        $closed_at_6 = "selected = selected";
+                                    } elseif ($_SESSION['facility']['closed_at'] == '6') {
+                                        $closed_at_6 = "selected = selected";
+                                    } elseif ($_SESSION['facility']['closed_at'] == '7') {
+                                        $closed_at_7 = "selected = selected";
+                                    } elseif ($_SESSION['facility']['closed_at'] == '8') {
+                                        $closed_at_8 = "selected = selected";
+                                    } elseif ($_SESSION['facility']['closed_at'] == '9') {
+                                        $closed_at_9 = "selected = selected";
+                                    } elseif ($_SESSION['facility']['closed_at'] == '9') {
+                                        $closed_at_9 = "selected = selected";
+                                    } elseif ($_SESSION['facility']['closed_at'] == '10') {
+                                        $closed_at_10 = "selected = selected";
+                                    } elseif ($_SESSION['facility']['closed_at'] == '11') {
+                                        $closed_at_11 = "selected = selected";
+                                    } elseif ($_SESSION['facility']['closed_at'] == '12') {
+                                        $closed_at_12 = "selected = selected";
+                                    } elseif ($_SESSION['facility']['closed_at'] == '13') {
+                                        $closed_at_13 = "selected = selected";
+                                    } elseif ($_SESSION['facility']['closed_at'] == '14') {
+                                        $closed_at_14 = "selected = selected";
+                                    } elseif ($_SESSION['facility']['closed_at'] == '15') {
+                                        $closed_at_15 = "selected = selected";
+                                    } elseif ($_SESSION['facility']['closed_at'] == '16') {
+                                        $closed_at_16 = "selected = selected";
+                                    } elseif ($_SESSION['facility']['closed_at'] == '17') {
+                                        $closed_at_17 = "selected = selected";
+                                    } elseif ($_SESSION['facility']['closed_at'] == '18') {
+                                        $closed_at_18 = "selected = selected";
+                                    } elseif ($_SESSION['facility']['closed_at'] == '19') {
+                                        $closed_at_19 = "selected = selected";
+                                    } elseif ($_SESSION['facility']['closed_at'] == '20') {
+                                        $closed_at_20 = "selected = selected";
+                                    } elseif ($_SESSION['facility']['closed_at'] == '21') {
+                                        $closed_at_21 = "selected = selected";
+                                    } elseif ($_SESSION['facility']['closed_at'] == '22') {
+                                        $closed_at_22 = "selected = selected";
+                                    } elseif ($_SESSION['facility']['closed_at'] == '23') {
+                                        $closed_at_23 = "selected = selected";
+                                    } elseif ($_SESSION['facility']['closed_at'] == '24') {
+                                        $closed_at_24 = "selected = selected";
+                                    } elseif ($_SESSION['facility']['closed_at'] == '25') {
+                                        $closed_at_25 = "selected = selected";
+                                    } elseif ($_SESSION['facility']['closed_at'] == '26') {
+                                        $closed_at_26 = "selected = selected";
+                                    } elseif ($_SESSION['facility']['closed_at'] == '27') {
+                                        $closed_at_27 = "selected = selected";
+                                    } elseif ($_SESSION['facility']['closed_at'] == '28') {
+                                        $closed_at_28 = "selected = selected";
+                                    } elseif ($_SESSION['facility']['closed_at'] == '29') {
+                                        $closed_at_29 = "selected = selected";
+                                    } elseif ($_SESSION['facility']['closed_at'] == '30') {
+                                        $closed_at_30 = "selected = selected";
+                                    } elseif ($_SESSION['facility']['closed_at'] == '48') {
+                                        $closed_at_48 = "selected = selected";
+                                    } elseif ($_SESSION['facility']['closed_at'] == '72') {
+                                        $closed_at_72 = "selected = selected";
+                                    }
+                                ?>
 
-                                <select name="closed_at" <?php
-    echo $disabled;
-?>>
-
-                                	<option value="0" <?php
-    echo $closed_at_0;
-?>>N/A</option>
-
-                                    <option value="1" <?php
-    echo $closed_at_1;
-?>>1</option>
-
-                                    <option value="2" <?php
-    echo $closed_at_2;
-?>>2</option>
-
-                                    <option value="3" <?php
-    echo $closed_at_3;
-?>>3</option>
-
-                                    <option value="4" <?php
-    echo $closed_at_4;
-?>>4</option>
-
-                                    <option value="5" <?php
-    echo $closed_at_5;
-?>>5</option>
-
-                                    <option value="6" <?php
-    echo $closed_at_6;
-?>>6</option>
-
-                                    <option value="7" <?php
-    echo $closed_at_7;
-?>>7</option>
-
-                                    <option value="8" <?php
-    echo $closed_at_8;
-?>>8</option>
-
-                                    <option value="9" <?php
-    echo $closed_at_9;
-?>>9</option>
-
-                                    <option value="10" <?php
-    echo $closed_at_10;
-?>>10</option>
-
-                                    <option value="11" <?php
-    echo $closed_at_11;
-?>>11</option>
-
-                                    <option value="12" <?php
-    echo $closed_at_12;
-?>>12</option>
-
-                                    <option value="13" <?php
-    echo $closed_at_13;
-?>>13</option>
-
-                                    <option value="14" <?php
-    echo $closed_at_14;
-?>>14</option>
-
-                                    <option value="15" <?php
-    echo $closed_at_15;
-?>>15</option>
-
-                                    <option value="16" <?php
-    echo $closed_at_16;
-?>>16</option>
-
-                                    <option value="17" <?php
-    echo $closed_at_17;
-?>>17</option>
-
-                                    <option value="19" <?php
-    echo $closed_at_18;
-?>>18</option>
-
-                                    <option value="20" <?php
-    echo $closed_at_19;
-?>>19</option>
-
-                                    <option value="21" <?php
-    echo $closed_at_20;
-?>>20</option>
-
-                                    <option value="22" <?php
-    echo $closed_at_21;
-?>>21</option>
-
-                                    <option value="23" <?php
-    echo $closed_at_22;
-?>>22</option>
-
-                                    <option value="24" <?php
-    echo $closed_at_24;
-?>>24</option>
-
-                                    <option value="25" <?php
-    echo $closed_at_25;
-?>>25</option>
-
-                                    <option value="26" <?php
-    echo $closed_at_26;
-?>>26</option>
-
-                                    <option value="27" <?php
-    echo $closed_at_27;
-?>>27</option>
-
-                                    <option value="28" <?php
-    echo $closed_at_28;
-?>>28</option>
-
-                                    <option value="29" <?php
-    echo $closed_at_29;
-?>>29</option>
-
-                                    <option value="30" <?php
-    echo $closed_at_30;
-?>>30</option>
-
-								    <option value="48" <?php
-    echo $closed_at_48;
-?>>48</option>
-
-								    <option value="72" <?php
-    echo $closed_at_72;
-?>>72</option>
-
-								</select>
-
+                                    <select name="closed_at" <?php echo $disabled; ?>>
+                                        <option value="0" <?php echo $closed_at_0; ?>>N/A</option>
+                                        <option value="1" <?php echo $closed_at_1; ?>>1</option>
+                                        <option value="2" <?php echo $closed_at_2; ?>>2</option>
+                                        <option value="3" <?php echo $closed_at_3; ?>>3</option>
+                                        <option value="4" <?php echo $closed_at_4; ?>>4</option>
+                                        <option value="5" <?php echo $closed_at_5; ?>>5</option>
+                                        <option value="6" <?php echo $closed_at_6; ?>>6</option>
+                                        <option value="7" <?php echo $closed_at_7; ?>>7</option>
+                                        <option value="8" <?php echo $closed_at_8; ?>>8</option>
+                                        <option value="9" <?php echo $closed_at_9; ?>>9</option>
+                                        <option value="10" <?php echo $closed_at_10; ?>>10</option>
+                                        <option value="11" <?php echo $closed_at_11; ?>>11</option>
+                                        <option value="12" <?php echo $closed_at_12; ?>>12</option>
+                                        <option value="13" <?php echo $closed_at_13; ?>>13</option>
+                                        <option value="14" <?php echo $closed_at_14; ?>>14</option>
+                                        <option value="15" <?php echo $closed_at_15; ?>>15</option>
+                                        <option value="16" <?php echo $closed_at_16; ?>>16</option>
+                                        <option value="17" <?php echo $closed_at_17; ?>>17</option>
+                                        <option value="19" <?php echo $closed_at_18; ?>>18</option>
+                                        <option value="20" <?php echo $closed_at_19; ?>>19</option>
+                                        <option value="21" <?php echo $closed_at_20; ?>>20</option>
+                                        <option value="22" <?php echo $closed_at_21; ?>>21</option>
+                                        <option value="23" <?php echo $closed_at_22; ?>>22</option>
+                                        <option value="24" <?php echo $closed_at_24; ?>>24</option>
+                                        <option value="25" <?php echo $closed_at_25; ?>>25</option>
+                                        <option value="26" <?php echo $closed_at_26; ?>>26</option>
+                                        <option value="27" <?php echo $closed_at_27; ?>>27</option>
+                                        <option value="28" <?php echo $closed_at_28; ?>>28</option>
+                                        <option value="29" <?php echo $closed_at_29; ?>>29</option>
+                                        <option value="30" <?php echo $closed_at_30; ?>>30</option>
+                                        <option value="48" <?php echo $closed_at_48; ?>>48</option>
+                                        <option value="72" <?php echo $closed_at_72; ?>>72</option>
+                                    </select>
                                 Hrs if not confirmed </td>
-
                                 <td colspan="3" bgcolor="#FDF5E1">&nbsp;</td>
-
                                 <td colspan="2" bgcolor="#FDF5E1">&nbsp;</td>
-
 							</tr>
 
                             <tr>
-
                             	<td colspan="13" bgcolor="#FDF5E1">&nbsp;</td>
-
                             </tr>
 
                             <tr>
-
                             	<td colspan="10" bgcolor="#FDF5E1"><p>
 
                                 <?php
-    if ($_SESSION[facility][os] == 'time_based') {
-        $os_2 = "checked=checked";
-    } else {
-        $os_1 = "checked=checked";
-    }
-?>
-
-                                <label>Session Based
-
-                                <input type="radio" name="os" value="sess" <?php
-    echo $os_1;
-?>  <?php
-    echo $disabled;
-?>>
-
-                                </label>
-
-                                <label>Time Based
-
-                                <input type="radio" name="os" value="time_based" <?php
-    echo $os_2;
-?> <?php
-    echo $disabled;
-?>>
-
-                                </label>
-
-                                <label style="margin-bottom: 1em; padding-bottom: 1em; border-bottom: 3px silver groove;">
-
-                                <input name="hidden" type="hidden" class="DEPENDS ON os BEING time_based OR os BEING sess">
-
-                                </label>
-
-                                <label></label>
-
-                                <label></label>
-
-                                <label>Hrs
-
-                                <input type="hrs" name="hrs" class="CONFLICTS WITH apache AND DEPENDS ON os BEING time_based" maxlength="5" size="5"  tooltiptext="Define how many hours will be defined as one session. (e.g 4 , if you enter 4 then system will take one booking for 4 hour)" <?php
-    echo $disabled;
-?> value="<?php
-    echo $_SESSION[facility][hrs];
-?>">
-
-                                </label>
-
-                                <label style="margin-bottom: 1em; padding-bottom: 1em; border-bottom: 3px silver groove;">
-
-                                <input name="hidden" type="hidden" class="CONFLICTS WITH pass BEING EMPTY">
-
-                                </label>
-
-                                </p></td>
-
+                                    if ($_SESSION['facility']['os'] == 'time_based') {
+                                        $os_2 = "checked=checked";
+                                    } else {
+                                        $os_1 = "checked=checked";
+                                    }
+                                ?>
+                                    <label>Session Based
+                                        <input type="radio" name="os" value="sess" <?php echo $os_1; ?>  <?php echo $disabled; ?>>
+                                    </label>
+                                    <label>Time Based
+                                        <input type="radio" name="os" value="time_based" <?php echo $os_2; ?> <?php echo $disabled; ?>>
+                                    </label>
+                                    <label style="margin-bottom: 1em; padding-bottom: 1em; border-bottom: 3px silver groove;">
+                                        <input name="hidden" type="hidden" class="DEPENDS ON os BEING time_based OR os BEING sess">
+                                    </label>
+                                    <label></label>
+                                    <label></label>
+                                    <label>Hrs
+                                        <input type="hrs" name="hrs" class="CONFLICTS WITH apache AND DEPENDS ON os BEING time_based" maxlength="5" size="5"  tooltiptext="Define how many hours will be defined as one session. (e.g 4 , if you enter 4 then system will take one booking for 4 hour)" <?php echo $disabled; ?> value="<?php echo $_SESSION['facility']['hrs']; ?>">
+                                    </label>
+                                    <label style="margin-bottom: 1em; padding-bottom: 1em; border-bottom: 3px silver groove;">
+                                        <input name="hidden" type="hidden" class="CONFLICTS WITH pass BEING EMPTY">
+                                    </label>
+                                    </p>
+                                </td>
                                 <td width="5%" bgcolor="#FDF5E1">&nbsp;</td>
-
                                 <td width="1%" bgcolor="#FDF5E1">&nbsp;</td>
-
                                 <td width="9%" bgcolor="#FDF5E1">&nbsp;</td>
-
 							</tr>
 
                             <tr>
-
                             	<td colspan="13" bgcolor="#FCECC7">Auto Close Date
-
-                                <label>
-
-                                <?php
-    if ($_SESSION[facility][auto_close] == '1') {
-        $auto_close_1 = "checked=checked";
-    } else {
-        $auto_close_1 = "";
-    }
-?>
-
-                                <input type="checkbox" name="auto_close" value="1" <?php
-    echo $disabled;
-?> tooltiptext="Check this box if you want system to close the booking of this facility at given date on either every month or year." <?php
-    echo $auto_close_1;
-?>>
-
-                                </label>                                </td>
-
+                                    <label>
+                                    <?php
+                                        if ($_SESSION['facility']['auto_close'] == '1') {
+                                            $auto_close_1 = "checked=checked";
+                                        } else {
+                                            $auto_close_1 = "";
+                                        }
+                                        $tooltipText = "Check this box if you want system to close the booking of this facility at given date on either every month or year.";
+                                    ?>
+                                        <input type="checkbox" name="auto_close" value="1" <?php echo $disabled; ?> tooltiptext="<?php echo $tooltipText; ?>" <?php echo $auto_close_1; ?>>
+                                    </label>
+                                </td>
 							</tr>
 
                             <tr>
-
                             	<td width="11%">From</td>
-
                                 <td width="7%"><strong>:</strong></td>
-
                                 <td width="20%"><label>
-
-                                <input name="from_date" type="text" size="10" maxlength="10" readonly="" <?php
-    echo $disabled;
-?> value="<?php
-    echo $_SESSION[facility][from_date];
-?>">
-
-                                <img src="images/icon-calender.gif" width="19" height="18"  onclick="displayCalendar(document.forms[0].from_date,'dd.mm.yyyy',this)" value="Cal"></label></td>
-
+                                    <input name="from_date" type="text" size="10" maxlength="10" readonly="" <?php echo $disabled; ?> value="<?php echo $_SESSION['facility']['from_date']; ?>">
+                                    <img src="images/icon-calender.gif" width="19" height="18"  onclick="displayCalendar(document.forms[0].from_date,'dd.mm.yyyy',this)" value="Cal"></label>
+                                </td>
                                 <td width="15%">&nbsp;</td>
-
                                 <td width="2%">To</td>
-
                                 <td width="5%"><strong>:</strong></td>
-
-                                <td width="15%"><input name="to_date" type="text" size="10" maxlength="10" readonly="" <?php
-    echo $disabled;
-?> value="<?php
-    echo $_SESSION[facility][to_date];
-?>">
-
-                                <img src="images/icon-calender.gif" width="19" height="18"  onclick="displayCalendar(document.forms[0].to_date,'dd.mm.yyyy',this)" value="Cal"></td>
-
+                                <td width="15%">
+                                    <input name="to_date" type="text" size="10" maxlength="10" readonly="" <?php echo $disabled; ?> value="<?php echo $_SESSION['facility']['to_date']; ?>">
+                                    <img src="images/icon-calender.gif" width="19" height="18"  onclick="displayCalendar(document.forms[0].to_date,'dd.mm.yyyy',this)" value="Cal">
+                                </td>
                                 <td width="6%"><div align="right">Frame</div></td>
-
                                 <td width="1%"><strong>:</strong></td>
-
                                 <td colspan="4"><label>
-
                                 <?php
-    if ($_SESSION[facility][frame] == '0') {
-        $frame_1 = "selected = selected";
-    } else {
-        $frame_2 = "selected = selected";
-    }
-?>
-
-                                <select name="frame" <?php
-    echo $disabled;
-?> tooltiptext="You want to disable this facilities on every month or every year of specified dates ?">
-
-                                	<option value="0" <?php
-    echo $frame_1;
-?>>Month</option>
-
-                                    <option value="1" <?php
-    echo $frame_2;
-?>>Year</option>
-
-                                </select>
-
-                                </label>                                </td>
-
+                                    if ($_SESSION['facility']['frame'] == '0') {
+                                        $frame_1 = "selected = selected";
+                                    } else {
+                                        $frame_2 = "selected = selected";
+                                    }
+                                    $tooltiptext = "You want to disable this facilities on every month or every year of specified dates ?";
+                                ?>
+                                    <select name="frame" <?php echo $disabled; ?> tooltiptext="<?php echo $tooltiptext; ?>">
+                                        <option value="0" <?php echo $frame_1; ?>>Month</option>
+                                        <option value="1" <?php echo $frame_2; ?>>Year</option>
+                                    </select>
+                                    </label>                                
+                                </td>
 							</tr>
 
                             <tr>
-
                             	<td colspan="2">Message</td>
-
                                 <td><label>
-
-                                <input type="text" name="message" <?php
-    echo $disabled;
-?> value="<?php
-    echo $_SESSION[facility][message];
-?>" >
-
+                                    <input type="text" name="message" <?php echo $disabled; ?> value="<?php echo $_SESSION['facility']['message']; ?>" >
                                 </label></td>
-
                                 <td colspan="2"><div align="right">Add to Calender </div></td>
-
                                 <td><strong>:</strong></td>
-
                                 <td><label>
-
                               	<?php
-    if ($_SESSION[facility][auto_cal] == '1') {
-        $auto_cal = "checked=checked";
-    } else {
-        $auto_cal = "";
-    }
-?>
+                                    if ($_SESSION['facility']['auto_cal'] == '1') {
+                                        $auto_cal = "checked=checked";
+                                    } else {
+                                        $auto_cal = "";
+                                    }
+                                ?>
 
-                                <input type="checkbox" name="auto_cal" value="1" <?php
-    echo $disabled;
-?> <?php
-    echo $auto_cal;
-?> tooltiptext="Check this box if you want system to display this event on calander.">
-
+                                    <input type="checkbox" name="auto_cal" value="1" <?php echo $disabled; ?> <?php echo $auto_cal; ?> tooltiptext="Check this box if you want system to display this event on calander.">
                                 </label></td>
-
                                 <td colspan="6">&nbsp;</td>
-
 							</tr>
 
                             <tr>
+                    	        <td colspan="13" bgcolor="#944542" style="border-left:1px solid #b09852;border-right:1px solid #b09852; padding-left:15px; padding-top:5px; padding-bottom:5px;"><span class="fontitle"><strong>&nbsp;Barring Rules </strong></span></td>
+					        </tr>
 
-                    	<td colspan="13" bgcolor="#944542" style="border-left:1px solid #b09852;border-right:1px solid #b09852; padding-left:15px; padding-top:5px; padding-bottom:5px;"><span class="fontitle"><strong>&nbsp;Barring Rules </strong></span></td>
+                            <tr>
+                    	        <td colspan="13" style="border-left:0px solid #b09852;border-right:0px solid #b09852; padding-left:5px; padding-top:5px; padding-bottom:5px;">User will be barred from booking this facility for 
+                                    <select name="month_blocked">
+                                        <option value="0" <?php if ($_SESSION['facility']['month_blocked'] == 0) { echo "selected"; } ?>>0</option>
+                                        <option value="1" <?php if ($_SESSION['facility']['month_blocked'] == 1) { echo "selected"; } ?>>1</option>
+                                        <option value="2" <?php if ($_SESSION['facility']['month_blocked'] == 2) { echo "selected"; } ?>>2</option>
+                                        <option value="3" <?php if ($_SESSION['facility']['month_blocked'] == 3) { echo "selected"; } ?>>3</option>
+                                        <option value="4" <?php if ($_SESSION['facility']['month_blocked'] == 4) { echo "selected"; } ?>>4</option>
+                                        <option value="5" <?php if ($_SESSION['facility']['month_blocked'] == 5) { echo "selected"; } ?>>5</option>
+                                    </select> month(s) if they are absent 
+                                    <select name="absent_amount"> 
+                                        <option value="0" <?php if ($_SESSION['facility']['absent_amount'] == 0) { echo "selected"; } ?>>0</option>
+                                        <option value="1" <?php if ($_SESSION['facility']['absent_amount'] == 1) { echo "selected"; } ?>>1</option>
+                                        <option value="2" <?php if ($_SESSION['facility']['absent_amount'] == 2) { echo "selected"; } ?>>2</option>
+                                        <option value="3" <?php if ($_SESSION['facility']['absent_amount'] == 3) { echo "selected"; } ?>>3</option>
+                                        <option value="4" <?php if ($_SESSION['facility']['absent_amount'] == 4) { echo "selected"; } ?>>4</option>
+                                        <option value="5" <?php if ($_SESSION['facility']['absent_amount'] == 5) { echo "selected"; } ?>>5</option>
+                                    </select> times over a period of 
+                                    <select name="month_period"> 
+                                        <option value="0" <?php if ($_SESSION['facility']['month_period'] == 0) { echo "selected"; } ?>>0</option>
+                                        <option value="1" <?php if ($_SESSION['facility']['month_period'] == 1) { echo "selected"; } ?>>1</option>
+                                        <option value="2" <?php if ($_SESSION['facility']['month_period'] == 2) { echo "selected"; } ?>>2</option>
+                                        <option value="3" <?php if ($_SESSION['facility']['month_period'] == 3) { echo "selected"; } ?>>3</option>
+                                        <option value="4" <?php if ($_SESSION['facility']['month_period'] == 4) { echo "selected"; } ?>>4</option>
+                                        <option value="5" <?php if ($_SESSION['facility']['month_period'] == 5) { echo "selected"; } ?>>5</option>
+                                    </select> month(s).
+                                </td>
+					        </tr>
 
-					</tr>
+                            <tr>
+                                <td colspan="13" bgcolor="#944542" 
+                                style="border-left:1px solid #b09852;border-right:1px solid #b09852; padding-left:15px; padding-top:5px; padding-bottom:5px;">
+                                <span class="fontitle"><strong>&nbsp;Advanced Booking Period </strong></span></td>
+                            </tr>
 
-                    <tr>
-
-                    	<td colspan="13" style="border-left:0px solid #b09852;border-right:0px solid #b09852; padding-left:5px; padding-top:5px; padding-bottom:5px;">User will be barred from booking this facility for <select name="month_blocked">
-
-                        <option value="0" <?php
-    if ($_SESSION[facility][month_blocked] == 0) {
-        echo "selected";
-    }
-?>>0</option>
-
-                        <option value="1" <?php
-    if ($_SESSION[facility][month_blocked] == 1) {
-        echo "selected";
-    }
-?>>1</option>
-
-                        <option value="2" <?php
-    if ($_SESSION[facility][month_blocked] == 2) {
-        echo "selected";
-    }
-?>>2</option>
-
-                        <option value="3" <?php
-    if ($_SESSION[facility][month_blocked] == 3) {
-        echo "selected";
-    }
-?>>3</option>
-
-                        <option value="4" <?php
-    if ($_SESSION[facility][month_blocked] == 4) {
-        echo "selected";
-    }
-?>>4</option>
-
-                        <option value="5" <?php
-    if ($_SESSION[facility][month_blocked] == 5) {
-        echo "selected";
-    }
-?>>5</option>
-
-                        </select> month(s) if they are absent <select name="absent_amount"> 
-
-                        <option value="0" <?php
-    if ($_SESSION[facility][absent_amount] == 0) {
-        echo "selected";
-    }
-?>>0</option>
-
-                        <option value="1" <?php
-    if ($_SESSION[facility][absent_amount] == 1) {
-        echo "selected";
-    }
-?>>1</option>
-
-                        <option value="2" <?php
-    if ($_SESSION[facility][absent_amount] == 2) {
-        echo "selected";
-    }
-?>>2</option>
-
-                        <option value="3" <?php
-    if ($_SESSION[facility][absent_amount] == 3) {
-        echo "selected";
-    }
-?>>3</option>
-
-                        <option value="4" <?php
-    if ($_SESSION[facility][absent_amount] == 4) {
-        echo "selected";
-    }
-?>>4</option>
-
-                        <option value="5" <?php
-    if ($_SESSION[facility][absent_amount] == 5) {
-        echo "selected";
-    }
-?>>5</option>
-
-                        </select> times over a period of <select name="month_period"> <option value="0" <?php
-    if ($_SESSION[facility][month_period] == 0) {
-        echo "selected";
-    }
-?>>0</option>
-
-                        <option value="1" <?php
-    if ($_SESSION[facility][month_period] == 1) {
-        echo "selected";
-    }
-?>>1</option>
-
-                        <option value="2" <?php
-    if ($_SESSION[facility][month_period] == 2) {
-        echo "selected";
-    }
-?>>2</option>
-
-                        <option value="3" <?php
-    if ($_SESSION[facility][month_period] == 3) {
-        echo "selected";
-    }
-?>>3</option>
-
-                        <option value="4" <?php
-    if ($_SESSION[facility][month_period] == 4) {
-        echo "selected";
-    }
-?>>4</option>
-
-                        <option value="5" <?php
-    if ($_SESSION[facility][month_period] == 5) {
-        echo "selected";
-    }
-?>>5</option>
-
-                        
-
-                        </select> month(s).</td>
-
-					</tr>
-
-                    <tr>
-
-                    	<td colspan="13" bgcolor="#944542" 
-
-                        style="border-left:1px solid #b09852;border-right:1px solid #b09852; padding-left:15px; 
-                        padding-top:5px; padding-bottom:5px;">
-
-                        <span class="fontitle"><strong>&nbsp;Advanced Booking Period </strong></span></td>
-
-                    </tr>
-
-                    <tr>
-
-                        <td colspan="13"  align="left" >
-
-                        Permit Booking after  <input type="text" name="adv_book_days"  id="adv_book_days" 
-
-                        value="<?php
-    echo $adv_book_days;
-?>" size="5"/> days
-
+                            <tr>
+                                <td colspan="13"  align="left" >
+                                Permit Booking after  
+                                    <input type="text" name="adv_book_days"  id="adv_book_days" value="<?php echo $adv_book_days; ?>" size="5"/> days
+                                </td>
+                            </tr>
+                            </table>                        
                         </td>
-
-                    </tr>
-
-                          </table>                        </td>
-
-					  </tr>
-
-                        <tr>
-
-                        	<td>&nbsp;</td>
-
-                            <td>&nbsp;</td>
-
-                            <td colspan="11"><div align="right">
-
-                            <label></label>
-
-                            <input type="submit" name="Submit2" value="Update" <?php
-    echo $disabled;
-?>>
-
-                            </div></td>
-
-                        </tr>
-
-                        <tr>
-
-                        	<td>&nbsp;</td>
-
-                            <td>&nbsp;</td>
-
-                            <td colspan="11"><label></label></td>
-
-                        </tr>
-
-                      </table>
-
-                      	</form>
-
-                  </td>
-
-                  </tr>
+					</tr>
 
                     <tr>
-
-                      <td colspan="3">&nbsp;</td>
-
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td colspan="11"><div align="right">
+                            <label></label>
+                            <input type="submit" name="Submit2" value="Update" <?php echo $disabled; ?>>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td colspan="11"><label></label></td>
                     </tr>
 
-           	  </table>
+                    </table>
+                </form>
+                </td>
+                </tr>
+                <tr>
+                    <td colspan="3">&nbsp;</td>
+                </tr>
+           	</table>
 
-                  	<?php
+<?php
 }
 ?>
 
-                  	<?php //print_r($_POST);
-if (isset($_POST[type]) && $_POST[type] == 'delete') {
+<?php //print_r($_POST);
+if (isset($_POST['type']) && $_POST['type'] == 'delete') {
     $can_date   = date('d-m-Y H:i:s');
-    $postreason = $_POST[reason];
-    $query      = "DELETE FROM my_booking where sno = '$_POST[booking_no]'";
-    mysqli_query($conn,$query) or die(mysqli_error($conn));
+    $postreason = $_POST['reason'];
+    $query      = "DELETE FROM my_booking where sno = '".$_POST['booking_no']."'";
+    mysqli_query($conn, $query) or die(mysqli_error($conn));
     echo '<script language=JavaScript>';
     echo 'alert("Lapsed booking have been deleted!")';
-    //echo 'self.location.href="booking.php?crypted=$_GET[crypted]&page=book_now&user_id=$_GET[user_id]&fac=$_GET[fac]&id=$_GET[id]&newbook=$_GET[newbook]";';
+    //echo 'self.location.href="booking.php?crypted=$_GET[crypted]&page=book_now&user_id=".$_GET['user_id']."&fac=$_GET[fac]&id=$_GET[id]&newbook=$_GET[newbook]";';
     echo '</script>';
 }
-if (isset($_POST[type]) && $_POST[type] == 'cancle') {
+if (isset($_POST['type']) && $_POST['type'] == 'cancle') {
     $can_date   = date('d-m-Y H:i:s');
-    $postreason = $_POST[reason];
-    $query      = "update my_booking set status ='$statuscancel[$postreason]',cancle_reson ='$_POST[reason]',amount_returned ='$_POST[refund_amount]',cancle_booking_date_time='$can_date',cancelled_by='$s_id' where sno = '$_POST[booking_no]' limit 1";
+    $postreason = $_POST['reason'];
+    $query      = "UPDATE my_booking SET status ='".$statuscancel[$postreason]."',cancle_reson ='".$_POST['reason']."',amount_returned ='".$_POST['refund_amount']."',cancle_booking_date_time='".$can_date."',cancelled_by='".$s_id."' where sno = '".$_POST['booking_no']."' limit 1";
     mysqli_query($conn,$query) or die(mysqli_error($conn));
     echo '<script language=JavaScript>';
     echo 'alert("You have made a booking cancellation!")';
-    //echo 'self.location.href="booking.php?crypted=$_GET[crypted]&page=book_now&user_id=$_GET[user_id]&fac=$_GET[fac]&id=$_GET[id]&newbook=$_GET[newbook]";';
+    //echo 'self.location.href="booking.php?crypted=$_GET[crypted]&page=book_now&user_id=".$_GET['user_id']."&fac=$_GET[fac]&id=$_GET[id]&newbook=$_GET[newbook]";';
     echo '</script>';
     // get user detail who book the facility
     //if ($_POST['reason'] == '6' or $_POST['reason'] == '11')
     if ($_POST['reason'] == '1' or $_POST['reason'] == '2' or $_POST['reason'] == '3' or $_POST['reason'] == '4' or $_POST['reason'] == '5' or $_POST['reason'] == '6' or $_POST['reason'] == '7' or $_POST['reason'] == '8' or $_POST['reason'] == '9' or $_POST['reason'] == '10' or $_POST['reason'] == '11' or $_POST['reason'] == '12') {
-        $sqlbooked           = "SELECT * FROM my_booking WHERE sno = '$_POST[booking_no]'";
-        $resultbooked        = mysql_query($sqlbooked);
+        $sqlbooked           = "SELECT * FROM my_booking WHERE sno = '".$_POST['booking_no']."'";
+        $resultbooked        = mysqli_query($conn,$sqlbooked);
         $rowbooked           = mysqli_fetch_array($resultbooked);
         $residentid          = $rowbooked['uid'];
         $facilitybooked      = $rowbooked['unique_no'];
@@ -4355,20 +3262,20 @@ if (isset($_POST[type]) && $_POST[type] == 'cancle') {
         $cancelled_date_time = $rowbooked['cancle_booking_date_time'];
         $timeslot            = $rowbooked['from_time'] . " to " . $rowbooked['to_time'];
         $cancel_reason       = $rowbooked['cancle_reson'];
-        $sqlfacility         = "SELECT * FROM facility WHERE unique_no  = '$facilitybooked'";
-        $resultfacility      = mysql_query($sqlfacility);
+        $sqlfacility         = "SELECT * FROM facility WHERE unique_no  = '".$facilitybooked."'";
+        $resultfacility      = mysqli_query($conn,$sqlfacility);
         $rowfacility         = mysqli_fetch_array($resultfacility);
         $facilityname        = $rowfacility['name'];
         $sqlremarks          = "SELECT * FROM cancel_reasons WHERE id = " . $cancel_reason;
-        $resultremarks       = mysql_query($sqlremarks);
+        $resultremarks       = mysqli_query($conn,$sqlremarks);
         $rowremarks          = mysqli_fetch_array($resultremarks);
         $cancel_remarks      = $rowremarks['title'];
-        $sqlresident         = "SELECT * FROM user_account WHERE id = '$residentid'";
-        $resultresident      = mysql_query($sqlresident);
+        $sqlresident         = "SELECT * FROM user_account WHERE id = '".$residentid."'";
+        $resultresident      = mysqli_query($conn,$sqlresident);
         $rowresident         = mysqli_fetch_array($resultresident);
         $residentuser        = $rowresident['username'];
-        $sqlcancelby         = "SELECT * FROM user_account WHERE id = '$cancelled_by'";
-        $resultcancelby      = mysql_query($sqlcancelby);
+        $sqlcancelby         = "SELECT * FROM user_account WHERE id = '".$cancelled_by."'";
+        $resultcancelby      = mysqli_query($conn,$sqlcancelby);
         $rowcancelby         = mysqli_fetch_array($resultcancelby);
         $cancelbyuser        = $rowcancelby['username'];
         // illegal booking or absent
@@ -4387,7 +3294,7 @@ if (isset($_POST[type]) && $_POST[type] == 'cancle') {
         //$email = 'shah@axon.com.sg';
         //$message = 'test';
         //$message = '<center><img height="70" hspace="14" src="http://axonprojects.com/maxime-dev/images/logo.jpg" width="175"><br><br></center>';
-        $message1            = '<b><font color="#690708" face="Tahoma" size="2">Dear Condo Manager, <br><br></b>The following booking for the above facility has been cancelled:</font>';
+        $message1  = '<b><font color="#690708" face="Tahoma" size="2">Dear Condo Manager, <br><br></b>The following booking for the above facility has been cancelled:</font>';
         $message1 .= '<hr color="#690708">';
         $message1 .= '<table width="100%" border="0" cellspacing="0" cellpadding="5">';
         $message1 .= '<tr>';
@@ -4415,30 +3322,30 @@ if (isset($_POST[type]) && $_POST[type] == 'cancle') {
         $mail_sent = mail($email, $mailsubject, $message1, $headers);
         //
     }
-} else if (isset($_POST[type]) && $_POST[type] == 'approve') {
+} else if (isset($_POST['type']) && $_POST['type'] == 'approve') {
     $a_date = date('d-m-Y H:i:s');
-    $query  = "update my_booking set status ='1',cancle_reson ='$_POST[reason]',amount_recived ='$_POST[refund_amount2]',date_of_conf='$a_date' where sno = '$_POST[booking_no]' limit 1";
+    $query  = "UPDATE my_booking SET status ='1',cancle_reson ='".$_POST['reason']."',amount_recived ='".$_POST['refund_amount2']."',date_of_conf='".$a_date."' where sno = '".$_POST['booking_no']."' limit 1";
     mysqli_query($conn,$query) or die(mysqli_error($conn));
     // only if booking approve by club then sent out an email alert
     if ($_SESSION['user_type'] == 2) {
-        $sqlbooked      = "SELECT * FROM my_booking WHERE sno = '$_POST[booking_no]'";
-        $resultbooked   = mysql_query($sqlbooked);
+        $sqlbooked      = "SELECT * FROM my_booking WHERE sno = '".$_POST['booking_no']."'";
+        $resultbooked   = mysqli_query($conn,$sqlbooked);
         $rowbooked      = mysqli_fetch_array($resultbooked);
         $residentid     = $rowbooked['uid'];
         $facilitybooked = $rowbooked['unique_no'];
         $datebooked     = $rowbooked['date_of_booking'];
         $approved_by    = $rowbooked['date_of_conf'];
         $timeslot       = $rowbooked['from_time'] . " to " . $rowbooked['to_time'];
-        $sqlfacility    = "SELECT * FROM facility WHERE unique_no  = '$facilitybooked'";
-        $resultfacility = mysql_query($sqlfacility);
+        $sqlfacility    = "SELECT * FROM facility WHERE unique_no  = '".$facilitybooked."'";
+        $resultfacility = mysqli_query($conn,$sqlfacility);
         $rowfacility    = mysqli_fetch_array($resultfacility);
         $facilityname   = $rowfacility['name'];
-        $queryclub      = "select * from user_account where crypted = '".$_GET['crypted']."' and id = '$s_id' limit 1";
-        $resultclub = mysql_query($queryclub) or die(mysqli_error($conn));
+        $queryclub      = "SELECT * FROM user_account where crypted = '".$_GET['crypted']."' and id = '".$s_id."' limit 1";
+        $resultclub = mysqli_query($conn,$queryclub) or die(mysqli_error($conn));
         $rowclub         = mysqli_fetch_array($resultclub);
-        $usernameapprove = $rowclub[username];
-        $sqlresident     = "SELECT * FROM user_account WHERE id = '$residentid'";
-        $resultresident  = mysql_query($sqlresident);
+        $usernameapprove = $rowclub['username'];
+        $sqlresident     = "SELECT * FROM user_account WHERE id = '".$residentid."'";
+        $resultresident  = mysqli_query($conn,$sqlresident);
         $rowresident     = mysqli_fetch_array($resultresident);
         $residentuser    = $rowresident['username'];
         // illegal booking or absent
@@ -4457,7 +3364,7 @@ if (isset($_POST[type]) && $_POST[type] == 'cancle') {
         //$email = 'shah@axon.com.sg';
         //$message = 'test';
         //$message = '<center><img height="70" hspace="14" src="http://axonprojects.com/maxime-dev/images/logo.jpg" width="175"><br><br></center>';
-        $message1        = '<b><font color="#690708" face="Tahoma" size="2">Dear Condo Manager, <br><br></b>The following booking for the above facility has been approved:</font>';
+        $message1  = '<b><font color="#690708" face="Tahoma" size="2">Dear Condo Manager, <br><br></b>The following booking for the above facility has been approved:</font>';
         $message1 .= '<hr color="#690708">';
         $message1 .= '<table width="100%" border="0" cellspacing="0" cellpadding="5">';
         $message1 .= '<tr>';
@@ -4482,84 +3389,44 @@ if (isset($_POST[type]) && $_POST[type] == 'cancle') {
     }
     //
 }
-?>
 
-            			<?php
-if ($_GET['page'] == 'book_now' && $_GET['next'] == 'next') {
+if ($page == 'book_now' && $getNext == 'next') {
     // two hour booking only
 ?>
 
-                        <table width="100%" border="0" align="center">
-
-                      		<form name="form1" method="post" action="booking.php?crypted=<?php
-    echo $_GET[crypted];
-?>&id=<?php
-    echo $_GET[id];
-?>&page=<?php
-    echo $_GET[page];
-?>&user_id=<?php
-    echo $_GET[user_id];
-?>&fac=<?php
-    echo $_GET[fac];
-?>&newbook=0">
-
-                            <tr>
-
-                            <td colspan="9">
-
+                    <table width="100%" border="0" align="center">
+                        <form name="form1" method="post" action="booking.php?crypted=<?php echo $_GET['crypted'].'&id='.$_GET['id'].'&page='.$_GET['page'].'&user_id='.$_GET['user_id'].'&fac='.$_GET['fac']; ?>&newbook=0">
+                        <tr>
+                        <td colspan="9">
                             <table width="100%" cellpadding="5" cellspacing="0" style="border:1px solid #333333;">
-
                             <tr> 
-
                         		<td bgcolor="#994947" style="border-right:1px solid #333333;"> 
-
-                          		<div align="center" class="fontitle">#1</div></td>
-
+                          		    <div align="center" class="fontitle">#1</div>
+                                </td>
                         		<td bgcolor="#994947" style="border-right:1px solid #333333;"> 
-
-                          		<div align="center"><span class="fontitle">Select</span></div></td>
-
+                          		    <div align="center"><span class="fontitle">Select</span></div>
+                                </td>
                         		<td bgcolor="#994947" style="border-right:1px solid #333333;"> 
-
-                          		<div align="center" class="fontitle">From Time</div>                        </td>
-
+                          		    <div align="center" class="fontitle">From Time</div>                        
+                                </td>
                         		<td bgcolor="#994947" style="border-right:1px solid #333333;"> 
-
-                          		<div align="center" class="fontitle">To Time</div>                        </td>
-
-                        		<?php
-    if ($user_type != '0') {
-?>
-
+                          		    <div align="center" class="fontitle">To Time</div>                        
+                                </td>
+                        		<?php if ($user_type != '0') { ?>
                    			  	<td bgcolor="#994947" style="border-right:1px solid #333333;"> 
-
-                          		<div align="center" class="fontitle">Resident</div>                        </td>
-
-                                <?php
-    }
-?>
+                          		    <div align="center" class="fontitle">Resident</div>
+                                </td>
+                                <?php } ?>
 
                         		<!--td bgcolor="#994947" style="border-right:1px solid #333333;"> 
                           		<div align="center"><span class="fontitle">Deposit Status</span></div>                        </td-->
-
-                       		  <td bgcolor="#994947"> 
-
-                       	      <div align="center" class="fontitle">Remarks</div></td>
-
-                              <?php
-    if ($user_type == '1') {
-?>
-
-                   			  <td bgcolor="#994947" style="border-left:1px solid #333333;"> 
-
-                       	      <div align="center" class="fontitle">Receipt</div></td>
-
-                                <?php
-    }
-?>
-
+                       		    <td bgcolor="#994947"> 
+                       	            <div align="center" class="fontitle">Remarks</div></td>
+                                <?php if ($user_type == '1') { ?>
+                   			    <td bgcolor="#994947" style="border-left:1px solid #333333;"> 
+                       	        <div align="center" class="fontitle">Receipt</div></td>
+                                <?php } ?>
                       		</tr>
-
                             <?php
     $timeNOW   = date("G");
     //$timeNOW = 9;
@@ -4593,8 +3460,8 @@ if ($_GET['page'] == 'book_now' && $_GET['next'] == 'next') {
     $month_tocheck    = date("m");
     $year_tocheck     = date("Y");
     $selected_date    = date("d-m-Y");
-    $check_facility   = "SELECT * FROM facility WHERE sno = '$_GET[fac]'";
-    $result_facility  = mysql_query($check_facility);
+    $check_facility   = "SELECT * FROM facility WHERE sno = '".$_GET['fac']."'";
+    $result_facility  = mysqli_query($conn,$check_facility);
     $row_facility     = mysqli_fetch_array($result_facility);
     $unique_facility  = $row_facility['unique_no'];
     $name_fac         = $row_facility['name'];
@@ -4603,8 +3470,8 @@ if ($_GET['page'] == 'book_now' && $_GET['next'] == 'next') {
     $checknewdate     = $newselected_date[2] . "-" . $newselected_date[1] . "-" . $newselected_date[0];
     //$check_sql = "SELECT * FROM my_booking WHERE unique_no = '$unique_facility' AND status = '1' AND day = '$day_tocheck' AND month = '$month_tocheck' AND year = '$year_tocheck' AND from_time >= '$hourSTART' AND to_time <= '$hourEND'";
     while ($sr <= 2) {
-        $check_sql    = "SELECT * FROM my_booking WHERE unique_no = '$unique_facility' AND status = '1' AND date_of_booking = '$checknewdate' AND from_time = '$hourSTART'";
-        $result_sql   = mysql_query($check_sql);
+        $check_sql    = "SELECT * FROM my_booking WHERE unique_no = '".$unique_facility."' AND status = '1' AND date_of_booking = '".$checknewdate."' AND from_time = '".$hourSTART."'";
+        $result_sql   = mysqli_query($conn,$check_sql);
         $row_sql      = mysqli_fetch_array($result_sql);
         $order_status = $row_sql['status'];
         $row_num      = mysqli_num_rows($result_sql);
@@ -4614,260 +3481,186 @@ if ($_GET['page'] == 'book_now' && $_GET['next'] == 'next') {
             $dont_sel = "";
         }
         // find out if peak or non-peak
-        $sql_facility1st    = "SELECT id FROM time_slot WHERE time_slot = '$hourSTART'";
-        $result_facility1st = mysql_query($sql_facility1st);
+        $sql_facility1st    = "SELECT id FROM time_slot WHERE time_slot = '".$hourSTART."'";
+        $result_facility1st = mysqli_query($conn,$sql_facility1st);
         $row_facility1st    = mysqli_fetch_array($result_facility1st);
         $timeId             = $row_facility1st['id'];
         $rangebefore        = date("w", (mktime(0, 0, 0, $month_tocheck, $day_tocheck, $year_tocheck))) + 1;
-        $sql_find           = "SELECT * FROM track_time WHERE track = '$unique_facility' AND weak = $rangebefore AND from_time <= $timeId AND to_time >= $timeId";
-        $result_find        = mysql_query($sql_find);
+        $sql_find           = "SELECT * FROM track_time WHERE track = '".$unique_facility."' AND weak = ".$rangebefore." AND from_time <= ".$timeId." AND to_time >= ".$timeId;
+        $result_find        = mysqli_query($conn,$sql_find);
         $row_find           = mysqli_fetch_array($result_find);
         $peaktime           = $row_find['peak'];
         $time_fram          = "$hourSTART-$hourMED&$peaktime";
 ?>
 
-                            <tr bgcolor="<?php
-        echo $color;
-?>" <?php
-        if ($msg != '') {
-?>onMouseover="ddrivetip('<?php
-            echo " $msg ";
-?>')";
-
- onMouseout="hideddrivetip()" <?php
-        }
-?> > 
-
+                    <tr bgcolor="<?php echo $color; ?>" <?php if ($msg != '') { ?>onMouseover="ddrivetip('<?php echo " $msg "; ?>')"; onMouseout="hideddrivetip()" <?php } ?> > 
                         <td align="center" valign="top" style="border-right:1px solid #333333;border-top:1px solid #333333;"> 
-
-                        <div align="center"> 
-
-                        <?php
-        echo $sr;
-?>                          </div>                        </td>
-
+                            <div align="center"> 
+                                <?php echo $sr; ?>                          
+                            </div>                        
+                        </td>
                         <td valign="top" style="border-right:1px solid #333333;border-top:1px solid #333333;"><label> 
-
-                        <div align="center"> 
-
-                         <?php
-        if ($dont_sel != '') {
-            echo "<font color='#FF0000'><strong>X</strong></font>";
-        } else {
-?><input name="time_fram" type="radio" value="<?php
-            echo $time_fram;
-?>" <?php
-            echo "$checked";
-?> <?php
-            echo $dont_sel;
-?> <?php
-            if ($msg != '') {
-?>title="<?php
-                echo $msg;
-?>" <?php
-            }
-?> onclick="alert('<?php
-            echo "You have selected  $name_fac  for date  $selected_date from $hourSTART hrs to $hourMED hrs";
-?> ');"   ><?php
-        }
-?>
-
-                        </div>
-
+                            <div align="center"> 
+                                <?php
+                                    if ($dont_sel != '') {
+                                        echo "<font color='#FF0000'><strong>X</strong></font>";
+                                    } else {
+                                ?>
+                                <input name="time_fram" type="radio" value="<?php echo $time_fram; ?>" <?php echo "$checked"; ?> 
+                                    <?php echo $dont_sel; ?> 
+                                    <?php
+                                        if ($msg != '') {
+                                    ?>title="<?php echo $msg; ?>" 
+                                    <?php } ?> onclick="alert('<?php echo "You have selected  $name_fac  for date  $selected_date from $hourSTART hrs to $hourMED hrs"; ?> ');" >
+                                    <?php
+                                        }
+                                    ?>
+                            </div>
                         </label></td>
-
                         <td valign="top" style="border-right:1px solid #333333;border-top:1px solid #333333;"> 
-
-                        <div align="center"> <?php
-        //echo $hourSTART;
-        if (strlen($hourSTART) == 4) {
-            $hourSTART = str_pad($hourSTART, 5, "0", STR_PAD_LEFT);
-        } else {
-            $hourSTART = $hourSTART;
-        }
-        if (strlen($hourMED) == 4) {
-            $hourMED = str_pad($hourMED, 5, "0", STR_PAD_LEFT);
-        } else {
-            $hourMED = $hourMED;
-        }
-        echo $hourSTART;
-        $hourSTART = $hourMED;
-?>                          </div>                        </td>
-
+                            <div align="center"> 
+                                <?php
+                                    //echo $hourSTART;
+                                    if (strlen($hourSTART) == 4) {
+                                        $hourSTART = str_pad($hourSTART, 5, "0", STR_PAD_LEFT);
+                                    } else {
+                                        $hourSTART = $hourSTART;
+                                    }
+                                    if (strlen($hourMED) == 4) {
+                                        $hourMED = str_pad($hourMED, 5, "0", STR_PAD_LEFT);
+                                    } else {
+                                        $hourMED = $hourMED;
+                                    }
+                                    echo $hourSTART;
+                                    $hourSTART = $hourMED;
+                                ?>
+                            </div>
+                        </td>
                         <td valign="top" style="border-right:1px solid #333333;border-top:1px solid #333333;"> 
-
-                        <div align="center"> 
+                            <div align="center"> 
+                                <?php
+                                    echo $hourMED;
+                                    $hourMED = $hourEND;
+                                ?>
+                            </div>
+                        </td>
 
                         <?php
-        echo $hourMED;
-        $hourMED = $hourEND;
-?>                          </div>                        </td>
-
-                        <?php
-        if ($user_type != '0') {
-?>
+                            if ($user_type != '0') {
+                        ?>
 
                    		<td valign="top" align="center" style="border-right:1px solid #333333;border-top:1px solid #333333;"> 
-
                         <?php
-            if ($registered_by_id == $id || $user_type == '1' || $rid == $id || $user_type == '2') {
-                echo $registered_by;
-            }
-            echo "&nbsp;";
-?>                                               </td><?php
-        }
-?>
-
+                        if ($registered_by_id == $id || $user_type == '1' || $rid == $id || $user_type == '2') {
+                            echo $registered_by;
+                        }
+                        echo "&nbsp;";
+                        ?>
+                        </td><?php
+                    }
+                    ?>
                         <!--td valign="top" align="center" style="border-right:1px solid #333333;border-top:1px solid #333333;"> 
+
                 <?php
         /* $dont_sel ='';
         
         if($order_status == '1' && $auto_apporve != '1')
-        
         {
-        
         echo $icon = "PAID";
-        
         }
-        
         elseif($order_status == '0' && $auto_apporve != '1')
-        
         {
-        
         echo $icon = "&nbsp;";
-        
         }
-        
         elseif($order_status == '2')
-        
         {
-        
         echo $icon = "&nbsp;";
-        
         }
-        
         elseif($dont_sel != '')
-        
         {
-        
         echo $icon = "&nbsp;";
-        
         }
-        
         else
-        
         {
         
         if($row[peak] =='1')
-        
         {
-        
         echo $icon = "&nbsp;";
-        
         }
-        
         else
-        
         {
-        
         echo $icon = "&nbsp;";
-        
         }
-        
         } */
 ?>                              </td-->
 
                         <td valign="top" align="center" style="border-top:1px solid #333333;">
-
-						
-
 						<?php
-        // check time now
-        $checking_cancel = date("Y-m-dHi");
-        if ($user_type == '0') {
-            if ($registered_by_id == $id || $rid == $id) {
-                if ($order_status == '0') {
-                    echo "Pending<br>";
-                    if ($allowed_cancel >= $checking_cancel) {
-?>
+                            // check time now
+                            $checking_cancel = date("Y-m-dHi");
+                            if ($user_type == '0') {
+                                if ($registered_by_id == $id || $rid == $id) {
+                                    if ($order_status == '0') {
+                                        echo "Pending<br>";
+                                        if ($allowed_cancel >= $checking_cancel) {
+                        ?>
 
-													[ <a href="redirect.php?<?php
-                        echo "crypted=".$_GET['crypted']."&id=$_GET[id]&page=book_now&user_id=$_GET[user_id]&fac=$_GET[fac]&date_sel=$curent_date&booking_no=$my_booking_no&type=cancle&reason=1";
+											[ <a href="redirect.php?<?php echo "crypted=".$_GET['crypted']."&id=".$_GET['id']."&page=book_now&user_id=".$_GET['user_id']."&fac=".$_GET['fac']."&date_sel=".$curent_date."&booking_no=".$my_booking_no."&type=cancle&reason=1"; ?>" onclick="return validateprompt();">Cancel</a> ]
+
+									<?php
+                                        }
+                                    } else if ($order_status == '1') {
+                                        echo "Approved<br>";
+                                        if ($allowed_cancel >= $checking_cancel) {
+                                    ?>
+										    [ <a href="redirect.php?<?php echo "crypted=".$_GET['crypted']."&id=".$_GET['id']."&page=book_now&user_id=".$_GET['user_id']."&fac=".$_GET['fac']."&date_sel=".$curent_date."&booking_no=".$my_booking_no."&type=cancle&reason=2"; ?>" onclick="return validateprompt();">Cancel</a> ]
+                                    <?php
+                                        }
+                                    } else {
+                                        echo "&nbsp;";
+                                    }
+                                } else
+                                // if booking made by other resident
+                                    if ($order_status == '1' || $order_status == '0') {
+                                        echo "Already Booked";
+                                    }
+                             // if no booking done
+                            else {
+                                echo "&nbsp;";
+                            }
+                        } else if ($user_type == '1') {
+                            if ($order_status == '0') {
+                                echo "Pending<br>";
+                                // if cancel within time limit
+                                if ($allowed_cancel >= $checking_cancel) {
+                        ?>
+                                   [ <a href="redirect.php?<?php echo "crypted=".$_GET['crypted']."&id=".$_GET['id']."&page=book_now&user_id=".$_GET['user_id']."&fac=".$_GET['fac']."&date_sel=".$curent_date."&booking_no=".$my_booking_no."&type=approve";
+?>">Approve</a> ] [ <a href="redirect.php?<?php echo "crypted=".$_GET['crypted']."&id=".$_GET['id']."&page=book_now&user_id=".$_GET['user_id']."&fac=".$_GET['fac']."&date_sel=".$curent_date."&booking_no=".$my_booking_no."&type=cancle&reason=7";
 ?>" onclick="return validateprompt();">Cancel</a> ]
-
-													<?php
-                    }
-                } else if ($order_status == '1') {
-                    echo "Approved<br>";
-                    if ($allowed_cancel >= $checking_cancel) {
-?>
-
-													[ <a href="redirect.php?<?php
-                        echo "crypted=".$_GET['crypted']."&id=$_GET[id]&page=book_now&user_id=$_GET[user_id]&fac=$_GET[fac]&date_sel=$curent_date&booking_no=$my_booking_no&type=cancle&reason=2";
+                            <?php
+                                }// if still not paid but limit has reach
+                            else {
+                            ?> 
+                               [ <a href="redirect.php?<?php echo "crypted=".$_GET['crypted']."&id=".$_GET['id']."&page=book_now&user_id=".$_GET['user_id']."&fac=".$_GET['fac']."&date_sel=".$curent_date."&booking_no=".$my_booking_no."&type=approve";
+?>">Approve</a> ] [ <a href="redirect.php?<?php echo "crypted=".$_GET['crypted']."&id=".$_GET['id']."&page=book_now&user_id=".$_GET['user_id']."&fac=".$_GET['fac']."&date_sel=".$curent_date."&booking_no=".$my_booking_no."&type=cancle&reason=9";
 ?>" onclick="return validateprompt();">Cancel</a> ]
-
-													<?php
-                    }
-                } else {
-                    echo "&nbsp;";
-                }
-            } else
-            // if booking made by other resident
-                if ($order_status == '1' || $order_status == '0') {
-                echo "Already Booked";
-            }
-            // if no booking done
-            else {
-                echo "&nbsp;";
-            }
-        } else if ($user_type == '1') {
-            if ($order_status == '0') {
-                echo "Pending<br>";
-                // if cancel within time limit
-                if ($allowed_cancel >= $checking_cancel) {
-?>
-
-                                                <a href="redirect.php?<?php
-                    echo "crypted=".$_GET['crypted']."&id=$_GET[id]&page=book_now&user_id=$_GET[user_id]&fac=$_GET[fac]&date_sel=$curent_date&booking_no=$my_booking_no&type=approve";
-?>">Approve</a> ] [ <a href="redirect.php?<?php
-                    echo "crypted=".$_GET['crypted']."&id=$_GET[id]&page=book_now&user_id=$_GET[user_id]&fac=$_GET[fac]&date_sel=$curent_date&booking_no=$my_booking_no&type=cancle&reason=7";
-?>" onclick="return validateprompt();">Cancel</a> ]
-
-                                                <?php
-                }
-                // if still not paid but limit has reach
-                else {
-?> 
-
-                                                [ <a href="redirect.php?<?php
-                    echo "crypted=".$_GET['crypted']."&id=$_GET[id]&page=book_now&user_id=$_GET[user_id]&fac=$_GET[fac]&date_sel=$curent_date&booking_no=$my_booking_no&type=approve";
-?>">Approve</a> ] [ <a href="redirect.php?<?php
-                    echo "crypted=".$_GET['crypted']."&id=$_GET[id]&page=book_now&user_id=$_GET[user_id]&fac=$_GET[fac]&date_sel=$curent_date&booking_no=$my_booking_no&type=cancle&reason=9";
-?>" onclick="return validateprompt();">Cancel</a> ]
-
-                                                  <?php
-                }
+                            <?php
+                            }
             } else if ($order_status == '1') {
                 echo "Approved<br>";
                 // can still cancel as long as limit not reach
                 if ($allowed_cancel >= $checking_cancel) {
+                    
 ?>
-
-                                                [ <a href="redirect.php?<?php
-                    echo "crypted=".$_GET['crypted']."&id=$_GET[id]&page=book_now&user_id=$_GET[user_id]&fac=$_GET[fac]&date_sel=$curent_date&booking_no=$my_booking_no&type=cancle&reason=8";
-?>" onclick="return validateprompt();">Cancel</a> ]
-
-                                                <?php
+                [ <a href="redirect.php?<?php echo "crypted=".$_GET['crypted']."&id=".$_GET['id']."&page=book_now&user_id=".$_GET['user_id']."&fac=".$_GET['fac']."&date_sel=".$curent_date."&booking_no=".$my_booking_no."&type=cancle&reason=8"; ?>" onclick="return validateprompt();">Cancel</a> ]
+                <?php
                 }
                 // illegal if more than time limit, but need so that they can release the booking for other residents
                 else {
 ?>
 
-                                                [ <a href="redirect.php?<?php
-                    echo "crypted=".$_GET['crypted']."&id=$_GET[id]&page=book_now&user_id=$_GET[user_id]&fac=$_GET[fac]&date_sel=$curent_date&booking_no=$my_booking_no&type=cancle&reason=9";
-?>" onclick="return validateprompt();">Cancel</a> ]
-
-                                                <?php
+                [ <a href="redirect.php?<?php echo "crypted=".$_GET['crypted']."&id=".$_GET['id']."&page=book_now&user_id=".$_GET['user_id']."&fac=".$_GET['fac']."&date_sel=".$curent_date."&booking_no=".$my_booking_no."&type=cancle&reason=9"; ?>" onclick="return validateprompt();">Cancel</a> ]
+                <?php
                 }
                 $compare_date = date("Y-m-d");
                 // check once approved, to show absent link
@@ -4875,20 +3668,16 @@ if ($_GET['page'] == 'book_now' && $_GET['next'] == 'next') {
                     $breakfromtime = explode(":", $from_time_recorded);
                     $breaktotime   = $breakfromtime[0] . ":30";
                     $breaktime     = date("H:i");
-                    if ($breaktime >= $from_time_recorded && $breaktime <= $to_time_recorded)
-                    //if ($breaktime >= '02:56' && $breaktime <= '03:04')
-                        {
+                    if ($breaktime >= $from_time_recorded && $breaktime <= $to_time_recorded){
+                    //if ($breaktime >= '02:56' && $breaktime <= '03:04')                        
 ?>
+						[ <a href="redirect.php?<?php echo "crypted=".$_GET['crypted']."&id=".$_GET['id']."&page=book_now&user_id=".$_GET['user_id']."&fac=".$_GET['fac']."&date_sel=".$curent_date."&booking_no=".$my_booking_no."&type=cancle&reason=11"; ?>">Absent</a> ]
 
-													[ <a href="redirect.php?<?php
-                        echo "crypted=".$_GET['crypted']."&id=$_GET[id]&page=book_now&user_id=$_GET[user_id]&fac=$_GET[fac]&date_sel=$curent_date&booking_no=$my_booking_no&type=cancle&reason=11";
-?>">Absent</a> ]
-
-													<?php
+                    <?php
                     }
                     //check also for rain on same day if outdoor
-                    $sqloutdoor    = "SELECT type FROM facility WHERE unique_no = '$unique_no'";
-                    $resultoutdoor = mysql_query($sqloutdoor);
+                    $sqloutdoor    = "SELECT type FROM facility WHERE unique_no = '".$unique_no."'";
+                    $resultoutdoor = mysqli_query($conn,$sqloutdoor);
                     $outdoorrow    = mysqli_fetch_array($resultoutdoor);
                     if ($outdoorrow['type'] == 1) {
                         $breakfromtime      = explode(":", $from_time_recorded);
@@ -4903,12 +3692,8 @@ if ($_GET['page'] == 'book_now' && $_GET['next'] == 'next') {
                         if ($breaktime >= $from_time_recorded && $breaktime <= $to_time_recorded) {
                             //echo $breaktime . ">=" . $newbreakfromtime . "&&" . $hreaktime . "<=" . $newbreaktotime;
 ?>
-
-														[ <a href="redirect.php?<?php
-                            echo "crypted=".$_GET['crypted']."&id=$_GET[id]&page=book_now&user_id=$_GET[user_id]&fac=$_GET[fac]&date_sel=$curent_date&booking_no=$my_booking_no&type=cancle&reason=10";
-?>">Rain</a> ]
-
-														<?php
+							[ <a href="redirect.php?<?php echo "crypted=".$_GET['crypted']."&id=".$_GET['id']."&page=book_now&user_id=".$_GET['user_id']."&fac=".$_GET['fac']."&date_sel=".$curent_date."&booking_no=".$my_booking_no."&type=cancle&reason=10"; ?>">Rain</a> ]
+<?php
                         }
                     }
                 }
@@ -4920,25 +3705,16 @@ if ($_GET['page'] == 'book_now' && $_GET['next'] == 'next') {
                 echo "Pending<br>";
                 if ($allowed_cancel >= $checking_cancel) {
 ?>
-
-                                                <a href="redirect.php?<?php
-                    echo "crypted=".$_GET['crypted']."&id=$_GET[id]&page=book_now&user_id=$_GET[user_id]&fac=$_GET[fac]&date_sel=$curent_date&booking_no=$my_booking_no&type=approve";
-?>">Approve</a> ] [ <a href="redirect.php?<?php
-                    echo "crypted=".$_GET['crypted']."&id=$_GET[id]&page=book_now&user_id=$_GET[user_id]&fac=$_GET[fac]&date_sel=$curent_date&booking_no=$my_booking_no&type=cancle&reason=3";
-?>" onclick="return validateprompt();">Cancel</a> ]
-
-                                                <?php
+                    [ <a href="redirect.php?<?php echo "crypted=".$_GET['crypted']."&id=".$_GET['id']."&page=book_now&user_id=".$_GET['user_id']."&fac=".$_GET['fac']."&date_sel=".$curent_date."&booking_no=".$my_booking_no."&type=approve"; ?>">Approve</a> ] 
+                    [ <a href="redirect.php?<?php echo "crypted=".$_GET['crypted']."&id=".$_GET['id']."&page=book_now&user_id=".$_GET['user_id']."&fac=".$_GET['fac']."&date_sel=".$curent_date."&booking_no=".$my_booking_no."&type=cancle&reason=3";?>" onclick="return validateprompt();">Cancel</a> ]
+                <?php
                 }
             } else if ($order_status == '1') {
                 echo "Approved<br>";
                 if ($allowed_cancel >= $checking_cancel) {
 ?>
-
-                                                [ <a href="redirect.php?<?php
-                    echo "crypted=".$_GET['crypted']."&id=$_GET[id]&page=book_now&user_id=$_GET[user_id]&fac=$_GET[fac]&date_sel=$curent_date&booking_no=$my_booking_no&type=cancle&reason=4";
-?>" onclick="return validateprompt();">Cancel</a> ]
-
-                                                <?php
+                    [ <a href="redirect.php?<?php echo "crypted=".$_GET['crypted']."&id=".$_GET['id']."&page=book_now&user_id=".$_GET['user_id']."&fac=".$_GET['fac']."&date_sel=".$curent_date."&booking_no=".$my_booking_no."&type=cancle&reason=4"; ?>" onclick="return validateprompt();">Cancel</a> ]
+                <?php
                 }
                 $compare_date = date("Y-m-d");
                 // check once approved, to show absent link
@@ -4946,20 +3722,15 @@ if ($_GET['page'] == 'book_now' && $_GET['next'] == 'next') {
                     $breakfromtime = explode(":", $from_time_recorded);
                     $breaktotime   = $breakfromtime[0] . ":30";
                     $breaktime     = date("H:i");
-                    if ($breaktime >= $from_time_recorded && $breaktime <= $to_time_recorded)
+                    if ($breaktime >= $from_time_recorded && $breaktime <= $to_time_recorded){
                     //if ($breaktime >= '02:56' && $breaktime <= '03:04')
-                        {
 ?>
-
-													[ <a href="redirect.php?<?php
-                        echo "crypted=".$_GET['crypted']."&id=$_GET[id]&page=book_now&user_id=$_GET[user_id]&fac=$_GET[fac]&date_sel=$curent_date&booking_no=$my_booking_no&type=cancle&reason=6";
-?>">Absent</a> ]
-
-													<?php
+                        [ <a href="redirect.php?<?php echo "crypted=".$_GET['crypted']."&id=".$_GET['id']."&page=book_now&user_id=".$_GET['user_id']."&fac=".$_GET['fac']."&date_sel=".$curent_date."&booking_no=".$my_booking_no."&type=cancle&reason=6"; ?>">Absent</a> ]
+                    <?php
                     }
                     //check also for rain on same day if outdoor
-                    $sqloutdoor    = "SELECT type FROM facility WHERE unique_no = '$unique_no'";
-                    $resultoutdoor = mysql_query($sqloutdoor);
+                    $sqloutdoor    = "SELECT type FROM facility WHERE unique_no = '".$unique_no."'";
+                    $resultoutdoor = mysqli_query($conn,$sqloutdoor);
                     $outdoorrow    = mysqli_fetch_array($resultoutdoor);
                     if ($outdoorrow['type'] == 1) {
                         $breakfromtime      = explode(":", $from_time_recorded);
@@ -4976,12 +3747,8 @@ if ($_GET['page'] == 'book_now' && $_GET['next'] == 'next') {
                             {
                             echo $breaktime . ">=" . $newbreakfromtime . "&&" . $breaktime . "<=" . $newbreaktotime;
 ?>
-
-														[ <a href="redirect.php?<?php
-                            echo "crypted=".$_GET['crypted']."&id=$_GET[id]&page=book_now&user_id=$_GET[user_id]&fac=$_GET[fac]&date_sel=$curent_date&booking_no=$my_booking_no&type=cancle&reason=5";
-?>">Rain</a> ]
-
-														<?php
+					            [ <a href="redirect.php?<?php echo "crypted=".$_GET['crypted']."&id=".$_GET['id']."&page=book_now&user_id=".$_GET['user_id']."&fac=".$_GET['fac']."&date_sel=".$curent_date."&booking_no=".$my_booking_no."&type=cancle&reason=5"; ?>">Rain</a> ]
+                        <?php
                         }
                     }
                 }
@@ -4990,202 +3757,151 @@ if ($_GET['page'] == 'book_now' && $_GET['next'] == 'next') {
             }
         }
 ?>						</td>
-
                         	<?php
         if ($user_type == '1') {
 ?>
-
                         		<td valign="top" style="border-left:1px solid #333333;border-top:1px solid #333333;"> 
-
                           		<div align="center"> 
-
                             	<?php
-            if ($order_status == '0' or $order_status == '1' and $amount_recived == '') {
-                //echo "<img src=images/dollar_icon_gray.jpg>";
-                echo "&nbsp;";
-            } elseif (($order_status == '0' || $order_status == '1') && $user_type == 1) {
-                echo "<a href=javascript:openwindow('receipt.php?id=$my_booking_no')><strong>View</strong></a>";
-            } else {
-                echo "&nbsp;";
-            }
-            $show         = '';
-            $order_status = "";
+                                    if ($order_status == '0' or $order_status == '1' and $amount_recived == '') {
+                                        //echo "<img src=images/dollar_icon_gray.jpg>";
+                                        echo "&nbsp;";
+                                    } elseif (($order_status == '0' || $order_status == '1') && $user_type == 1) {
+                                        echo "<a href=javascript:openwindow('receipt.php?id=".$my_booking_no."')><strong>View</strong></a>";
+                                    } else {
+                                        echo "&nbsp;";
+                                    }
+                                    $show         = '';
+                                    $order_status = "";
 ?>
-
-                          		</div>                                </td>
-
+                          		</div>                                
+                            </td>
                                 <?php
         }
 ?>
 
                       		</tr>
-
                             <?php
         $sr++;
     }
 ?>
 
                          <tr> 
-
                 <td colspan="9" style="border-top:1px solid #333333;"><label> 
-
                 <?php
-    if ($count_dont_sel == $sr) {
-        $dis = "disabled=disabled";
-    }
-    $date_sel = date("d-m-Y");
-?>
-
-                <input type="hidden" name="date_sel" value="<?php
-    echo $date_sel;
-?>">
-
-                <input type="submit" name="Submit4" value="Book Now"  <?php
-    echo $dis;
-?>>
-
-                </label>                </td>
+                    if ($count_dont_sel == $sr) {
+                        $dis = "disabled=disabled";
+                    }
+                    $date_sel = date("d-m-Y");
+                ?>
+                    <input type="hidden" name="date_sel" value="<?php echo $date_sel; ?>">
+                    <input type="submit" name="Submit4" value="Book Now"  <?php echo $dis; ?>>
+                </label>
+                </td>
 
                 </tr>
-
 							</table>
-
                             </td>
-
                             </tr>
-
-                            </form>
-
+                    </form>
               </table>
 
 						<?php
-} else if ($_GET[page] == 'book_now' && $_GET['next'] == '') {
+} else if ($page == 'book_now' && $getNext == '') {
     $curent_date = date('d-m-Y');
-    if ($_GET[st] == '1') {
-        echo "<div align=center>Booking placed </div>";
+    if(isset($_GET['st'])){
+        if ($_GET['st'] == '1') {
+            echo "<div align=center>Booking placed </div>";
+        }
     }
+    
 ?>
 
-            				<form name="form1" id="frm_placeorder" method="post" action="booking.php?crypted=<?php
-    echo $_GET[crypted];
-?>&id=<?php
-    echo $_GET[id];
-?>&page=<?php
-    echo $_GET[page];
-?>&user_id=<?php
-    echo $_GET[user_id];
-?>&fac=<?php
-    echo $_GET[fac];
-?>&newbook=0">
-
-                            <table width="100%" border="0" align="center" class="sk_bok_green">
-
+            <form name="form1" id="frm_placeorder" method="post" action="booking.php?crypted=<?php echo $_GET['crypted'].'&id='.$_GET['id'].'&page='.$_GET['page'].'&user_id='.$_GET['user_id'].'&fac='.$_GET['fac'].'&newbook=0'; ?>">
+                <table width="100%" border="0" align="center" class="sk_bok_green">
+                    <tr>
+                        <td style="padding-top: 5px; padding-bottom: 5px;" colspan="10">
+                            <table border="0" cellpadding="0" cellspacing="0" width="100%">
                             <tr>
-
-                       		  <td style="padding-top: 5px; padding-bottom: 5px;" colspan="10">
-
-                              <table border="0" cellpadding="0" cellspacing="0" width="100%">
-
-                              <tr>
-
-                              <td align="left" width="85%" bgcolor="#994947" colspan="10">
-
-                              <span class="fontitle"><strong> &nbsp;Place Booking</strong></span>                              </td>
-
-                              <tr>
-
-                              <td align="left" width="85%">
-
-                              <p><font color="#FF0000" size="2">Note:</font><font size="2"><br>
-
-                              Please refer to the <a href="bylaws.php?crypted=<?php
-    echo $_GET['crypted'];
-?>">By-Laws</a> for regulations and booking restrictions.</font><br>
-
-                            	</p>                              </td>
-
-                              </tr>
-
-                              <tr>
-
-                              <td align="left" width="15%">
-
+                                <td align="left" width="85%" bgcolor="#994947" colspan="10">
+                                    <span class="fontitle"><strong> &nbsp;Place Booking</strong></span>
+                                </td>
+                            <tr>
+                                <td align="left" width="85%">
+                                    <p><font color="#FF0000" size="2">Note:</font><font size="2"><br>
+                                    Please refer to the <a href="bylaws.php?crypted=<?php echo $_GET['crypted']; ?>">By-Laws</a> for regulations and booking restrictions.</font><br>
+                                	</p>                              
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="left" width="15%">
                              <!-- <span class="fontitle"></span>-->
 
-                             	<?php
+<?php
     /*Code Added By Robin on 23-09-2013*/
     if ($user_type == 0) {
 ?>
-
                                <br/>  
-
                               	<span style="line-height:20px;color:#FF0000;">
-
                                     <strong> Booking less than 3 days is not allowed for the facilities BBQ Pit,Entertainment Room,
-
                                     North Function Room,South Function Room. <br/>Please proceed to Management Office for walk-in booking.</strong>
-
                                 </span>   
-
                                 <br/>  
                                <em><strong>Note:Please choose Facility and  Date to display Booking Slots automatically.</strong></em>
-
                                 <?php
     }
 ?>                         
-
 								</td>
+                            </tr>
 
-                              </tr>
+                            </table>
+                        </td>
+                    </tr>
 
-                              </table>                              </td>
-
-                      		</tr>
-
-                            <tr>
-
-                        		<td colspan="10"><?php
-    $query  = "select * from facility where sno = '$_GET[fac]' limit 1";
+                    <tr>
+                        <td colspan="10">
+                            <?php
+    $query  = "SELECT * FROM facility WHERE sno = '".$_GET['fac']."' LIMIT 1";
     $result = mysqli_query($conn,$query);
     while ($row = mysqli_fetch_array($result)) {
-        $open_from     = $row[open_from];
-        $os            = $row[os];
-        $hours         = $row[hours];
-        $indooroutdoor = $row[type];
-        $unique_no     = $row[unique_no];
-        $deposite      = $row[deposite];
-        $auto_apporve  = $row[auto_apporve];
+        $open_from     = $row['open_from'];
+        $os            = $row['os'];
+        $hours         = $row['hours'];
+        $indooroutdoor = $row['type'];
+        $unique_no     = $row['unique_no'];
+        $deposite      = $row['deposite'];
+        $auto_apporve  = $row['auto_apporve'];
         if ($_SESSION['user_type'] == '1') {
             $open_from = '10000';
         }
-        $closed_at            = $row[closed_at];
-        $auto_close_date      = $row[auto_close_date];
-        $messageclosed        = $row[message];
-        $facility_closed_from = $row[from_date];
-        $facility_closed_to   = $row[to_date];
-        $max_booking_per_day  = $row[max_booking_per_day];
-        $rule1_1              = $row[rule1_1];
-        $rule1_2              = $row[rule1_2];
-        $rule1_3              = $row[rule1_3];
-        $relation_rule_1      = $row[relation_rule_1];
-        $rule2_1              = $row[rule2_1];
-        $rule2_2              = $row[rule2_2];
-        $rule2_3              = $row[rule2_3];
-        $relation_rule_2      = $row[relation_rule_2];
-        $rule3_1              = $row[rule3_1];
-        $rule3_2              = $row[rule3_2];
-        $rule3_3              = $row[rule3_3];
+        $closed_at            = $row['closed_at'];
+        $auto_close_date      = $row['auto_close_date'];
+        $messageclosed        = $row['message'];
+        $facility_closed_from = $row['from_date'];
+        $facility_closed_to   = $row['to_date'];
+        $max_booking_per_day  = $row['max_booking_per_day'];
+        $rule1_1              = $row['rule1_1'];
+        $rule1_2              = $row['rule1_2'];
+        $rule1_3              = $row['rule1_3'];
+        $relation_rule_1      = $row['relation_rule_1'];
+        $rule2_1              = $row['rule2_1'];
+        $rule2_2              = $row['rule2_2'];
+        $rule2_3              = $row['rule2_3'];
+        $relation_rule_2      = $row['relation_rule_2'];
+        $rule3_1              = $row['rule3_1'];
+        $rule3_2              = $row['rule3_2'];
+        $rule3_3              = $row['rule3_3'];
         /**Rules Added for Tennis By Vasanth**/
-        $relation_rule_4      = $row[relation_rule_4];
-        $rule4_1              = $row[rule4_1];
-        $rule4_2              = $row[rule4_2];
-        $rule4_3              = $row[rule4_3];
-        $rule5_1              = $row[rule5_1];
-        $rule5_2              = $row[rule5_2];
-        $rule5_3              = $row[rule5_3];
+        // $relation_rule_4      = $row['relation_rule_4'];
+        // $rule4_1              = $row['rule4_1'];
+        // $rule4_2              = $row['rule4_2'];
+        // $rule4_3              = $row['rule4_3'];
+        // $rule5_1              = $row['rule5_1'];
+        // $rule5_2              = $row['rule5_2'];
+        // $rule5_3              = $row['rule5_3'];
         /**End of Code**/
-        $closedFrom           = $row[from_date];
-        $closedTo             = $row[to_date];
+        $closedFrom           = $row['from_date'];
+        $closedTo             = $row['to_date'];
     }
     // to check if facility has peak hour or not
     if ($rule1_3 == '0' || $rule2_3 == '0' || $rule3_3 == '0') {
@@ -5193,10 +3909,10 @@ if ($_GET['page'] == 'book_now' && $_GET['next'] == 'next') {
     } else {
         $display_legend = 0;
     }
-    if ($_POST[date_sel] != '') {
+    if (isset($_POST['date_sel']) != '') {
         //print_r($_POST);
-        if (isset($_POST[Submit4])) {
-            $date_explode  = explode('-', $_POST[date_sel]);
+        if (isset($_POST['Submit4'])) {
+            $date_explode  = explode('-', $_POST['date_sel']);
             // since cant change the date_of_booking using normal date functions, have to get the day, month and year individually because the date of booking is referring to the date of the booking, not date of entry.
             //$day = $date_explode[0];
             //$month = $date_explode[1];
@@ -5204,7 +3920,7 @@ if ($_GET['page'] == 'book_now' && $_GET['next'] == 'next') {
             $day           = date("d");
             $month         = date("m");
             $year          = date("Y");
-            $time_explode  = explode('-', $_POST[time_fram]);
+            $time_explode  = explode('-', $_POST['time_fram']);
             $from_time_sel = "$time_explode[0]";
             $peak_time_exp = explode('&', $time_explode[1]);
             $to_time_sel   = "$peak_time_exp[0]";
@@ -5226,9 +3942,9 @@ if ($_GET['page'] == 'book_now' && $_GET['next'] == 'next') {
             } else {
                 $payment_status = "0";
             }
-            $checkdating  = explode("-", $_POST[date_sel]);
+            $checkdating  = explode("-", $_POST['date_sel']);
             $checkdatenow = $checkdating[2] . "-" . $checkdating[1] . "-" . $checkdating[0];
-            $query        = "select * from my_booking where unique_no = '$unique_no' and uid ='$_GET[user_id]' and status !='2' and from_time ='$from_time_sel' and to_time ='$to_time_sel' and date_of_booking ='$checkdatenow'";
+            $query        = "SELECT * FROM my_booking WHERE unique_no = '".$unique_no."' and uid ='".$_GET['user_id']."' and status !='2' and from_time ='".$from_time_sel."' AND to_time ='".$to_time_sel."' AND date_of_booking ='".$checkdatenow."'";
             $result       = mysqli_query($conn,$query);
             $is_there     = mysqli_num_rows($result);
             if ($is_there == '0') {
@@ -5245,9 +3961,9 @@ if ($_GET['page'] == 'book_now' && $_GET['next'] == 'next') {
                     $new_unique_no = '1294727326';
                     $whatfacility  = 'P';
                 }
-                $checkdating  = explode("-", $_POST[date_sel]);
+                $checkdating  = explode("-", $_POST['date_sel']);
                 $checkdatenow = $checkdating[2] . "-" . $checkdating[1] . "-" . $checkdating[0];
-                $query        = "select * from my_booking where unique_no = '$new_unique_no' and uid ='$_GET[user_id]' and status ='1' and from_time ='$from_time_sel' and to_time ='$to_time_sel' and date_of_booking ='$checkdatenow'";
+                $query        = "SELECT * FROM my_booking WHERE unique_no = '".$new_unique_no."' and uid ='".$_GET['user_id']."' and status ='1' and from_time ='".$from_time_sel."' and to_time ='".$to_time_sel."' and date_of_booking ='".$checkdatenow."'";
                 $result       = mysqli_query($conn,$query);
                 $is_there     = mysqli_num_rows($result);
                 if ($is_there != '0' && $user_type != 1) {
@@ -5255,12 +3971,12 @@ if ($_GET['page'] == 'book_now' && $_GET['next'] == 'next') {
                         //echo "here";
                         echo '<script language=JavaScript>';
                         echo 'alert("Booking of 2 courts for the same hour is not permitted!")';
-                        //echo 'self.location.href="booking.php?crypted=$_GET[crypted]&page=book_now&user_id=$_GET[user_id]&fac=$_GET[fac]&id=$_GET[id]&newbook=$_GET[newbook]";';
+                        //echo 'self.location.href="booking.php?crypted=$_GET[crypted]&page=book_now&user_id=".$_GET['user_id']."&fac=$_GET[fac]&id=$_GET[id]&newbook=$_GET[newbook]";';
                         echo '</script>';
                     } else if ($whatfacility == 'P') {
                         echo '<script language=JavaScript>';
                         echo 'alert("Booking of 2 Pool Tables for the same hour is not permitted!")';
-                        //echo 'self.location.href="booking.php?crypted=$_GET[crypted]&page=book_now&user_id=$_GET[user_id]&fac=$_GET[fac]&id=$_GET[id]&newbook=$_GET[newbook]";';
+                        //echo 'self.location.href="booking.php?crypted=$_GET[crypted]&page=book_now&user_id=".$_GET['user_id']."&fac=$_GET[fac]&id=$_GET[id]&newbook=$_GET[newbook]";';
                         echo '</script>';
                     }
                 } else {
@@ -5279,9 +3995,9 @@ if ($_GET['page'] == 'book_now' && $_GET['next'] == 'next') {
                     $dateUPPERlimit1 = $lastday . "-" . $lastmonth . "-" . $lastyear;
                     $dateLOWERlimit2 = "01-" . $nextmonth . "-" . $nextyear;
                     $dateUPPERlimit2 = $nextyear . "-" . $nextmonth . "-" . $nextday;
-                    //$sql_check = "SELECT * FROM my_booking WHERE unique_no = '1193718731' AND status != '2' AND ((date_of_booking >= '$dateLOWERlimit1' AND date_of_booking <= '$dateUPPERlimit2')) AND uid = '$_GET[user_id]'";
-                    $sql_check       = "SELECT * FROM my_booking WHERE unique_no = '1193718731' AND ((status = '1') OR (status = '0')) AND uid = '$_GET[user_id]'";
-                    $result_check    = mysql_query($sql_check);
+                    //$sql_check = "SELECT * FROM my_booking WHERE unique_no = '1193718731' AND status != '2' AND ((date_of_booking >= '$dateLOWERlimit1' AND date_of_booking <= '$dateUPPERlimit2')) AND uid = '".$_GET['user_id']."'";
+                    $sql_check       = "SELECT * FROM my_booking WHERE unique_no = '1193718731' AND ((status = '1') OR (status = '0')) AND uid = '".$_GET['user_id']."'";
+                    $result_check    = mysqli_query($conn,$sql_check);
                     $num_check       = mysqli_num_rows($result_check);
                     if ($num_check != 0) {
                         while ($row_check = mysqli_fetch_array($result_check)) {
@@ -5291,8 +4007,8 @@ if ($_GET['page'] == 'book_now' && $_GET['next'] == 'next') {
                             $year         = $date_taking[0];
                             $tochecklower = $year . "-" . $month . "-" . $day;
                             if ($tochecklower >= $dateLOWERlimit1 && $tochecklower <= $dateUPPERlimit2) {
-                                $sql_holiday    = "SELECT * FROM calender_event WHERE (heading = 'PUBLIC HOLIDAY' OR heading = 'PUBLIC HOLIDAY EVE') AND ((day = '$day' AND month_no = '$month' AND year = '$year'))";
-                                $result_holiday = mysql_query($sql_holiday);
+                                $sql_holiday    = "SELECT * FROM calender_event WHERE (heading = 'PUBLIC HOLIDAY' OR heading = 'PUBLIC HOLIDAY EVE') AND ((day = '".$day."' AND month_no = '".$month."' AND year = '".$year."'))";
+                                $result_holiday = mysqli_query($conn,$sql_holiday);
                                 $num_rows       = mysqli_num_rows($result_holiday);
                                 if ($num_rows != 0) {
                                     $row_holiday = mysqli_fetch_array($result_holiday);
@@ -5315,14 +4031,14 @@ if ($_GET['page'] == 'book_now' && $_GET['next'] == 'next') {
                         }
                     } // second check for the date of holidays or eve holidays
                     // 310108 : added to check to make sure only weekends public holidays applicable
-                    $checknew            = explode("-", $_POST[date_sel]);
+                    $checknew            = explode("-", $_POST['date_sel']);
                     $monthnow            = $checknew[1];
                     $daynow              = $checknew[0];
                     $yearnow             = $checknew[2];
                     $rangenow            = mktime(0, 0, 0, $monthnow, $daynow, $yearnow);
                     // also check if the date selected is eve or public  holiday 
-                    $sql_holidaycheck    = "SELECT * FROM calender_event WHERE (heading = 'PUBLIC HOLIDAY' OR heading = 'PUBLIC HOLIDAY EVE') AND day = '$daynow' AND month_no = '$monthnow' AND year = '$yearnow'";
-                    $result_holidaycheck = mysql_query($sql_holidaycheck);
+                    $sql_holidaycheck    = "SELECT * FROM calender_event WHERE (heading = 'PUBLIC HOLIDAY' OR heading = 'PUBLIC HOLIDAY EVE') AND day = '".$daynow."' AND month_no = '".$monthnow."' AND year = '".$yearnow."'";
+                    $result_holidaycheck = mysqli_query($conn,$sql_holidaycheck);
                     $num_rowscheck       = mysqli_num_rows($result_holidaycheck);
                     if ($num_rowscheck != 0) {
                         $yesholiday = 1;
@@ -5336,50 +4052,37 @@ if ($_GET['page'] == 'book_now' && $_GET['next'] == 'next') {
                         echo 'alert("You have reached a maximum of 2
 bookings for Fridays, Saturdays, Sundays, Eve of Public Holiday and Public
 Holiday. You can make the next booking 2 months after your first booking.")';
-                        //echo 'self.location.href="booking.php?crypted=$_GET[crypted]&page=book_now&user_id=$_GET[user_id]&fac=$_GET[fac]&id=$_GET[id]&newbook=$_GET[newbook]";';
+                        //echo 'self.location.href="booking.php?crypted=$_GET[crypted]&page=book_now&user_id=".$_GET['user_id']."&fac=$_GET[fac]&id=$_GET[id]&newbook=$_GET[newbook]";';
                         echo '</script>';
                     } else {
                         //
                         $time_of_booking      = date('H:i:s');
                         //$date_of_booking = date('d-m-Y');
                         // date of booking was taken as date selected. Not sure why when he has exploded the date selected and put into correct column. So, in this case, $date_0f_booking is derived used date functions and inserted into my_booking (ignore this because it doesnt work)
-                        //$query = "insert into my_booking (uid,unique_no,status,payment_status,date_of_booking,time_of_booking,day,month,year,from_time,to_time,time_type)values('$_GET[user_id]','$unique_no','$status','$payment_status','$date_of_booking','$time_of_booking','$day','$month','$year','$from_time_sel','$to_time_sel','$time_type')  ";
+                        //$query = "insert into my_booking (uid,unique_no,status,payment_status,date_of_booking,time_of_booking,day,month,year,from_time,to_time,time_type)values('".$_GET['user_id']."','".$unique_no."','$status','$payment_status','$date_of_booking','$time_of_booking','$day','$month','$year','$from_time_sel','$to_time_sel','$time_type')  ";
                         $spot                 = time() + (1 * $closed_at * 60 * 60);
                         $lapsed_date          = date("YmdHis", $spot);
                         /*Code Added By Robin on 05-09-2013*/
                         /*if($user_type == 0){
                         
                         $_fac_id	=	(int)$_GET['fac'];	
-                        
                         $sql=	"SELECT num_days FROM `advance_booking`  WHERE facility_id='$_fac_id'";
-                        
-                        $res_adv	=	mysql_query($sql); 
-                        
+                        $res_adv	=	mysqli_query($conn, $sql); 
                         $row_adv	=	mysqli_fetch_array($res_adv);
-                        
                         $adv_book_days	=	$row_adv['num_days'];	
-                        
                         //Adding advance booking days
                         
                         if(!empty($adv_book_days)){
-                        
-                        
-                        
                         $curent_date_1	=	date("d-m-Y",strtotime("+". $adv_book_days.' days'));
-                        
                         if(strtotime($_POST['date_sel']) <= strtotime($curent_date_1)){ 
-                        
                         $_POST['date_sel']	=	$curent_date_1;		
-                        
                         }
-                        
-                        
                         
                         }
                         
                         }*/
                         /*Code Added By Robin on 05-09-2013*/
-                        $date_choosen         = explode("-", $_POST[date_sel]);
+                        $date_choosen         = explode("-", $_POST['date_sel']);
                         $date_facility_booked = $date_choosen[2] . "-" . $date_choosen[1] . "-" . $date_choosen[0];
                         // 3 days before date of booking
                         //echo $closed_at;
@@ -5387,6 +4090,7 @@ Holiday. You can make the next booking 2 months after your first booking.")';
                         $breakpart            = explode(":", $from_time_sel);
                         $firstpart            = $breakpart[0];
                         //echo $firstpart[1];
+                        
                         if ($firstpart[0] == 0) {
                             $firstpart[1] = $firstpart[1] - 1;
                             $breakpart1   = "0" . $firstpart[1] . "00";
@@ -5421,14 +4125,14 @@ Holiday. You can make the next booking 2 months after your first booking.")';
                         //exit;
                         // 04 Aug 2009 - added to check first if slots have been taken or not
                         $nogo             = 0;
-                        $checkingsql      = "SELECT * FROM my_booking WHERE date_of_booking = '$date_facility_booked' AND unique_no = '$unique_no' AND from_time = '$from_time_sel' AND to_time = '$to_time_sel' AND (status = 0 OR status = 1)";
-                        $resultchecking   = mysql_query($checkingsql);
+                        $checkingsql      = "SELECT * FROM my_booking WHERE date_of_booking = '$date_facility_booked' AND unique_no = '".$unique_no."' AND from_time = '$from_time_sel' AND to_time = '$to_time_sel' AND (status = 0 OR status = 1)";
+                        $resultchecking   = mysqli_query($conn,$checkingsql);
                         $num_rows         = mysqli_num_rows($resultchecking);
                         if ($num_rows > 0) {
                             $nogo = 1;
                             echo '<script language=JavaScript>';
                             echo 'alert("The slot chosen have been booked by another resident. Please choose a new available slot.")';
-                            //echo 'self.location.href="booking.php?crypted=$_GET[crypted]&page=book_now&user_id=$_GET[user_id]&fac=$_GET[fac]&id=$_GET[id]&newbook=$_GET[newbook]";';
+                            //echo 'self.location.href="booking.php?crypted=$_GET[crypted]&page=book_now&user_id=".$_GET['user_id']."&fac=$_GET[fac]&id=$_GET[id]&newbook=$_GET[newbook]";';
                             echo '</script>';
                         }
                         $tennisCourt1         = '12';
@@ -5439,7 +4143,7 @@ Holiday. You can make the next booking 2 months after your first booking.")';
                         $get_dayz             = $date_choosen[0];
                         if (($user_type != '1') && ($tennisCourt1 || $tennisCourt2)) {
                             $tenniz       = "SELECT date_of_booking FROM `my_booking` WHERE uid = '$userid' AND status < '2' AND DAY(date_of_booking) = '$get_dayz' AND YEAR(date_of_booking) = '$get_yearz' AND MONTH(date_of_booking) = '$get_monthz' AND unique_no IN (1193717225,1198430241)";
-                            $res_tenniz   = mysql_query($tenniz);
+                            $res_tenniz   = mysqli_query($conn,$tenniz);
                             $tennisRules1 = mysqli_num_rows($res_tenniz);
                         }
                         // 04 Aug 2009 - end
@@ -5451,16 +4155,16 @@ Holiday. You can make the next booking 2 months after your first booking.")';
                             } else {
                                 //if($_SERVER['REMOTE_ADDR'] == '122.164.244.253'){ echo "Hello"; exit;}
                                 $checkingsql    = "SELECT * FROM my_booking WHERE date_of_booking = '$date_facility_booked' AND unique_no = '$unique_no' AND from_time = '$from_time_sel' AND to_time = '$to_time_sel' AND (status = 0 OR status = 1)";
-                                $resultchecking = mysql_query($checkingsql);
+                                $resultchecking = mysqli_query($conn,$checkingsql);
                                 $num_rows       = mysqli_num_rows($resultchecking);
                                 if ($num_rows > 0) {
                                     $nogo = 1;
                                     echo '<script language=JavaScript>';
                                     echo 'alert("The slot chosen have been booked by another resident. Please choose a new available slot.")';
-                                    //echo 'self.location.href="booking.php?crypted=$_GET[crypted]&page=book_now&user_id=$_GET[user_id]&fac=$_GET[fac]&id=$_GET[id]&newbook=$_GET[newbook]";';
+                                    //echo 'self.location.href="booking.php?crypted=$_GET[crypted]&page=book_now&user_id=".$_GET['user_id']."&fac=$_GET[fac]&id=$_GET[id]&newbook=$_GET[newbook]";';
                                     echo '</script>';
                                 } else {
-                                    $query = "insert into my_booking (uid,rid,unique_no,status,payment_status,date_of_booking,time_of_booking,day,month,year,from_time,to_time,time_type,lapsed_date,allowed_cancel)values('$_GET[user_id]','$id','$unique_no','$status','$payment_status','$date_facility_booked','$time_of_booking','$daynow','$monthnow','$yearnow','$from_time_sel','$to_time_sel','$time_type','$lapsed_date','$allowed_cancel')  ";
+                                    $query = "INSERT INTO my_booking (uid,rid,unique_no,status,payment_status,date_of_booking,time_of_booking,day,month,year,from_time,to_time,time_type,lapsed_date,allowed_cancel)VALUES('".$_GET['user_id']."','".$id."','".$unique_no."','".$status."','".$payment_status."','".$date_facility_booked."','".$time_of_booking."','".$daynow."','".$monthnow."','".$yearnow."','".$from_time_sel."','".$to_time_sel."','".$time_type."','".$lapsed_date."','".$allowed_cancel."')  ";
                                     mysqli_query($conn,$query);
                                 }
                             }
@@ -5476,12 +4180,12 @@ Holiday. You can make the next booking 2 months after your first booking.")';
                             if ($auto_apporve != 1) {
                                 echo '<script language=JavaScript>';
                                 echo 'alert("A new booking is successfully registered. Kindly refer to the booking table for details. A deposit of $200 is required when making a booking. Residents using e-bookings will have to make payment at Management Office ' . $paymentdue . 'failing which the booking will be cancelled and the facility will be open for booking again.")';
-                                //echo 'self.location.href="booking.php?crypted=$_GET[crypted]&page=book_now&user_id=$_GET[user_id]&fac=$_GET[fac]&id=$_GET[id]&newbook=$_GET[newbook]";';
+                                //echo 'self.location.href="booking.php?crypted=$_GET[crypted]&page=book_now&user_id=".$_GET['user_id']."&fac=$_GET[fac]&id=$_GET[id]&newbook=$_GET[newbook]";';
                                 echo '</script>';
                             } else {
                                 echo '<script language=JavaScript>';
                                 echo 'alert("A new booking is successfully registered. Kindly refer to the booking table for details.")';
-                                //echo 'self.location.href="booking.php?crypted=$_GET[crypted]&page=book_now&user_id=$_GET[user_id]&fac=$_GET[fac]&id=$_GET[id]&newbook=$_GET[newbook]";';
+                                //echo 'self.location.href="booking.php?crypted=$_GET[crypted]&page=book_now&user_id=".$_GET['user_id']."&fac=$_GET[fac]&id=$_GET[id]&newbook=$_GET[newbook]";';
                                 echo '</script>';
                             }
                         }
@@ -5490,7 +4194,7 @@ Holiday. You can make the next booking 2 months after your first booking.")';
             }
         }
         //start Date
-        $exp_date             = $_POST[date_sel];
+        $exp_date             = $_POST['date_sel'];
         $curent_date          = $exp_date;
         //start of day funcation
         $exp1_date            = explode("-", $exp_date);
@@ -5534,122 +4238,83 @@ Holiday. You can make the next booking 2 months after your first booking.")';
         $error = 1;
     }
 ?>                                </td>
-
                       		</tr>
-
                       		<tr>
-
                             <?php
     if ($user_type == '0') {
 ?>
 
-                              <td colspan="10">
-
-                              <table width="100%" cellpadding="0" cellspacing="0" border="0">
-
+                            <td colspan="10">
+                            <table width="100%" cellpadding="0" cellspacing="0" border="0">
                               <tr>
-
-                              <td width="11%" align="left">
-
-                           	  <input type="hidden" name="menu1" value="<?php
-        echo $_GET[user_id];
-?>">								                            Select Facilites :                           	    </td>
-
-                                <td width="24%"><?php
-        if ($_GET[user_id] == '') {
-            $dis = "disabled";
-            $msg = "Please Select User";
-        } else {
-            $msg = "Select Facilites";
-            $dis = "";
-        }
-?>
-
-                            	<select name="menu2" onChange="MM_jumpMenu('parent',this,0)" <?php
-        echo $dis;
-?>>
-
-                              		<option value="booking.php?crypted=<?php
-        echo "".$_GET['crypted']."&id=$_GET[id]&page=book_now&user_id=$_GET[user_id]";
-?>"><?php
-        echo $msg;
-?></option>
-
+                                <td width="11%" align="left">
+                           	        <input type="hidden" name="menu1" value="<?php echo $_GET['user_id']; ?>"> Select Facilites : </td>
+                                <td width="24%">
+                                    <?php
+                                        if ($_GET['user_id'] == '') {
+                                            $dis = "disabled";
+                                            $msg = "Please Select User";
+                                        } else {
+                                            $msg = "Select Facilites";
+                                            $dis = "";
+                                        }
+                                    ?>
+                            	<select name="menu2" onChange="MM_jumpMenu('parent',this,0)" <?php echo $dis; ?>>
+                              		<option value="booking.php?crypted=<?php echo $_GET['crypted'].'&id='.$_GET['id'].'&page=book_now&user_id='.$_GET['user_id']; ?>"><?php echo $msg; ?></option>
                               		<?php
-        $query  = "select * from facility where enable ='1' ORDER BY name ASC";
-        $result = mysqli_query($conn,$query);
-        while ($row = mysqli_fetch_array($result)) {
-            if ($_GET[fac] == $row[sno]) {
-                $sel_fac = "selected = selected";
-            } else {
-                $sel_fac = "";
-            }
-            echo " <option value=booking.php?crypted=".$_GET['crypted']."&id=$_GET[id]&page=book_now&user_id=$_GET[user_id]&fac=$row[sno] $sel_fac>$row[name]</option>";
-        }
-?>
-
-                       		  </select></td>
-
+                                        $query  = "SELECT * FROM facility WHERE enable ='1' ORDER BY name ASC";
+                                        $result = mysqli_query($conn,$query);
+                                        while ($row = mysqli_fetch_array($result)) {
+                                            if ($_GET['fac'] == $row['sno']) {
+                                                $sel_fac = "selected = selected";
+                                            } else {
+                                                $sel_fac = "";
+                                            }
+                                            echo '<option value="booking.php?crypted='.$_GET['crypted'].'&id='.$_GET['id'].'&page=book_now&user_id='.$_GET['user_id'].'&fac='.$row['sno'].' '.$sel_fac.'>'.$row['name'].'</option>';
+                                        }
+                                    ?>
+                       		    </select></td>
                                 <td width="5%">Date :</td>
-
                                 <td width="22%" align="left">
-
                                 <?php
         /*Code added to display retrieve Booking period*/
         /*
         $_fac_id	=	(int)$_GET['fac'];	
-        
         $sql=	"SELECT num_days FROM `advance_booking`  WHERE facility_id='$_fac_id'";
-        
-        $res_adv	=	mysql_query($sql); 
-        
+        $res_adv	=	mysqli_query($conn, $sql); 
         $row_adv	=	mysqli_fetch_array($res_adv);
-        
         $adv_book_days	=	$row_adv['num_days'];	*/
         /*Adding advance booking days*/
         /*if(!empty($adv_book_days)){
-        
         $curent_date	=	date("d-m-Y",strtotime("+". $adv_book_days.' days'));
-        
         if(strtotime($_POST['date_sel']) <= strtotime($curent_date)){ 
-        
         $curent_date	=	$_POST['date_sel'];		
-        
         }
-        
         else{
-        
         $curent_date	=	date("d-m-Y");	*/
 ?>
-
                                     	<script language="javascript">
-
-									<!--		alert("Advanced bookings are permitted for up to 3 days, inclusive of the day of booking");-->
-
+									    // <!--alert("Advanced bookings are permitted for up to 3 days, inclusive of the day of booking");-->
 										</script>
-
                                     <?php
         /*}
-        
-        
-        
         }*/
         /*Code added to retrieve Advanced Booking period*/
 ?>
 
                                 
 
-                                <label>
-								<?php
+                <label>
+				<?php
         /*Code Added By Robin on 30-01-2014*/
         //echo "<br/>Autoapprove is ".$auto_apporve;
         if ($auto_apporve != 1) {
             $_fac_id       = (int) $_GET['fac'];
             $sql           = "SELECT num_days FROM `advance_booking`  WHERE facility_id='$_fac_id'";
-            $res_adv       = mysql_query($sql);
+            $res_adv       = mysqli_query($conn, $sql);
             $row_adv       = mysqli_fetch_array($res_adv);
             $adv_book_days = $row_adv['num_days'];
-            $date_sel      = $_POST['date_sel'];
+            $date_sel      = (isset($_POST['date_sel']) ? $_POST['date_sel'] : '');
             if ($adv_book_days != '') {
                 $adv_date    = strtotime("+" . $adv_book_days . " day");
                 $curent_date = date("d-m-Y", $adv_date);
@@ -5664,142 +4329,102 @@ Holiday. You can make the next booking 2 months after your first booking.")';
         }
         /*Code Added By Robin on 30-01-2014*/
 ?>
-                          		<input name="date_sel" type="text" value="<?php
-        echo $curent_date;
-?>" size="15" maxlength="10" readonly="" onchange="document.forms['form1'].submit();">
-
+                          		<input name="date_sel" type="text" value="<?php echo $curent_date; ?>" size="15" maxlength="10" readonly="" onchange="document.forms['form1'].submit();">
                           		</label>
-
-                            	<img src="images/icon-calender.gif" alt="View Calender" width="19" height="18"  onclick="displayCalendar(document.forms[0].date_sel,'dd-mm-yyyy',this)" value="Cal">                           	    </td>
-
-                                <td width="38%"><INPUT TYPE="image" SRC="images/buttons/searchbutton.jpg" align="absmiddle" <?php
-        echo $dis;
-?>></td>
-
-                              </tr>
-
-                                </table>
-
-                              </td>
+                            	<img src="images/icon-calender.gif" alt="View Calender" width="19" height="18"  onclick="displayCalendar(document.forms[0].date_sel,'dd-mm-yyyy',this)" value="Cal">
+                            </td>
+                            <td width="38%">
+                                <input type="image" src="images/buttons/searchbutton.jpg" align="absmiddle" <?php echo $dis; ?>>
+                            </td>
+                        </tr>
+                    </table>
+                    </td>
 
                               <?php
     } else {
 ?><br>
-
                             <td width="7%">User</td>
-
-                                <td width="1%"><strong>:</strong></td>
-
-                                <td width="20%"><?php
-        if ($user_type == '0') {
-            $funcation_dis = "disabled = disabled";
-        }
-?>
-
-                            	<select name="menu1" onChange="MM_jumpMenu('parent',this,0)" <?php
-        echo $funcation_dis;
-?> >
-
-                              		<option value="booking.php?crypted=<?php
-        echo "".$_GET['crypted']."&id=$_GET[id]&page=book_now";
-?>">Select User</option>
-
+                            <td width="1%"><strong>:</strong></td>
+                            <td width="20%">
+                                <?php
+                                    if ($user_type == '0') {
+                                        $funcation_dis = "disabled = disabled";
+                                    }
+                                ?>
+                            	<select name="menu1" onChange="MM_jumpMenu('parent',this,0)" <?php echo $funcation_dis; ?> >
+                              		<option value="booking.php?crypted=<?php echo $_GET['crypted']."&id=".$_GET['id']."&page=book_now"; ?>">Select User</option>
                               		<?php
-        $query  = "select * from user_account where active ='1' ORDER BY username ASC";
-        $result = mysqli_query($conn,$query);
-        while ($row = mysqli_fetch_array($result)) {
-            if ($_GET[user_id] == $row[id]) {
-                $sel = "selected = selected";
-            } else {
-                $sel = "";
-            }
-            echo " <option value=booking.php?crypted=".$_GET['crypted']."&id=$_GET[id]&page=book_now&user_id=$row[id] $sel>$row[username]</option>";
-        }
-?>
-
-								</select>                              </td>
-
-                        		<td width="13%">Select Facilites </td>
-
-                        		<td width="1%"><strong>:</strong></td>
-
-                        		<td width="14%"><?php
-        if ($_GET[user_id] == '') {
-            $dis = "disabled";
-            $msg = "Please Select User";
-        } else {
-            $msg = "Select Facilites";
-            $dis = "";
-        }
-?>
-
-                            	<select name="menu2" onChange="MM_jumpMenu('parent',this,0)" <?php
-        echo $dis;
-?>>
-
-                              		<option value="booking.php?crypted=<?php
-        echo "".$_GET['crypted']."&id=$_GET[id]&page=book_now&user_id=$_GET[user_id]";
-?>"><?php
-        echo $msg;
-?></option>
-
+                                        $query  = "select * from user_account where active ='1' ORDER BY username ASC";
+                                        $result = mysqli_query($conn,$query);
+                                        while ($row = mysqli_fetch_array($result)) {
+                                            if ($_GET['user_id'] == $row['id']) {
+                                                $sel = "selected = selected";
+                                            } else {
+                                                $sel = "";
+                                            }
+                                            echo '<option value="booking.php?crypted='.$_GET['crypted'].'&id='.$_GET['id'].'&page=book_now&user_id='.$row['id'].' '.$sel.'>'.$row['username'].'</option>';
+                                        }
+                                    ?>
+								</select>
+                            </td>
+                            <td width="13%">Select Facilites </td>
+                            <td width="1%"><strong>:</strong></td>
+                            <td width="14%">
+                                <?php
+                                    if ($_GET['user_id'] == '') {
+                                        $dis = "disabled";
+                                        $msg = "Please Select User";
+                                    } else {
+                                        $msg = "Select Facilites";
+                                        $dis = "";
+                                    }
+                                ?>
+                            	<select name="menu2" onChange="MM_jumpMenu('parent',this,0)" <?php echo $dis; ?>>
+                              		<option value="booking.php?crypted=<?php echo $_GET['crypted']."&id=".$_GET['id']."&page=book_now&user_id=".$_GET['user_id']; ?>"><?php echo $msg; ?></option>
                               		<?php
-        $query  = "select * from facility where enable ='1' ORDER BY name ASC";
-        $result = mysqli_query($conn,$query);
-        while ($row = mysqli_fetch_array($result)) {
-            if ($_GET[fac] == $row[sno]) {
-                $sel_fac = "selected = selected";
-            } else {
-                $sel_fac = "";
-            }
-            echo " <option value=booking.php?crypted=".$_GET['crypted']."&id=$_GET[id]&page=book_now&user_id=$_GET[user_id]&fac=$row[sno] $sel_fac>$row[name]</option>";
-        }
-?>
-
-                          		</select>                              </td>
-
-                        		<td width="8%">
-
-               				  <div align="right"> Date </div>                  </td>
-
-                        		<td width="1%"><strong>:</strong></td>
-
-                        		<td width="17%"><label>
-
-                          		<input name="date_sel" type="text" value="<?php
-        echo $curent_date;
-?>" size="8" maxlength="10" readonly="">
-
+                                        $query  = "SELECT * FROM facility WHERE enable ='1' ORDER BY name ASC";
+                                        $result = mysqli_query($conn,$query);
+                                        while ($row = mysqli_fetch_array($result)) {
+                                            if ($_GET['fac'] == $row['sno']) {
+                                                $sel_fac = "selected = selected";
+                                            } else {
+                                                $sel_fac = "";
+                                            }
+                                            echo '<option value="booking.php?crypted='.$_GET['crypted'].'&id='.$_GET['id'].'&page=book_now&user_id='.$_GET['user_id'].'&fac='.$row['sno'].' '.$sel_fac.'>'.$row['name'].'</option>';
+                                        }
+                                    ?>
+                          		</select>                              
+                            </td>
+                        	<td width="8%">
+               				    <div align="right"> Date </div>
+                            </td>
+                        	<td width="1%"><strong>:</strong></td>
+                        	<td width="17%"><label>
+                          	    <input name="date_sel" type="text" value="<?php echo $curent_date; ?>" size="8" maxlength="10" readonly="">
                           		</label>
-
                             	<img src="images/icon-calender.gif" alt="View Calender" width="19" height="18"  onclick="displayCalendar(document.forms[0].date_sel,'dd-mm-yyyy',this)" value="Cal">
-
-                           	  <label></label></td>
-
-                                <td width="18%">
-
-<INPUT TYPE="image" SRC="images/buttons/searchbutton.jpg" <?php
-        echo $dis;
-?>>                  </td>
-
+                           	  <label></label>
+                            </td>
+                            <td width="18%">
+                                <input type="image" SRC="images/buttons/searchbutton.jpg" <?php echo $dis; ?>>
+                            </td>
                             <?php
     }
 ?>
 
-                            </tr>
-
-                            <tr>
-
-                              <td colspan="10"><?php
+                        </tr>
+                        <tr>
+                            <td colspan="10">
+                                <?php
     if ($error != '1') {
         $time_of_booking       = '';
         $newdatetocheck        = explode("-", $_POST['date_sel']);
         $checknewdate          = $newdatetocheck[2] . "-" . $newdatetocheck[1] . "-" . $newdatetocheck[0];
-        $query_my_booking      = "select * from my_booking where unique_no = '$unique_no' and date_of_booking = '$checknewdate' and uid = '$_GET[user_id]' and ((`status` = '0') or (`status` = '1'))";
-        $result_my_query       = mysql_query($query_my_booking);
+        $query_my_booking      = "SELECT * from my_booking where unique_no = '$unique_no' AND date_of_booking = '$checknewdate' AND uid = '".$_GET['user_id']."' AND ((`status` = '0') or (`status` = '1'))";
+        $result_my_query       = mysqli_query($conn,$query_my_booking);
         // get the type for the user being booked
-        $query_my_user         = "select * from user_account WHERE id = '$_GET[user_id]'";
-        $result_my_user        = mysql_query($query_my_user);
+        $query_my_user         = "select * from user_account WHERE id = '".$_GET['user_id']."'";
+        $result_my_user        = mysqli_query($conn,$query_my_user);
         $row_my_user           = mysqli_fetch_array($result_my_user);
         $user_type_booked      = $row_my_user['user_type'];
         $count_booking_for_day = mysqli_num_rows($result_my_query);
@@ -5810,18 +4435,18 @@ Holiday. You can make the next booking 2 months after your first booking.")';
             $all_system_msg      = "only $max_booking_per_day booking allowed in a day";
         }
         // get the other facilities from the other groups
-        $sqlgroup     = "SELECT group_id FROM group_link WHERE unique_no = '$unique_no'";
-        $resultgroup  = mysql_query($sqlgroup);
+        $sqlgroup     = "SELECT group_id FROM group_link WHERE unique_no = '".$unique_no."'";
+        $resultgroup  = mysqli_query($conn,$sqlgroup);
         $rowgroup     = mysqli_fetch_array($resultgroup);
         // now check what other facility belong to same group
-        $sqlothers    = "SELECT * FROM group_link WHERE group_id = '$rowgroup[group_id]' AND unique_no != '$unique_no'";
-        $resultothers = mysql_query($sqlothers);
+        $sqlothers    = "SELECT * FROM group_link WHERE group_id = '".$rowgroup['group_id']."' AND unique_no != '".$unique_no."'";
+        $resultothers = mysqli_query($conn,$sqlothers);
         while ($rowothers = mysqli_fetch_array($resultothers)) {
             $time_of_booking  = '';
             $newdatetocheck   = explode("-", $_POST['date_sel']);
             $checknewdate     = $newdatetocheck[2] . "-" . $newdatetocheck[1] . "-" . $newdatetocheck[0];
-            $query_my_booking = "select * from my_booking where unique_no = '$rowothers[unique_no]' and date_of_booking = '$checknewdate' and uid = '$_GET[user_id]' and ((`status` = '0') or (`status` = '1'))";
-            $result_my_query  = mysql_query($query_my_booking);
+            $query_my_booking = "SELECT * FROM my_booking WHERE unique_no = '".$rowothers['unique_no']."' and date_of_booking = '".$checknewdate."' and uid = '".$_GET['user_id']."' and ((`status` = '0') or (`status` = '1'))";
+            $result_my_query  = mysqli_query($conn,$query_my_booking);
             // get the type for the user being booked
             $count_booking_for_day += mysqli_num_rows($result_my_query);
             //echo $count_booking_for_day .  ">=" . $max_booking_per_day; 
@@ -5831,14 +4456,14 @@ Holiday. You can make the next booking 2 months after your first booking.")';
                 $all_system_msg      = "only $max_booking_per_day booking allowed in a day";
             }
         }
-        $query_facility  = "select * from facility where unique_no ='$unique_no' limit 1";
-        $result_facility = mysql_query($query_facility);
+        $query_facility  = "SELECT * FROM facility WHERE unique_no ='".$unique_no."' limit 1";
+        $result_facility = mysqli_query($conn,$query_facility);
         while ($row_facility = mysqli_fetch_array($result_facility)) {
-            $name_fac     = $row_facility[name];
+            $name_fac     = $row_facility['name'];
             $auto_apporve = $row_facility['auto_apporve'];
         }
-        $today_week                 = date(w);
-        $date_exp_sel               = explode('-', $_POST[date_sel]);
+        $today_week                 = date('w');
+        $date_exp_sel               = explode('-', $_POST['date_sel']);
         $mon_sel_sel                = $date_exp_sel[1];
         $day_sel_sel                = $date_exp_sel[0];
         $year_sel_sel               = $date_exp_sel[2];
@@ -5865,12 +4490,12 @@ Holiday. You can make the next booking 2 months after your first booking.")';
             {
             $week_days    = mktime(0, 0, 0, $start_month_week, $start_day_week + $i, $start_year_week);
             $week_days    = date("Y-m-d", $week_days);
-            $query_count  = "select * from my_booking where date_of_booking = '$week_days' and unique_no = '$unique_no' and uid = '$_GET[user_id]' and ((`status` = '0') or (`status` = '1'))";
+            $query_count  = "SELECT * FROM my_booking WHERE date_of_booking = '".$week_days."' AND unique_no = '".$unique_no."' and uid = '".$_GET['user_id']."' and ((`status` = '0') or (`status` = '1'))";
             //echo "<br>";
-            $result_count = mysql_query($query_count);
+            $result_count = mysqli_query($conn,$query_count);
             while ($row_count = mysqli_fetch_array($result_count)) {
                 $tottal_booking_in_week = $tottal_booking_in_week + 1;
-                if ($row_count[time_type] == '1') {
+                if ($row_count['time_type'] == '1') {
                     $tottal_booking_in_week_peek_time = $tottal_booking_in_week_peek_time + 1;
                 } else {
                     $tottal_booking_in_week_nonpeek_time = $tottal_booking_in_week_nonpeek_time + 1;
@@ -5878,12 +4503,12 @@ Holiday. You can make the next booking 2 months after your first booking.")';
             }
         }
         // now find out grouup if they exceeded limit as well
-        $sqlgroup         = "SELECT group_id FROM group_link WHERE unique_no = '$unique_no'";
-        $resultgroup      = mysql_query($sqlgroup);
+        $sqlgroup         = "SELECT group_id FROM group_link WHERE unique_no = '".$unique_no."'";
+        $resultgroup      = mysqli_query($conn,$sqlgroup);
         $rowgroup         = mysqli_fetch_array($resultgroup);
         // now check what other facility belong to same group
-        $sqlothers        = "SELECT * FROM group_link WHERE group_id = '$rowgroup[group_id]' AND unique_no != '$unique_no'";
-        $resultothers     = mysql_query($sqlothers);
+        $sqlothers        = "SELECT * FROM group_link WHERE group_id = '".$rowgroup['group_id']."' AND unique_no != '".$unique_no."'";
+        $resultothers     = mysqli_query($conn,$sqlothers);
         // and do the checking again
         $start_day_week   = $week_starting_date[0];
         $start_month_week = $week_starting_date[1];
@@ -5893,12 +4518,12 @@ Holiday. You can make the next booking 2 months after your first booking.")';
                 {
                 $week_days    = mktime(0, 0, 0, $start_month_week, $start_day_week + $i, $start_year_week);
                 $week_days    = date("Y-m-d", $week_days);
-                $query_count  = "select * from my_booking where date_of_booking = '$week_days' and unique_no = '$rowothers[unique_no]' and uid = '$_GET[user_id]' and ((`status` = '0') or (`status` = '1'))";
+                $query_count  = "SELECT * FROM my_booking WHERE date_of_booking = '".$week_days."' and unique_no = '".$rowothers['unique_no']."' and uid = '".$_GET['user_id']."' and ((`status` = '0') or (`status` = '1'))";
                 //echo "<br>";
-                $result_count = mysql_query($query_count);
+                $result_count = mysqli_query($conn,$query_count);
                 while ($row_count = mysqli_fetch_array($result_count)) {
                     $tottal_booking_in_week = $tottal_booking_in_week + 1;
-                    if ($row_count[time_type] == '1') {
+                    if ($row_count['time_type'] == '1') {
                         $tottal_booking_in_week_peek_time = $tottal_booking_in_week_peek_time + 1;
                     } else {
                         $tottal_booking_in_week_nonpeek_time = $tottal_booking_in_week_nonpeek_time + 1;
@@ -5907,19 +4532,19 @@ Holiday. You can make the next booking 2 months after your first booking.")';
             }
         }
         // this checks for month limit
-        $start_month_month = date(m);
-        $start_year_month  = date(Y);
+        $start_month_month = date('m');
+        $start_year_month  = date('Y');
         $start_day_month   = 0;
         for ($i = 1; $i <= $no_of_days_in_curent_month; $i++) //find month details
             {
             $month_days   = mktime(0, 0, 0, $start_month_month, $start_day_month + $i, $start_year_month);
             $month_days   = date("Y-m-d", $month_days);
-            $query_count  = "select * from my_booking where date_of_booking = '$month_days' and unique_no = '$unique_no' and uid = '$_GET[user_id]' and  ((`status` = '0') or (`status` = '1'))";
+            $query_count  = "SELECT * FROM my_booking WHERE date_of_booking = '".$month_days."' and unique_no = '".$unique_no."' and uid = '".$_GET['user_id']."' and  ((`status` = '0') or (`status` = '1'))";
             //echo "<br>";
-            $result_count = mysql_query($query_count);
+            $result_count = mysqli_query($conn,$query_count);
             while ($row_count = mysqli_fetch_array($result_count)) {
                 $tottal_booking_in_curent_month = $tottal_booking_in_curent_month + 1;
-                if ($row_count[time_type] == '1') {
+                if ($row_count['time_type'] == '1') {
                     $tottal_booking_in_curent_month_in_peak_time = $tottal_booking_in_curent_month_in_peak_time + 1;
                 } else {
                     $tottal_booking_in_curent_month_in_nonpeak_time = $tottal_booking_in_curent_month_in_nonpeak_time + 1;
@@ -5927,26 +4552,26 @@ Holiday. You can make the next booking 2 months after your first booking.")';
             }
         }
         // now find out grouup if they exceeded limit as well
-        $sqlgroup          = "SELECT group_id FROM group_link WHERE unique_no = '$unique_no'";
-        $resultgroup       = mysql_query($sqlgroup);
+        $sqlgroup          = "SELECT group_id FROM group_link WHERE unique_no = '".$unique_no."'";
+        $resultgroup       = mysqli_query($conn,$sqlgroup);
         $rowgroup          = mysqli_fetch_array($resultgroup);
         // now check what other facility belong to same group
-        $sqlothers         = "SELECT * FROM group_link WHERE group_id = '$rowgroup[group_id]' AND unique_no != '$unique_no'";
-        $resultothers      = mysql_query($sqlothers);
-        $start_month_month = date(m);
-        $start_year_month  = date(Y);
+        $sqlothers         = "SELECT * FROM group_link WHERE group_id = '".$rowgroup['group_id']."' AND unique_no != '".$unique_no."'";
+        $resultothers      = mysqli_query($conn,$sqlothers);
+        $start_month_month = date('m');
+        $start_year_month  = date('Y');
         $start_day_month   = 0;
         while ($rowothers = mysqli_fetch_array($resultothers)) {
             for ($i = 1; $i <= $no_of_days_in_curent_month; $i++) //find month details
                 {
                 $month_days   = mktime(0, 0, 0, $start_month_month, $start_day_month + $i, $start_year_month);
                 $month_days   = date("Y-m-d", $month_days);
-                $query_count  = "select * from my_booking where date_of_booking = '$month_days' and unique_no = '$unique_no' and uid = '$_GET[user_id]' and status  !=2";
+                $query_count  = "SELECT * FROM my_booking WHERE date_of_booking = '".$month_days."' and unique_no = '".$unique_no."' and uid = '".$_GET['user_id']."' and status  !=2";
                 //echo "<br>";
-                $result_count = mysql_query($query_count);
+                $result_count = mysqli_query($conn,$query_count);
                 while ($row_count = mysqli_fetch_array($result_count)) {
                     $tottal_booking_in_curent_month = $tottal_booking_in_curent_month + 1;
-                    if ($row_count[time_type] == '1') {
+                    if ($row_count['time_type'] == '1') {
                         $tottal_booking_in_curent_month_in_peak_time = $tottal_booking_in_curent_month_in_peak_time + 1;
                     } else {
                         $tottal_booking_in_curent_month_in_nonpeak_time = $tottal_booking_in_curent_month_in_nonpeak_time + 1;
@@ -5956,29 +4581,16 @@ Holiday. You can make the next booking 2 months after your first booking.")';
         }
         //echo "You have " . $bar_counter . " in the system.";
         /*   echo "
-        
         Tottal Booking in a day : $count_booking_for_day ;<br>
-        
         Booking in Curent Month :	$tottal_booking_in_curent_month , 
-        
         <br> 
-        
         Booking in Curent Month Peak Time: $tottal_booking_in_curent_month_in_peak_time,<br>
-        
         Booking in Curent Month Non Peak Time: $tottal_booking_in_curent_month_in_nonpeak_time<br>
-        
         Total Booking in this week :  $tottal_booking_in_week<br>
-        
         Total Booking in this Peak Time week :  $tottal_booking_in_week_peek_time<br>
-        
         Total Booking in this Non Peak Time week :  $tottal_booking_in_week_nonpeek_time<br>
-        
         ------------<br>
-        
-        
-        
         ------------<br>$rule1_2d
-        
         ";		 	   */
         //exit;	
         $rule1 = 0;
@@ -6248,7 +4860,7 @@ Holiday. You can make the next booking 2 months after your first booking.")';
     if (($unique_no == '1193717225' || $unique_no == '1198430241') && $user_type_booked != '1') {
         //echo "here";
         $sqltennis    = "SELECT * FROM facility WHERE unique_no = '1193717225' OR unique_no = '1198430241'";
-        $resulttennis = mysql_query($sqltennis);
+        $resulttennis = mysqli_query($conn,$sqltennis);
         (int) $tottal_booking_in_week_tennis = 0;
         (int) $tottal_booking_in_week_peek_time_tennis = 0;
         (int) $tottal_booking_in_week_nonpeek_time_tennis = 0;
@@ -6257,7 +4869,7 @@ Holiday. You can make the next booking 2 months after your first booking.")';
         (int) $tottal_booking_in_curent_month_in_nonpeak_time_tennis = 0;
         while ($rowtennis = mysqli_fetch_array($resulttennis)) {
             //echo "here";
-            $date_exp_sel               = explode('-', $_POST[date_sel]);
+            $date_exp_sel               = explode('-', $_POST['date_sel']);
             $mon_sel_sel                = $date_exp_sel[1];
             $day_sel_sel                = $date_exp_sel[0];
             $year_sel_sel               = $date_exp_sel[2];
@@ -6278,13 +4890,13 @@ Holiday. You can make the next booking 2 months after your first booking.")';
                 {
                 $week_days    = mktime(0, 0, 0, $start_month_week, $start_day_week + $i, $start_year_week);
                 $week_days    = date("Y-m-d", $week_days);
-                $query_count  = "select * from my_booking where date_of_booking = '$week_days' and unique_no = '$rowtennis[unique_no]' and uid = '$_GET[user_id]' and ((`status` = '0') or (`status` = '1'))";
+                $query_count  = "SELECT * FROM my_booking WHERE date_of_booking = '".$week_days."' and unique_no = '".$rowtennis['unique_no']."' and uid = '".$_GET['user_id']."' and ((`status` = '0') or (`status` = '1'))";
                 //echo "<br>";
                 //exit;
-                $result_count = mysql_query($query_count);
+                $result_count = mysqli_query($conn,$query_count);
                 while ($row_count = mysqli_fetch_array($result_count)) {
                     //$tottal_booking_in_week = $tottal_booking_in_week +1;
-                    if ($row_count[time_type] == '1') {
+                    if ($row_count['time_type'] == '1') {
                         $tottal_booking_in_week_peek_time_tennis = $tottal_booking_in_week_peek_time_tennis + 1;
                     } else {
                         $tottal_booking_in_week_nonpeek_time_tennis = $tottal_booking_in_week_nonpeek_time_tennis + 1;
@@ -6355,7 +4967,7 @@ Holiday. You can make the next booking 2 months after your first booking.")';
     if (($unique_no == '1294727326' || $unique_no == '1294727362') && $user_type_booked != '1') {
         //echo "here";
         $sqlpools    = "SELECT * FROM facility WHERE unique_no = '1294727326' OR unique_no = '1294727362'";
-        $resultpools = mysql_query($sqlpools);
+        $resultpools = mysqli_query($conn,$sqlpools);
         (int) $tottal_booking_in_week_pools = 0;
         (int) $tottal_booking_in_week_peek_time_pools = 0;
         (int) $tottal_booking_in_week_nonpeek_time_pools = 0;
@@ -6364,7 +4976,7 @@ Holiday. You can make the next booking 2 months after your first booking.")';
         (int) $tottal_booking_in_curent_month_in_nonpeak_time_pools = 0;
         while ($rowpools = mysqli_fetch_array($resultpools)) {
             //echo "here";
-            $date_exp_sel               = explode('-', $_POST[date_sel]);
+            $date_exp_sel               = explode('-', $_POST['date_sel']);
             $mon_sel_sel                = $date_exp_sel[1];
             $day_sel_sel                = $date_exp_sel[0];
             $year_sel_sel               = $date_exp_sel[2];
@@ -6385,13 +4997,13 @@ Holiday. You can make the next booking 2 months after your first booking.")';
                 {
                 $week_days    = mktime(0, 0, 0, $start_month_week, $start_day_week + $i, $start_year_week);
                 $week_days    = date("Y-m-d", $week_days);
-                $query_count  = "select * from my_booking where date_of_booking = '$week_days' and unique_no = '$rowpools[unique_no]' and uid = '$_GET[user_id]' and ((`status` = '0') or (`status` = '1'))";
+                $query_count  = "SELECT * FROM my_booking WHERE date_of_booking = '".$week_days."' and unique_no = '".$rowpools['unique_no']."' and uid = '".$_GET['user_id']."' and ((`status` = '0') or (`status` = '1'))";
                 //echo "<br>";
                 //exit;
-                $result_count = mysql_query($query_count);
+                $result_count = mysqli_query($conn,$query_count);
                 while ($row_count = mysqli_fetch_array($result_count)) {
                     //$tottal_booking_in_week = $tottal_booking_in_week +1;
-                    if ($row_count[time_type] == '1') {
+                    if ($row_count['time_type'] == '1') {
                         $tottal_booking_in_week_peek_time_pools = $tottal_booking_in_week_peek_time_pools + 1;
                     } else {
                         $tottal_booking_in_week_nonpeek_time_pools = $tottal_booking_in_week_nonpeek_time_pools + 1;
@@ -6411,17 +5023,11 @@ Holiday. You can make the next booking 2 months after your first booking.")';
         /*
         
         if ($tottal_booking_in_week_nonpeek_time_pools > $rule2_1 && $tottal_booking_in_week_nonpeek_time_pools < $rule3_1)
-        
         {
-        
         $all_system_disabled_nonpeak = '';
-        
         $all_system_disabled_nonpeak_pools = '';
-        
         $all_system_disabled_peak_pools = '1';
-        
         $all_system_disabled_peak_ = '1';
-        
         }*/
         //else
         /*if ($tottal_booking_in_week_nonpeek_time_pools > $rule1_1)*/
@@ -6437,15 +5043,10 @@ Holiday. You can make the next booking 2 months after your first booking.")';
         /*if ($tottal_booking_in_week_nonpeek_time_pools == $rule3_1)
         
         {
-        
         $all_system_disabled_nonpeak_pools = '1';
-        
         $all_system_disabled_peak_pools = '1';
-        
         $all_system_disabled_nonpeak = '1';
-        
         $all_system_disabled_peak = '1';
-        
         $all_system_disabled = '1';
         
         }*/
@@ -6458,28 +5059,32 @@ Holiday. You can make the next booking 2 months after your first booking.")';
         //}
     }
     // end of additonal 11 Feb 2009
-    $checkdating           = explode("-", $_POST[date_sel]);
+    
+    $data_select           = $_POST['data_sel'];
+    $checkdating           = explode("-", $data_select);
     $checkwithdate         = $checkdating[2] . "-" . $checkdating[1] . "-" . $checkdating[0];
-    $query_my_booking      = "select * from my_booking where unique_no = '$unique_no' and date_of_booking = '$checkwithdate' and uid = '$_GET[user_id]' and ((status = '0') or (status = '1'))";
-    $result_my_query       = mysql_query($query_my_booking);
+    $query_my_booking      = "SELECT * FROM my_booking WHERE unique_no = '".$unique_no."' and date_of_booking = '".$checkwithdate."' and uid = '".$_GET['user_id']."' and ((status = '0') or (status = '1'))";
+    $result_my_query       = mysqli_query($conn,$query_my_booking);
     $count_booking_for_day = mysqli_num_rows($result_my_query);
     if ($count_booking_for_day == $max_booking_per_day && $user_type_booked != '1') {
         $all_system_disabled = "1";
         $all_system_msg      = "only $max_booking_per_day booking allowed in a day";
     }
+    
+    //dito na.. continue here..
     // get the other facilities from the other groups
-    $sqlgroup     = "SELECT group_id FROM group_link WHERE unique_no = '$unique_no'";
-    $resultgroup  = mysql_query($sqlgroup);
+    $sqlgroup     = "SELECT group_id FROM group_link WHERE unique_no = '".$unique_no."'";
+    $resultgroup  = mysqli_query($conn,$sqlgroup);
     $rowgroup     = mysqli_fetch_array($resultgroup);
     // now check what other facility belong to same group
-    $sqlothers    = "SELECT * FROM group_link WHERE group_id = '$rowgroup[group_id]' AND unique_no != '$unique_no'";
-    $resultothers = mysql_query($sqlothers);
+    $sqlothers    = "SELECT * FROM group_link WHERE group_id = '".$rowgroup['group_id']."' AND unique_no != '".$unique_no."'";
+    $resultothers = mysqli_query($conn,$sqlothers);
     while ($rowothers = mysqli_fetch_array($resultothers)) {
         $time_of_booking  = '';
         $newdatetocheck   = explode("-", $_POST['date_sel']);
         $checknewdate     = $newdatetocheck[2] . "-" . $newdatetocheck[1] . "-" . $newdatetocheck[0];
-        $query_my_booking = "select * from my_booking where unique_no = '$rowothers[unique_no]' and date_of_booking = '$checkwithdate' and uid = '$_GET[user_id]' and ((status = '0') or (status = '1'))";
-        $result_my_query  = mysql_query($query_my_booking);
+        $query_my_booking = "SELECT * FROM my_booking WHERE unique_no = '".$rowothers['unique_no']."' and date_of_booking = '".$checkwithdate."' and uid = '".$_GET['user_id']."' and ((status = '0') or (status = '1'))";
+        $result_my_query  = mysqli_query($conn,$query_my_booking);
         // get the type for the user being booked
         $count_booking_for_day += mysqli_num_rows($result_my_query);
         //echo $count_booking_for_day .  ">=" . $max_booking_per_day; 
@@ -6491,21 +5096,19 @@ Holiday. You can make the next booking 2 months after your first booking.")';
     }
     // if time-based facility
     if ($error != '1' and $os == 'time_based') {
-        $selected_date = $_POST[date_sel];
+        $selected_date = $_POST['date_sel'];
         $today_date    = date('d-m-Y');
 ?>
 
 							<br>
-
-							<table width="100%" border="0" align="center">
-
+						<table width="100%" border="0" align="center">
                       		<tr> 
-
-                        		<td colspan="9"><?php
+                        		<td colspan="9">
+                                    <?php
         $currentdatetocheck = explode("-", $curent_date);
         $new_current_date   = $currentdatetocheck[2] . "-" . $currentdatetocheck[1] . "-" . $currentdatetocheck[0];
-        $sqlbar             = "SELECT * FROM table_barred WHERE user_id = '$_GET[user_id]' AND facility_id = '$unique_no' AND bar_expiry >= '$new_current_date'";
-        $resultbar = mysql_query($sqlbar) or mysqli_error($conn);
+        $sqlbar             = "SELECT * FROM table_barred WHERE user_id = '".$_GET['user_id']."' AND facility_id = '".$unique_no."' AND bar_expiry >= '".$new_current_date."'";
+        $resultbar = mysqli_query($conn,$sqlbar) or mysqli_error($conn);
         $bar_counter = mysqli_num_rows($resultbar);
         //echo "<br>You have " . $bar_counter . " barred.";
         if ($bar_counter > 0) {
@@ -6534,7 +5137,7 @@ Holiday. You can make the next booking 2 months after your first booking.")';
         $month          = $checkdating[1];
         $year           = $checkdating[2];
         $sql_holiday    = "SELECT * FROM calender_event WHERE heading = 'PUBLIC HOLIDAY' AND ((day = '$day' AND month_no = '$month' AND year = '$year')) AND active = '1'";
-        $result_holiday = mysql_query($sql_holiday);
+        $result_holiday = mysqli_query($conn,$sql_holiday);
         $num_rows       = mysqli_num_rows($result_holiday);
         if ($num_rows == 1) {
             //echo "<center><b><font style='font-size:12px;color:#2A55FF'>Date selected falls on Public Holiday. Please note any bookings made will be considered as peak hour booking.</font></b></center>";
@@ -6543,37 +5146,25 @@ Holiday. You can make the next booking 2 months after your first booking.")';
             $_SESSION['holiday'] = false;
         }
         // end
-?></td>
-
-                      		</tr>
-
-                            <tr>
-
-                            <?php
-        if ($all_system_disabled == '1' && ($_SESSION['newbook'] != 1 || $_SESSION['next2hour'] == 1) && $user_type == '2') {
 ?>
-
-                            <td colspan="9" align="right">
-
-                            &raquo; <a href="booking.php?crypted=<?php
-            echo $_GET['crypted'];
-?>&page=book_now&id=<?php
-            echo $_GET['id'];
-?>&fac=<?php
-            echo $_GET['fac'];
-?>&user_id=<?php
-            echo $_GET['user_id'];
-?>&next=next">Next 2 hours</a>&nbsp;&nbsp;                            </td>
-
-                            </tr>
-
+                            </td>
+                      	</tr>
+                        <tr>
                             <?php
+                                if ($all_system_disabled == '1' && ($_SESSION['newbook'] != 1 || $_SESSION['next2hour'] == 1) && $user_type == '2') {
+                            ?>
+                            <td colspan="9" align="right">
+                                &raquo; <a href="booking.php?crypted=<?php echo $_GET['crypted'].'&page=book_now&id='.$_GET['id'].'&fac='.$_GET['fac'].'&user_id='.$_GET['user_id']; ?>&next=next">Next 2 hours</a>&nbsp;&nbsp;
+                            </td>
+
+                        </tr>
+<?php
         }
 ?>
 
                             
 
-							<?php
+<?php
         if ($auto_close_date == 1) {
             $getselecteddate   = explode("-", $_POST['date_sel']);
             $facilityfromddate = explode(".", $facility_closed_from);
@@ -6589,74 +5180,51 @@ Holiday. You can make the next booking 2 months after your first booking.")';
                 $facility_closed = '0';
             }
         }
-?>
-
-                            
-
-                            <?php
         if ($facility_closed == 0) {
 ?>
 
-                            <tr>
-
+                        <tr>
                             <td colspan="9">
-
                             <table width="100%" cellpadding="5" cellspacing="0" style="border:1px solid #333333;">
-
                             <tr> 
-
                         		<td bgcolor="#994947" style="border-right:1px solid #333333;"> 
-
-                          		<div align="center" class="fontitle">#1</div></td>
-
+                          		    <div align="center" class="fontitle">#1</div>
+                                </td>
                         		<td bgcolor="#994947" style="border-right:1px solid #333333;"> 
-
-                          		<div align="center"><span class="fontitle">Select</span></div></td>
-
+                          		    <div align="center"><span class="fontitle">Select</span></div>
+                                </td>
                         		<td bgcolor="#994947" style="border-right:1px solid #333333;"> 
-
-                          		<div align="center" class="fontitle">From Time</div>                        </td>
-
+                          		    <div align="center" class="fontitle">From Time</div>
+                                </td>
                         		<td bgcolor="#994947" style="border-right:1px solid #333333;"> 
+                          		    <div align="center" class="fontitle">To Time</div>
+                                </td>
 
-                          		<div align="center" class="fontitle">To Time</div>                        </td>
-
-                                <?php
+<?php
             if ($user_type != '0') {
 ?>
-
                    			    <td bgcolor="#994947" style="border-right:1px solid #333333;"> 
-
-                          		<div align="center" class="fontitle">Resident</div>                        </td>
-
-                                <?php
+                          		    <div align="center" class="fontitle">Resident</div>
+                                </td>
+<?php
             }
 ?>
-
                         		<!--td bgcolor="#994947" style="border-right:1px solid #333333;"> 
                           		<div align="center"><span class="fontitle">Deposit Status</span></div>                        </td-->
-
-                       		  <td bgcolor="#994947"> 
-
-                       	      <div align="center" class="fontitle">Remarks</div></td>
-
-                              <?php
+                       		    <td bgcolor="#994947"> 
+                       	            <div align="center" class="fontitle">Remarks</div>
+                                </td>
+<?php
             if ($user_type == '1') {
 ?>
-
-                   			  <td bgcolor="#994947" style="border-left:1px solid #333333;"> 
-
-                       	      <div align="center" class="fontitle">Receipt</div></td>
-
-                                <?php
+                   			    <td bgcolor="#994947" style="border-left:1px solid #333333;"> 
+                       	            <div align="center" class="fontitle">Receipt</div>
+                                </td>
+<?php
             }
 ?>
-
                       		</tr>
-
-                      		
-
-                      	<?php
+<?php
             $sr             = 1;
             $count_dont_sel = 1;
             //$weak = date(w);
@@ -6670,7 +5238,7 @@ Holiday. You can make the next booking 2 months after your first booking.")';
             if ($weak == 0) {
                 $weak = 7;
             }
-            $query  = "select * from track_time where track = '$unique_no' and (weak = '0' or weak='$weak') order by peak, from_time ASC";
+            $query  = "select * from track_time where track = '".$unique_no."' and (weak = '0' or weak='$weak') order by peak, from_time ASC";
             //exit;
             $result = mysqli_query($conn,$query);
             while ($row = mysqli_fetch_array($result)) {
@@ -6719,7 +5287,7 @@ Holiday. You can make the next booking 2 months after your first booking.")';
                         if ($skip != 1) {
                             //	$today_date = 
                             //	echo "$selected_date != $today_date";
-                            //	$selected_date = $_POST[date_sel];
+                            //	$selected_date = $_POST['date_sel'];
                             $now_hrs        = date('G');
                             $now_min        = date('i');
                             $newselectedate = explode("-", $selected_date);
@@ -6733,13 +5301,13 @@ Holiday. You can make the next booking 2 months after your first booking.")';
                             $to_time = "$to_time:$from_time_exp[1]";
                             if ($dont_sel == '' || $dont_sel != '') {
                                 //if ($user_type != '0') {
-                                $query_my_booking = "select * from my_booking where unique_no = '$unique_no' and date_of_booking = '$newdatetocheck' and  ((status = '0') or (status = '1'))";
+                                $query_my_booking = "select * from my_booking where unique_no = '".$unique_no."' and date_of_booking = '$newdatetocheck' and  ((status = '0') or (status = '1'))";
                                 //}
                                 //else
                                 //{
-                                //$query_my_booking = "select * from my_booking where unique_no = '$unique_no' and date_of_booking = '$selected_date' and uid = $_GET[user_id] and status !='2' ";
+                                //$query_my_booking = "select * from my_booking where unique_no = '".$unique_no."' and date_of_booking = '$selected_date' and uid = $_GET[user_id] and status !='2' ";
                                 //}
-                                $result_my_query  = mysql_query($query_my_booking);
+                                $result_my_query  = mysqli_query($conn,$query_my_booking);
                                 while ($row_my = mysqli_fetch_array($result_my_query)) {
                                     $fram_user_from_time       = $row_my[from_time];
                                     $fram_user_to_time         = $row_my[to_time];
@@ -6760,7 +5328,7 @@ Holiday. You can make the next booking 2 months after your first booking.")';
                                         $greybar_info             = $row_my[day] . "-" . $row_my[month] . "-" . $row_my[year];
                                         $cancle_booking_date_time = $row_my[cancle_booking_date_time];
                                         $query_user               = "select * from user_account where id = '$registered_by_id'";
-                                        $query_result             = mysql_query($query_user);
+                                        $query_result             = mysqli_query($conn,$query_user);
                                         while ($row_user = mysqli_fetch_array($query_result)) {
                                             $registered_by = $row_user[username];
                                         }
@@ -6842,9 +5410,9 @@ Holiday. You can make the next booking 2 months after your first booking.")';
                                 //}
                                 //else
                                 //{
-                                //$query_my_booking = "select * from my_booking where unique_no = '$unique_no' and date_of_booking = '$selected_date' and uid = $_GET[user_id] and status !='2' ";
+                                //$query_my_booking = "select * from my_booking where unique_no = '".$unique_no."' and date_of_booking = '$selected_date' and uid = $_GET[user_id] and status !='2' ";
                                 //}
-                                $result_my_query  = mysql_query($query_my_booking);
+                                $result_my_query  = mysqli_query($conn,$query_my_booking);
                                 $have_entertain   = mysqli_num_rows($result_my_query);
                                 while ($row_my = mysqli_fetch_array($result_my_query)) {
                                     $fram_user_from_time = $row_my[from_time];
@@ -6871,7 +5439,7 @@ Holiday. You can make the next booking 2 months after your first booking.")';
                                         $greybar_info             = $row_my[day] . "-" . $row_my[month] . "-" . $row_my[year];
                                         $cancle_booking_date_time = $row_my[cancle_booking_date_time];
                                         $query_user               = "select * from user_account where id = '$registered_by_id'";
-                                        $query_result             = mysql_query($query_user);
+                                        $query_result             = mysqli_query($conn,$query_user);
                                         while ($row_user = mysqli_fetch_array($query_result)) {
                                             $registered_by = $row_user[username];
                                             if ($unique_no != '1294727326' || $unique_no != '1294727362') {
@@ -6949,7 +5517,7 @@ Holiday. You can make the next booking 2 months after your first booking.")';
                             }
                             // Lapse Date Checking
                             $datenow = date('d-m-Y'); 
-                            $selected_date    = $_POST[date_sel]; 
+                            $selected_date    = $_POST['date_sel']; 
                             $dnow=date('Y-m-d', strtotime($datenow));
                             $sdate=date('Y-m-d', strtotime($selected_date));
 
@@ -7065,6 +5633,7 @@ Holiday. You can make the next booking 2 months after your first booking.")';
 ?>
 
                         <!--td valign="top" align="center" style="border-right:1px solid #333333;border-top:1px solid #333333;"> 
+
                 <?php
                             /* 
                             
@@ -7140,7 +5709,7 @@ Holiday. You can make the next booking 2 months after your first booking.")';
 ?>
 
 													[ <a href="redirect.php?<?php
-                                            echo "crypted=".$_GET['crypted']."&id=$_GET[id]&page=book_now&user_id=$_GET[user_id]&fac=$_GET[fac]&date_sel=$curent_date&booking_no=$my_booking_no&type=cancle&reason=1";
+                                            echo "crypted=".$_GET['crypted']."&id=".$_GET['id']."&page=book_now&user_id=".$_GET['user_id']."&fac=".$_GET['fac']."&date_sel=".$curent_date."&booking_no=".$my_booking_no."&type=cancle&reason=1";
 ?>" onclick="return validateprompt();">Cancel</a> ]
 
 													<?php
@@ -7153,7 +5722,7 @@ Holiday. You can make the next booking 2 months after your first booking.")';
 ?>
 
 													[ <a href="redirect.php?<?php
-                                            echo "crypted=".$_GET['crypted']."&id=$_GET[id]&page=book_now&user_id=$_GET[user_id]&fac=$_GET[fac]&date_sel=$curent_date&booking_no=$my_booking_no&type=cancle&reason=2";
+                                            echo "crypted=".$_GET['crypted']."&id=".$_GET['id']."&page=book_now&user_id=".$_GET['user_id']."&fac=".$_GET['fac']."&date_sel=".$curent_date."&booking_no=".$my_booking_no."&type=cancle&reason=2";
 ?>" onclick="return validateprompt();">Cancel</a> ]
 
 													<?php
@@ -7178,9 +5747,9 @@ Holiday. You can make the next booking 2 months after your first booking.")';
 ?>
 
                                                 [ <a href="redirect.php?<?php
-                                        echo "crypted=".$_GET['crypted']."&id=$_GET[id]&page=book_now&user_id=$_GET[user_id]&fac=$_GET[fac]&date_sel=$curent_date&booking_no=$my_booking_no&type=approve";
+                                        echo "crypted=".$_GET['crypted']."&id=".$_GET['id']."&page=book_now&user_id=".$_GET['user_id']."&fac=".$_GET['fac']."&date_sel=".$curent_date."&booking_no=".$my_booking_no."&type=approve";
 ?>">Approve</a> ] [ <a href="redirect.php?<?php
-                                        echo "crypted=".$_GET['crypted']."&id=$_GET[id]&page=book_now&user_id=$_GET[user_id]&fac=$_GET[fac]&date_sel=$curent_date&booking_no=$my_booking_no&type=cancle&reason=7";
+                                        echo "crypted=".$_GET['crypted']."&id=".$_GET['id']."&page=book_now&user_id=".$_GET['user_id']."&fac=".$_GET['fac']."&date_sel=".$curent_date."&booking_no=".$my_booking_no."&type=cancle&reason=7";
 ?>" onclick="return validateprompt();">Cancel</a> ]
 
                                                 <?php
@@ -7190,9 +5759,9 @@ Holiday. You can make the next booking 2 months after your first booking.")';
 ?> 
 
                                                 [ <a href="redirect.php?<?php
-                                        echo "crypted=".$_GET['crypted']."&id=$_GET[id]&page=book_now&user_id=$_GET[user_id]&fac=$_GET[fac]&date_sel=$curent_date&booking_no=$my_booking_no&type=approve";
+                                        echo "crypted=".$_GET['crypted']."&id=".$_GET['id']."&page=book_now&user_id=".$_GET['user_id']."&fac=".$_GET['fac']."&date_sel=".$curent_date."&booking_no=".$my_booking_no."&type=approve";
 ?>">Approve</a> ] [ <a href="redirect.php?<?php
-                                        echo "crypted=".$_GET['crypted']."&id=$_GET[id]&page=book_now&user_id=$_GET[user_id]&fac=$_GET[fac]&date_sel=$curent_date&booking_no=$my_booking_no&type=cancle&reason=9";
+                                        echo "crypted=".$_GET['crypted']."&id=".$_GET['id']."&page=book_now&user_id=".$_GET['user_id']."&fac=".$_GET['fac']."&date_sel=".$curent_date."&booking_no=".$my_booking_no."&type=cancle&reason=9";
 ?>" onclick="return validateprompt();">Cancel</a> ]
 
                                                   <?php
@@ -7204,7 +5773,7 @@ Holiday. You can make the next booking 2 months after your first booking.")';
 ?>
 
                                                 [ <a href="redirect.php?<?php
-                                        echo "crypted=".$_GET['crypted']."&id=$_GET[id]&page=book_now&user_id=$_GET[user_id]&fac=$_GET[fac]&date_sel=$curent_date&booking_no=$my_booking_no&type=cancle&reason=8";
+                                        echo "crypted=".$_GET['crypted']."&id=".$_GET['id']."&page=book_now&user_id=".$_GET['user_id']."&fac=".$_GET['fac']."&date_sel=".$curent_date."&booking_no=".$my_booking_no."&type=cancle&reason=8";
 ?>" onclick="return validateprompt();">Cancel</a> ]
 
                                                 <?php
@@ -7214,7 +5783,7 @@ Holiday. You can make the next booking 2 months after your first booking.")';
 ?>
 
                                                 [ <a href="redirect.php?<?php
-                                        echo "crypted=".$_GET['crypted']."&id=$_GET[id]&page=book_now&user_id=$_GET[user_id]&fac=$_GET[fac]&date_sel=$curent_date&booking_no=$my_booking_no&type=cancle&reason=9";
+                                        echo "crypted=".$_GET['crypted']."&id=".$_GET['id']."&page=book_now&user_id=".$_GET['user_id']."&fac=".$_GET['fac']."&date_sel=".$curent_date."&booking_no=".$my_booking_no."&type=cancle&reason=9";
 ?>" onclick="return validateprompt();">Cancel</a> ]
 
                                                 <?php
@@ -7231,14 +5800,14 @@ Holiday. You can make the next booking 2 months after your first booking.")';
 ?>
 
 													[ <a href="redirect.php?<?php
-                                            echo "crypted=".$_GET['crypted']."&id=$_GET[id]&page=book_now&user_id=$_GET[user_id]&fac=$_GET[fac]&date_sel=$curent_date&booking_no=$my_booking_no&type=cancle&reason=11";
+                                            echo "crypted=".$_GET['crypted']."&id=".$_GET['id']."&page=book_now&user_id=".$_GET['user_id']."&fac=".$_GET['fac']."&date_sel=".$curent_date."&booking_no=".$my_booking_no."&type=cancle&reason=11";
 ?>">Absent</a> ]
 
 													<?php
                                         }
                                         //check also for rain on same day if outdoor
-                                        $sqloutdoor    = "SELECT type FROM facility WHERE unique_no = '$unique_no'";
-                                        $resultoutdoor = mysql_query($sqloutdoor);
+                                        $sqloutdoor    = "SELECT type FROM facility WHERE unique_no = '".$unique_no."'";
+                                        $resultoutdoor = mysqli_query($conn,$sqloutdoor);
                                         $outdoorrow    = mysqli_fetch_array($resultoutdoor);
                                         if ($outdoorrow['type'] == 1) {
                                             $breakfromtime      = explode(":", $from_time_recorded);
@@ -7256,7 +5825,7 @@ Holiday. You can make the next booking 2 months after your first booking.")';
 ?>
 
 														[ <a href="redirect.php?<?php
-                                                echo "crypted=".$_GET['crypted']."&id=$_GET[id]&page=book_now&user_id=$_GET[user_id]&fac=$_GET[fac]&date_sel=$curent_date&booking_no=$my_booking_no&type=cancle&reason=10";
+                                                echo "crypted=".$_GET['crypted']."&id=".$_GET['id']."&page=book_now&user_id=".$_GET['user_id']."&fac=".$_GET['fac']."&date_sel=".$curent_date."&booking_no=".$my_booking_no."&type=cancle&reason=10";
 ?>">Rain</a> ]
 
 														<?php
@@ -7273,9 +5842,9 @@ Holiday. You can make the next booking 2 months after your first booking.")';
 ?>
 
                                                 [ <a href="redirect.php?<?php
-                                        echo "crypted=".$_GET['crypted']."&id=$_GET[id]&page=book_now&user_id=$_GET[user_id]&fac=$_GET[fac]&date_sel=$curent_date&booking_no=$my_booking_no&type=approve";
+                                        echo "crypted=".$_GET['crypted']."&id=".$_GET['id']."&page=book_now&user_id=".$_GET['user_id']."&fac=".$_GET['fac']."&date_sel=".$curent_date."&booking_no=".$my_booking_no."&type=approve";
 ?>">Approve</a> ] [ <a href="redirect.php?<?php
-                                        echo "crypted=".$_GET['crypted']."&id=$_GET[id]&page=book_now&user_id=$_GET[user_id]&fac=$_GET[fac]&date_sel=$curent_date&booking_no=$my_booking_no&type=cancle&reason=3";
+                                        echo "crypted=".$_GET['crypted']."&id=".$_GET['id']."&page=book_now&user_id=".$_GET['user_id']."&fac=".$_GET['fac']."&date_sel=".$curent_date."&booking_no=".$my_booking_no."&type=cancle&reason=3";
 ?>" onclick="return validateprompt();">Cancel</a> ]
 
                                                 <?php
@@ -7285,7 +5854,7 @@ Holiday. You can make the next booking 2 months after your first booking.")';
 ?> 
 
                                                 [ <a href="redirect.php?<?php
-                                        echo "crypted=".$_GET['crypted']."&id=$_GET[id]&page=book_now&user_id=$_GET[user_id]&fac=$_GET[fac]&date_sel=$curent_date&booking_no=$my_booking_no&type=approve";
+                                        echo "crypted=".$_GET['crypted']."&id=".$_GET['id']."&page=book_now&user_id=".$_GET['user_id']."&fac=".$_GET['fac']."&date_sel=".$curent_date."&booking_no=".$my_booking_no."&type=approve";
 ?>">Approve</a> ]
 
                                                   <?php
@@ -7296,7 +5865,7 @@ Holiday. You can make the next booking 2 months after your first booking.")';
 ?>
 
                                                 [ <a href="redirect.php?<?php
-                                        echo "crypted=".$_GET['crypted']."&id=$_GET[id]&page=book_now&user_id=$_GET[user_id]&fac=$_GET[fac]&date_sel=$curent_date&booking_no=$my_booking_no&type=cancle&reason=4";
+                                        echo "crypted=".$_GET['crypted']."&id=".$_GET['id']."&page=book_now&user_id=".$_GET['user_id']."&fac=".$_GET['fac']."&date_sel=".$curent_date."&booking_no=".$my_booking_no."&type=cancle&reason=4";
 ?>" onclick="return validateprompt();">Cancel</a> ]
 
                                                 <?php
@@ -7313,14 +5882,14 @@ Holiday. You can make the next booking 2 months after your first booking.")';
 ?>
 
 													[ <a href="redirect.php?<?php
-                                            echo "crypted=".$_GET['crypted']."&id=$_GET[id]&page=book_now&user_id=$_GET[user_id]&fac=$_GET[fac]&date_sel=$curent_date&booking_no=$my_booking_no&type=cancle&reason=6";
+                                            echo "crypted=".$_GET['crypted']."&id=".$_GET['id']."&page=book_now&user_id=".$_GET['user_id']."&fac=".$_GET['fac']."&date_sel=".$curent_date."&booking_no=".$my_booking_no."&type=cancle&reason=6";
 ?>">Absent</a> ]
 
 													<?php
                                         }
                                         //check also for rain on same day if outdoor
-                                        $sqloutdoor    = "SELECT type FROM facility WHERE unique_no = '$unique_no'";
-                                        $resultoutdoor = mysql_query($sqloutdoor);
+                                        $sqloutdoor    = "SELECT type FROM facility WHERE unique_no = '".$unique_no."'";
+                                        $resultoutdoor = mysqli_query($conn,$sqloutdoor);
                                         $outdoorrow    = mysqli_fetch_array($resultoutdoor);
                                         if ($outdoorrow['type'] == 1) {
                                             $breakfromtime      = explode(":", $from_time_recorded);
@@ -7341,7 +5910,7 @@ Holiday. You can make the next booking 2 months after your first booking.")';
                                                         
 
 														[ <a href="redirect.php?<?php
-                                                echo "crypted=".$_GET['crypted']."&id=$_GET[id]&page=book_now&user_id=$_GET[user_id]&fac=$_GET[fac]&date_sel=$curent_date&booking_no=$my_booking_no&type=cancle&reason=5";
+                                                echo "crypted=".$_GET['crypted']."&id=".$_GET['id']."&page=book_now&user_id=".$_GET['user_id']."&fac=".$_GET['fac']."&date_sel=".$curent_date."&booking_no=".$my_booking_no."&type=cancle&reason=5";
 ?>">Rain</a> ]
 
 														<?php
@@ -7453,14 +6022,14 @@ Holiday. You can make the next booking 2 months after your first booking.")';
 
 				<?php
             //Script added By Vasanth to check the advance booking dates [23-Nov-2015]
-            $selected_date    = $_POST[date_sel];
+            $selected_date    = $_POST['date_sel'];
             $Getselected_date = explode("-", $selected_date);
             $choosen_date     = $Getselected_date[2] . "-" . $Getselected_date[1] . "-" . $Getselected_date[0];
             $popupOne         = date('Y-m-d', strtotime(' +3 day'));
             if ($choosen_date > $popupOne) {
                 $_fac      = $_GET['fac'];
                 $sql       = "SELECT popup FROM `facility` WHERE sno='$_fac '";
-                $res_popup = mysql_query($sql);
+                $res_popup = mysqli_query($conn, $sql);
                 $row_popup = mysqli_fetch_array($res_popup);
 ?>
 				
@@ -7530,7 +6099,7 @@ Holiday. You can make the next booking 2 months after your first booking.")';
     }
     // if session based
     elseif ($error != '1' and $os == 'sess') {
-        $selected_date = $_POST[date_sel];
+        $selected_date = $_POST['date_sel'];
         $today_date    = date('d-m-Y');
         // curent_date is the date selected page
         $curent_date;
@@ -7545,8 +6114,8 @@ Holiday. You can make the next booking 2 months after your first booking.")';
             <?php
         $currentdatetocheck = explode("-", $curent_date);
         $new_current_date   = $currentdatetocheck[2] . "-" . $currentdatetocheck[1] . "-" . $currentdatetocheck[0];
-        $sqlbar             = "SELECT * FROM table_barred WHERE user_id = '$_GET[user_id]' AND facility_id = '$unique_no' AND bar_expiry >= '$new_current_date'";
-        $resultbar = mysql_query($sqlbar) or mysqli_error($conn);
+        $sqlbar             = "SELECT * FROM table_barred WHERE user_id = '".$_GET['user_id']."' AND facility_id = '".$unique_no."' AND bar_expiry >= '$new_current_date'";
+        $resultbar = mysqli_query($conn,$sqlbar) or mysqli_error($conn);
         $bar_counter = mysqli_num_rows($resultbar);
         //echo "<br>You have " . $bar_counter . " barred.";
         if ($bar_counter > 0) {
@@ -7665,7 +6234,7 @@ Holiday. You can make the next booking 2 months after your first booking.")';
             $stamp          = mktime(0, 0, 0, $mon_sel, $day_sel, $year_sel);
             $weak           = date('w', $stamp);
             $weak           = $weak + 1;
-            $query          = "select * from track_time where track = '$unique_no' and (weak = '0' or weak='$weak') order by peak, from_time ASC";
+            $query          = "select * from track_time where track = '".$unique_no."' and (weak = '0' or weak='$weak') order by peak, from_time ASC";
             $result         = mysqli_query($conn,$query);
             while ($row = mysqli_fetch_array($result)) {
                 $query1  = "select * from time_slot  where id = '$row[from_time]' limit 1";
@@ -7696,8 +6265,8 @@ Holiday. You can make the next booking 2 months after your first booking.")';
                 }
                 $chose_date       = explode("-", $selected_date);
                 $choosen_date     = $chose_date[2] . "-" . $chose_date[1] . "-" . $chose_date[0];
-                $query_my_booking = "select * from my_booking where unique_no = '$unique_no' and date_of_booking = '$choosen_date' and ((status = '0') OR (status = '1')) ";
-                $result_my_query  = mysql_query($query_my_booking);
+                $query_my_booking = "select * from my_booking where unique_no = '".$unique_no."' and date_of_booking = '$choosen_date' and ((status = '0') OR (status = '1')) ";
+                $result_my_query  = mysqli_query($conn,$query_my_booking);
                 while ($row_my = mysqli_fetch_array($result_my_query)) {
                     $fram_user_from_time = $row_my[from_time];
                     $fram_user_to_time   = $row_my[to_time];
@@ -7725,7 +6294,7 @@ Holiday. You can make the next booking 2 months after your first booking.")';
                         $cancle_booking_date_time = $row_my[cancle_booking_date_time];
                         $greybar_info             = $row_my[day] . "-" . $row_my[month] . "-" . $row_my[year];
                         $query_user               = "select * from user_account where id = '$registered_by_id'";
-                        $query_result             = mysql_query($query_user);
+                        $query_result             = mysqli_query($conn,$query_user);
                         while ($row_user = mysqli_fetch_array($query_result)) {
                             $registered_by = $row_user[username];
                         }
@@ -7802,9 +6371,9 @@ Holiday. You can make the next booking 2 months after your first booking.")';
                     //}
                     //else
                     //{
-                    //$query_my_booking = "select * from my_booking where unique_no = '$unique_no' and date_of_booking = '$selected_date' and uid = $_GET[user_id] and status !='2' ";
+                    //$query_my_booking = "select * from my_booking where unique_no = '".$unique_no."' and date_of_booking = '$selected_date' and uid = $_GET[user_id] and status !='2' ";
                     //}
-                    $result_my_query  = mysql_query($query_my_booking);
+                    $result_my_query  = mysqli_query($conn,$query_my_booking);
                     $have_entertain   = mysqli_num_rows($result_my_query);
                     while ($row_my = mysqli_fetch_array($result_my_query)) {
                         $fram_user_from_time       = $row_my[from_time];
@@ -7845,7 +6414,7 @@ Holiday. You can make the next booking 2 months after your first booking.")';
                         
                         $query_user = "select * from user_account where id = '$registered_by_id'";
                         
-                        $query_result = mysql_query($query_user);
+                        $query_result = mysqli_query($conn,$query_user);
                         
                         while($row_user = mysqli_fetch_array($query_result))
                         
@@ -8014,7 +6583,7 @@ Holiday. You can make the next booking 2 months after your first booking.")';
 ?>
 
 													[ <a href="redirect.php?<?php
-                                echo "crypted=".$_GET['crypted']."&id=$_GET[id]&page=book_now&user_id=$_GET[user_id]&fac=$_GET[fac]&date_sel=$curent_date&booking_no=$my_booking_no&type=cancle&reason=1";
+                                echo "crypted=".$_GET['crypted']."&id=".$_GET['id']."&page=book_now&user_id=".$_GET['user_id']."&fac=".$_GET['fac']."&date_sel=".$curent_date."&booking_no=".$my_booking_no."&type=cancle&reason=1";
 ?>" onclick="return validateprompt();">Cancel</a> ]
 
 													<?php
@@ -8025,7 +6594,7 @@ Holiday. You can make the next booking 2 months after your first booking.")';
 ?>
 
 													[ <a href="redirect.php?<?php
-                                echo "crypted=".$_GET['crypted']."&id=$_GET[id]&page=book_now&user_id=$_GET[user_id]&fac=$_GET[fac]&date_sel=$curent_date&booking_no=$my_booking_no&type=cancle&reason=2";
+                                echo "crypted=".$_GET['crypted']."&id=".$_GET['id']."&page=book_now&user_id=".$_GET['user_id']."&fac=".$_GET['fac']."&date_sel=".$curent_date."&booking_no=".$my_booking_no."&type=cancle&reason=2";
 ?>" onclick="return validateprompt();">Cancel</a> ]
 
 													<?php
@@ -8050,9 +6619,9 @@ Holiday. You can make the next booking 2 months after your first booking.")';
 ?>
 
                                                 [ <a href="redirect.php?<?php
-                            echo "crypted=".$_GET['crypted']."&id=$_GET[id]&page=book_now&user_id=$_GET[user_id]&fac=$_GET[fac]&date_sel=$curent_date&booking_no=$my_booking_no&type=approve";
+                            echo "crypted=".$_GET['crypted']."&id=".$_GET['id']."&page=book_now&user_id=".$_GET['user_id']."&fac=".$_GET['fac']."&date_sel=".$curent_date."&booking_no=".$my_booking_no."&type=approve";
 ?>">Approve</a> ] [ <a href="redirect.php?<?php
-                            echo "crypted=".$_GET['crypted']."&id=$_GET[id]&page=book_now&user_id=$_GET[user_id]&fac=$_GET[fac]&date_sel=$curent_date&booking_no=$my_booking_no&type=cancle&reason=7";
+                            echo "crypted=".$_GET['crypted']."&id=".$_GET['id']."&page=book_now&user_id=".$_GET['user_id']."&fac=".$_GET['fac']."&date_sel=".$curent_date."&booking_no=".$my_booking_no."&type=cancle&reason=7";
 ?>" onclick="return validateprompt();">Cancel</a> ]
 
                                                 <?php
@@ -8062,9 +6631,9 @@ Holiday. You can make the next booking 2 months after your first booking.")';
 ?> 
 
                                                 [ <a href="redirect.php?<?php
-                            echo "crypted=".$_GET['crypted']."&id=$_GET[id]&page=book_now&user_id=$_GET[user_id]&fac=$_GET[fac]&date_sel=$curent_date&booking_no=$my_booking_no&type=approve";
+                            echo "crypted=".$_GET['crypted']."&id=".$_GET['id']."&page=book_now&user_id=".$_GET['user_id']."&fac=".$_GET['fac']."&date_sel=".$curent_date."&booking_no=".$my_booking_no."&type=approve";
 ?>">Approve</a> ] [ <a href="redirect.php?<?php
-                            echo "crypted=".$_GET['crypted']."&id=$_GET[id]&page=book_now&user_id=$_GET[user_id]&fac=$_GET[fac]&date_sel=$curent_date&booking_no=$my_booking_no&type=cancle&reason=9";
+                            echo "crypted=".$_GET['crypted']."&id=".$_GET['id']."&page=book_now&user_id=".$_GET['user_id']."&fac=".$_GET['fac']."&date_sel=".$curent_date."&booking_no=".$my_booking_no."&type=cancle&reason=9";
 ?>" onclick="return validateprompt();">Cancel</a> ]
 
                                                   <?php
@@ -8076,7 +6645,7 @@ Holiday. You can make the next booking 2 months after your first booking.")';
 ?>
 
                                                 [ <a href="redirect.php?<?php
-                            echo "crypted=".$_GET['crypted']."&id=$_GET[id]&page=book_now&user_id=$_GET[user_id]&fac=$_GET[fac]&date_sel=$curent_date&booking_no=$my_booking_no&type=cancle&reason=8";
+                            echo "crypted=".$_GET['crypted']."&id=".$_GET['id']."&page=book_now&user_id=".$_GET['user_id']."&fac=".$_GET['fac']."&date_sel=".$curent_date."&booking_no=".$my_booking_no."&type=cancle&reason=8";
 ?>" onclick="return validateprompt();">Cancel</a> ]
 
                                                 <?php
@@ -8086,7 +6655,7 @@ Holiday. You can make the next booking 2 months after your first booking.")';
 ?>
 
                                                 [ <a href="redirect.php?<?php
-                            echo "crypted=".$_GET['crypted']."&id=$_GET[id]&page=book_now&user_id=$_GET[user_id]&fac=$_GET[fac]&date_sel=$curent_date&booking_no=$my_booking_no&type=cancle&reason=9";
+                            echo "crypted=".$_GET['crypted']."&id=".$_GET['id']."&page=book_now&user_id=".$_GET['user_id']."&fac=".$_GET['fac']."&date_sel=".$curent_date."&booking_no=".$my_booking_no."&type=cancle&reason=9";
 ?>" onclick="return validateprompt();">Cancel</a> ]
 
                                                 <?php
@@ -8103,14 +6672,14 @@ Holiday. You can make the next booking 2 months after your first booking.")';
 ?>
 
 													[ <a href="redirect.php?<?php
-                                echo "crypted=".$_GET['crypted']."&id=$_GET[id]&page=book_now&user_id=$_GET[user_id]&fac=$_GET[fac]&date_sel=$curent_date&booking_no=$my_booking_no&type=cancle&reason=11";
+                                echo "crypted=".$_GET['crypted']."&id=".$_GET['id']."&page=book_now&user_id=".$_GET['user_id']."&fac=".$_GET['fac']."&date_sel=".$curent_date."&booking_no=".$my_booking_no."&type=cancle&reason=11";
 ?>">Absent</a> ]
 
 													<?php
                             }
                             //check also for rain on same day if outdoor
-                            $sqloutdoor    = "SELECT type FROM facility WHERE unique_no = '$unique_no'";
-                            $resultoutdoor = mysql_query($sqloutdoor);
+                            $sqloutdoor    = "SELECT type FROM facility WHERE unique_no = '".$unique_no."'";
+                            $resultoutdoor = mysqli_query($conn,$sqloutdoor);
                             $outdoorrow    = mysqli_fetch_array($resultoutdoor);
                             if ($outdoorrow['type'] == 1) {
                                 $breakfromtime      = explode(":", $from_time_recorded);
@@ -8128,7 +6697,7 @@ Holiday. You can make the next booking 2 months after your first booking.")';
 ?>
 
 														[ <a href="redirect.php?<?php
-                                    echo "crypted=".$_GET['crypted']."&id=$_GET[id]&page=book_now&user_id=$_GET[user_id]&fac=$_GET[fac]&date_sel=$curent_date&booking_no=$my_booking_no&type=cancle&reason=10";
+                                    echo "crypted=".$_GET['crypted']."&id=".$_GET['id']."&page=book_now&user_id=".$_GET['user_id']."&fac=".$_GET['fac']."&date_sel=".$curent_date."&booking_no=".$my_booking_no."&type=cancle&reason=10";
 ?>">Rain</a> ]
 
 														<?php
@@ -8145,9 +6714,9 @@ Holiday. You can make the next booking 2 months after your first booking.")';
 ?>
 
                                                 [ <a href="redirect.php?<?php
-                            echo "crypted=".$_GET['crypted']."&id=$_GET[id]&page=book_now&user_id=$_GET[user_id]&fac=$_GET[fac]&date_sel=$curent_date&booking_no=$my_booking_no&type=approve";
+                            echo "crypted=".$_GET['crypted']."&id=".$_GET['id']."&page=book_now&user_id=".$_GET['user_id']."&fac=".$_GET['fac']."&date_sel=".$curent_date."&booking_no=".$my_booking_no."&type=approve";
 ?>">Approve</a> ] [ <a href="redirect.php?<?php
-                            echo "crypted=".$_GET['crypted']."&id=$_GET[id]&page=book_now&user_id=$_GET[user_id]&fac=$_GET[fac]&date_sel=$curent_date&booking_no=$my_booking_no&type=cancle&reason=3";
+                            echo "crypted=".$_GET['crypted']."&id=".$_GET['id']."&page=book_now&user_id=".$_GET['user_id']."&fac=".$_GET['fac']."&date_sel=".$curent_date."&booking_no=".$my_booking_no."&type=cancle&reason=3";
 ?>" onclick="return validateprompt();">Cancel</a> ]
 
                                                 <?php
@@ -8157,7 +6726,7 @@ Holiday. You can make the next booking 2 months after your first booking.")';
 ?> 
 
                                                 [ <a href="redirect.php?<?php
-                            echo "crypted=".$_GET['crypted']."&id=$_GET[id]&page=book_now&user_id=$_GET[user_id]&fac=$_GET[fac]&date_sel=$curent_date&booking_no=$my_booking_no&type=approve";
+                            echo "crypted=".$_GET['crypted']."&id=".$_GET['id']."&page=book_now&user_id=".$_GET['user_id']."&fac=".$_GET['fac']."&date_sel=".$curent_date."&booking_no=".$my_booking_no."&type=approve";
 ?>">Approve</a> ]
 
                                                   <?php
@@ -8168,7 +6737,7 @@ Holiday. You can make the next booking 2 months after your first booking.")';
 ?>
 
                                                 [ <a href="redirect.php?<?php
-                            echo "crypted=".$_GET['crypted']."&id=$_GET[id]&page=book_now&user_id=$_GET[user_id]&fac=$_GET[fac]&date_sel=$curent_date&booking_no=$my_booking_no&type=cancle&reason=4";
+                            echo "crypted=".$_GET['crypted']."&id=".$_GET['id']."&page=book_now&user_id=".$_GET['user_id']."&fac=".$_GET['fac']."&date_sel=".$curent_date."&booking_no=".$my_booking_no."&type=cancle&reason=4";
 ?>" onclick="return validateprompt();">Cancel</a> ]
 
                                                 <?php
@@ -8185,14 +6754,14 @@ Holiday. You can make the next booking 2 months after your first booking.")';
 ?>
 
 													[ <a href="redirect.php?<?php
-                                echo "crypted=".$_GET['crypted']."&id=$_GET[id]&page=book_now&user_id=$_GET[user_id]&fac=$_GET[fac]&date_sel=$curent_date&booking_no=$my_booking_no&type=cancle&reason=6";
+                                echo "crypted=".$_GET['crypted']."&id=".$_GET['id']."&page=book_now&user_id=".$_GET['user_id']."&fac=".$_GET['fac']."&date_sel=".$curent_date."&booking_no=".$my_booking_no."&type=cancle&reason=6";
 ?>">Absent</a> ]
 
 													<?php
                             }
                             //check also for rain on same day if outdoor
-                            $sqloutdoor    = "SELECT type FROM facility WHERE unique_no = '$unique_no'";
-                            $resultoutdoor = mysql_query($sqloutdoor);
+                            $sqloutdoor    = "SELECT type FROM facility WHERE unique_no = '".$unique_no."'";
+                            $resultoutdoor = mysqli_query($conn,$sqloutdoor);
                             $outdoorrow    = mysqli_fetch_array($resultoutdoor);
                             if ($outdoorrow['type'] == 1) {
                                 $breakfromtime      = explode(":", $from_time_recorded);
@@ -8210,7 +6779,7 @@ Holiday. You can make the next booking 2 months after your first booking.")';
 ?>
 
 														[ <a href="redirect.php?<?php
-                                    echo "crypted=".$_GET['crypted']."&id=$_GET[id]&page=book_now&user_id=$_GET[user_id]&fac=$_GET[fac]&date_sel=$curent_date&booking_no=$my_booking_no&type=cancle&reason=5";
+                                    echo "crypted=".$_GET['crypted']."&id=".$_GET['id']."&page=book_now&user_id=".$_GET['user_id']."&fac=".$_GET['fac']."&date_sel=".$curent_date."&booking_no=".$my_booking_no."&type=cancle&reason=5";
 ?>">Rain</a> ]
 
 														<?php
@@ -8232,10 +6801,10 @@ Holiday. You can make the next booking 2 months after your first booking.")';
                           	<div align="center"> 
 
                             <?php
-                    //if((($order_status =='0' or $order_status =='1') and  $amount_recived =='')   and ($user_type =='1' or $uid =='$id'))
+                    //if((($order_status =='0' or $order_status =='1') and  $amount_recived =='')   and ($user_type =='1' or $uid =='".$id."'))
                     if ($order_status == '0' or $order_status == '1' and $amount_recived == '') {
                         //echo "<img src=images/dollar_icon_gray.jpg>";
-                        //}elseif($order_status =='1' and $amount_recived !='' and ($user_type =='1' or $uid =='$id'))
+                        //}elseif($order_status =='1' and $amount_recived !='' and ($user_type =='1' or $uid =='".$id."'))
                     } elseif (($order_status == '0' || $order_status == '1') && $user_type == 1) {
                         echo "<a href=javascript:openwindow('receipt.php?id=$my_booking_no')><strong>View</strong></a>";
                     }
@@ -8317,7 +6886,7 @@ Holiday. You can make the next booking 2 months after your first booking.")';
 
                         <?php
             //Script added By Vasanth to check the advance booking dates [23-Nov-2015]
-            $selected_date    = $_POST[date_sel];
+            $selected_date    = $_POST['date_sel'];
             $Getselected_date = explode("-", $selected_date);
             $choosen_date     = $Getselected_date[2] . "-" . $Getselected_date[1] . "-" . $Getselected_date[0];
             $popupTwo         = date('Y-m-d', strtotime(' +60 day'));
@@ -8328,7 +6897,7 @@ Holiday. You can make the next booking 2 months after your first booking.")';
                 if ($choosen_date > $popupTwo) {
                     $_fac      = $_GET['fac'];
                     $sql       = "SELECT popup FROM `facility` WHERE sno='$_fac '";
-                    $res_popup = mysql_query($sql);
+                    $res_popup = mysqli_query($conn, $sql);
                     $row_popup = mysqli_fetch_array($res_popup);
 ?>
 
@@ -8341,7 +6910,7 @@ Holiday. You can make the next booking 2 months after your first booking.")';
                 }
             }
             if ($Get_fac == '16') {
-                $selected_datez   = $_POST[date_sel];
+                $selected_datez   = $_POST['date_sel'];
                 $Getselected_date = explode("-", $selected_datez);
                 $choosen_datez    = $Getselected_date[2] . "-" . $Getselected_date[1] . "-" . $Getselected_date[0];
                 $popupTwoz        = date('Y-m-d', strtotime(' +30 day'));
@@ -8349,7 +6918,7 @@ Holiday. You can make the next booking 2 months after your first booking.")';
                 if ($choosen_datez > $popupTwoz) {
                     $_fac      = $_GET['fac'];
                     $sql       = "SELECT popup FROM `facility` WHERE sno='$_fac '";
-                    $res_popup = mysql_query($sql);
+                    $res_popup = mysqli_query($conn, $sql);
                     $row_popup = mysqli_fetch_array($res_popup);
 ?>
 
@@ -8534,13 +7103,14 @@ if ($_GET[page] == 'all') {
     $query  = "select * from facility where enable ='1' ORDER BY name ASC";
     $result = mysqli_query($conn,$query);
     while ($row = mysqli_fetch_array($result)) {
-        $unique_no = $row[unique_no];
-        if ($menu2 == $row[unique_no]) {
+        $unique_no = $row['unique_no'];
+        if ($menu2 == $row['unique_no']) {
             $sel_fac = "selected = selected";
         } else {
             $sel_fac = "";
         }
-        echo " <option value=$row[unique_no] $sel_fac>$row[name]</option>";
+        echo '<option value="'.$row['unique_no'].' '. $sel_fac.'>'.$row['name'].'</option>';
+        
     }
 ?>
 
@@ -8560,7 +7130,7 @@ if ($_GET[page] == 'all') {
 
                                 <?php
         if ($user_type == '0') {
-            $sel_user_dis = " and id = '$id' limit 1";
+            $sel_user_dis = " and id = '".$id."' limit 1";
             $user_sel     = $id;
         } else {
             echo "   <option value=0>All User</option>";
@@ -8571,12 +7141,12 @@ if ($_GET[page] == 'all') {
         $query  = "select * from user_account where active ='1' $sel_user_dis";
         $result = mysqli_query($conn,$query);
         while ($row = mysqli_fetch_array($result)) {
-            if ($user_sel == $row[id]) {
+            if ($user_sel == $row['id']) {
                 $sel = "selected = selected";
             } else {
                 $sel = "";
             }
-            echo " <option value=$row[id] $sel>$row[username]</option>";
+            echo '<option value="'.$row['id'].' '.$sel.'>'.$row['username'].'</option>';
         }
 ?>
 
@@ -8973,7 +7543,7 @@ if ($_GET[page] == 'all') {
                 $amount_recived = "NO";
             }
             $query_facility  = "select * from facility where unique_no ='$row[unique_no]' limit 1";
-            $result_facility = mysql_query($query_facility);
+            $result_facility = mysqli_query($conn,$query_facility);
             while ($row_facility = mysqli_fetch_array($result_facility)) {
                 $name_fac     = $row_facility[name];
                 $closed_at    = $row_facility[closed_at];
@@ -8987,12 +7557,12 @@ if ($_GET[page] == 'all') {
                 $text = "playtime";
             }
             $query_user  = "select * from user_account where id ='$uid' limit 1";
-            $result_user = mysql_query($query_user);
+            $result_user = mysqli_query($conn,$query_user);
             while ($row_user = mysqli_fetch_array($result_user)) {
                 $username = $row_user[username];
             }
             $query_user  = "select * from user_account where id ='$rid' limit 1";
-            $result_user = mysql_query($query_user);
+            $result_user = mysqli_query($conn,$query_user);
             while ($row_user = mysqli_fetch_array($result_user)) {
                 $rid  = $row_user[username];
                 $rid2 = $row_user[id];
@@ -9092,7 +7662,7 @@ if ($_GET[page] == 'all') {
                     echo $rid;
                 } else {
                     $sqlcheckbooker    = "SELECT * FROM user_account WHERE id = $rid2";
-                    $resultcheckbooker = mysql_query($sqlcheckbooker);
+                    $resultcheckbooker = mysqli_query($conn,$sqlcheckbooker);
                     $rowcheckbooker    = mysqli_fetch_array($resultcheckbooker);
                     if ($rowcheckbooker['user_type'] == '2' && $user_type == '2') {
                         echo $rowcheckbooker['username'];
@@ -9448,8 +8018,8 @@ if ($_GET[page] == 'all') {
 													<?php
                             }
                             //check also for rain on same day if outdoor
-                            $sqloutdoor    = "SELECT type FROM facility WHERE unique_no = '$unique_no'";
-                            $resultoutdoor = mysql_query($sqloutdoor);
+                            $sqloutdoor    = "SELECT type FROM facility WHERE unique_no = '".$unique_no."'";
+                            $resultoutdoor = mysqli_query($conn,$sqloutdoor);
                             $outdoorrow    = mysqli_fetch_array($resultoutdoor);
                             if ($outdoorrow['type'] == 1) {
                                 $breakfromtime      = explode(":", $from_time_recorded);
@@ -9704,8 +8274,8 @@ if ($_GET[page] == 'all') {
 													<?php
                             }
                             //check also for rain on same day if outdoor
-                            $sqloutdoor    = "SELECT type FROM facility WHERE unique_no = '$unique_no'";
-                            $resultoutdoor = mysql_query($sqloutdoor);
+                            $sqloutdoor    = "SELECT type FROM facility WHERE unique_no = '".$unique_no."'";
+                            $resultoutdoor = mysqli_query($conn,$sqloutdoor);
                             $outdoorrow    = mysqli_fetch_array($resultoutdoor);
                             if ($outdoorrow['type'] == 1) {
                                 $breakfromtime      = explode(":", $from_time_recorded);
@@ -9810,7 +8380,7 @@ if ($_GET[page] == 'all') {
                 }
                 if ($row[cancelled_by] != '' && $row[cancelled_by] != '0') {
                     $queryuser = "select * from user_account where id = '$row[cancelled_by]' limit 1";
-                    $resultuser = mysql_query($queryuser) or die(mysqli_error($conn));
+                    $resultuser = mysqli_query($conn,$queryuser) or die(mysqli_error($conn));
                     //$count = mysqli_num_rows($result);
                     $rowuser = mysqli_fetch_array($resultuser);
                     echo " cancelled by $rowuser[username]";
@@ -9891,12 +8461,12 @@ if ($_GET[page] == 'group' and $user_type == '1') {
     $query  = "select * from facility where enable ='1' ";
     $result = mysqli_query($conn,$query);
     while ($row = mysqli_fetch_array($result)) {
-        if ($_GET[fac] == $row[sno]) {
+        if ($_GET[fac] == $row['sno']) {
             $sel_fac = "selected = selected";
         } else {
             $sel_fac = "";
         }
-        echo " <option value=fac=$row[sno] $sel_fac>$row[name]</option>";
+        echo '<option value="fac='.$row['sno'].' '.$sel_fac.'>'.$row['name'].'</option>';
     }
 ?>
 
@@ -9939,7 +8509,7 @@ if ($_GET[page] == 'group' and $user_type == '1') {
         } else {
             $sel_fac = "";
         }
-        echo " <option value=fac=$row[sno] $sel_fac>$row[name]</option>";
+        echo '<option value="fac='.$row['sno'].' '.$sel_fac.'>'.$row['name'].'</option>';
     }
 ?>
 

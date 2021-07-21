@@ -37,7 +37,7 @@ while ($row = mysqli_fetch_array($result))
 //	echo "Lapsed noted: " . $row['lapsed_date'] . "<br>";
 	if (($yes >= $row['lapsed_date']) or ($yes >= $checkifpassed))
 	{
-		$sql2 = "UPDATE my_booking SET status = '6', cancle_reson = '12', cancle_booking_date_time = '$newdate' WHERE sno = '$row[sno]'";
+		$sql2 = "UPDATE my_booking SET status = '6', cancle_reson = '12', cancle_booking_date_time = '".$newdate."' WHERE sno = '".$row['sno']."'";
 		$result2 = mysqli_query($conn, $sql2);
 	}
 //	else

@@ -27,7 +27,7 @@ if(isset($_POST["szID"]))
 		 	$_SESSION['basic_is_logged_in'] = "$id";
 			include_once('mem/random_char.php');
 			$query = "update user_account set crypted = '$pwd' where id = '$id' limit 1";
-			$result = mysqli_query($conn, $query) or die(mysql_error($conn)) ; 
+			$result = mysqli_query($conn, $query) or die(mysqli_error($conn)) ; 
 			if ($row['user_type'] == '0')
 			{
 				$_SESSION['admin'] = '0';
