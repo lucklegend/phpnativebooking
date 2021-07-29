@@ -16,10 +16,10 @@ height="3"><b><br>
         </tr>
         <tr> 
           <td class="leftcontent" height="3"><br>
-            &nbsp;&nbsp; <img height="7" src="img/leftdot.gif" width="9" border="0"> <a href="mem/facility.php?crypted=<?php echo $_GET[crypted]; ?>&page=user">Manage Users</a><br>
-            &nbsp;&nbsp; <img height="7" src="img/leftdot.gif" width="9" border="0"> <a href="mem/booking.php?crypted=<?php echo $_GET[crypted]; ?>&cr=1">Create Facilities</a><br>
-            &nbsp;&nbsp; <img height="7" src="img/leftdot.gif" width="9" border="0"> <a href="mem/booking.php?crypted=<?php echo $_GET[crypted]; ?>&page=view">Manage Facilities</a><br>
-            &nbsp;&nbsp; <img height="7" src="img/leftdot.gif" width="9" border="0"> <a href="mem/barring.php?crypted=<?php echo $_GET[crypted]; ?>">Facility Barring</a><br>
+            &nbsp;&nbsp; <img height="7" src="img/leftdot.gif" width="9" border="0"> <a href="mem/facility.php?crypted=<?php echo $_GET['crypted']; ?>&page=user">Manage Users</a><br>
+            &nbsp;&nbsp; <img height="7" src="img/leftdot.gif" width="9" border="0"> <a href="mem/booking.php?crypted=<?php echo $_GET['crypted']; ?>&cr=1">Create Facilities</a><br>
+            &nbsp;&nbsp; <img height="7" src="img/leftdot.gif" width="9" border="0"> <a href="mem/booking.php?crypted=<?php echo $_GET['crypted']; ?>&page=view">Manage Facilities</a><br>
+            &nbsp;&nbsp; <img height="7" src="img/leftdot.gif" width="9" border="0"> <a href="mem/barring.php?crypted=<?php echo $_GET['crypted']; ?>">Facility Barring</a><br>
             &nbsp;&nbsp; <img height="7" src="img/leftdot.gif" width="9" border="0"> <a href="mem/comm.php?crypted=<? echo $_GET['crypted']; ?>&calender"> 
             Calendar / Events</a><br>
             <br>
@@ -51,7 +51,7 @@ height="3"><b><br>
         </tr>
         <tr> 
           <td class="leftcontent" height="3"><br>
-            &nbsp;&nbsp; <img height="7" src="img/leftdot.gif" width="9" border="0">  <a href="mem/booking.php?crypted=<?php echo $_GET[crypted]; ?>&page=book_now&user_id=<? echo $_SESSION['basic_is_logged_in']; ?>&pid=6"> Online Booking</a><br>
+            &nbsp;&nbsp; <img height="7" src="img/leftdot.gif" width="9" border="0">  <a href="mem/booking.php?crypted=<?php echo $_GET['crypted']; ?>&page=book_now&user_id=<? echo $_SESSION['basic_is_logged_in']; ?>&pid=6"> Online Booking</a><br>
         	</td>
         </tr>
                 
@@ -60,7 +60,7 @@ height="3"><b><br>
 height="3"><b><br>
             &nbsp;&nbsp;Reports<br>
             <br>
-            </b>&nbsp; <img height="7" src="img/leftdot.gif" width="9" border="0"> <a href="mem/booking.php?crypted=<?php echo $_GET[crypted]; ?>&page=all">Booking Report</a><br>
+            </b>&nbsp; <img height="7" src="img/leftdot.gif" width="9" border="0"> <a href="mem/booking.php?crypted=<?php echo $_GET['crypted']; ?>&page=all">Booking Report</a><br>
             <b><br>
             </b></SPACER></td>
         </tr>

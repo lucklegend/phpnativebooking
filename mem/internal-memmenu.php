@@ -16,7 +16,7 @@ height="3"><br /><b>&nbsp;&nbsp; My Profile</b></spacer></td>
           <td class="leftdecline" height="3"><spacer type="block" 
 height="3"><b><br>
             &nbsp;&nbsp; Facility Booking</b></spacer><br><br />
-            &nbsp;&nbsp; <a href="http://helpdesk.axonhq.net" target="_blank"><img height="7" src="img/leftdot.gif" width="9" border="0"></a><a href="booking.php?crypted=<?php echo $_GET[crypted]; ?>&page=book_now&user_id=<?php echo $_SESSION['basic_is_logged_in']; ?>"> 
+            &nbsp;&nbsp; <a href="http://helpdesk.axonhq.net" target="_blank"><img height="7" src="img/leftdot.gif" width="9" border="0"></a><a href="booking.php?crypted=<?php echo $_GET['crypted']; ?>&page=book_now&user_id=<?php echo $_SESSION['basic_is_logged_in']; ?>"> 
             Place Booking</a><br>
             &nbsp;&nbsp; <a href="http://helpdesk.axonhq.net" target="_blank"><img height="7" src="img/leftdot.gif" width="9" border="0"></a>
             
@@ -26,7 +26,7 @@ height="3"><b><br>
 			$start_month = "-" . date("m") . "-" . date("Y");
 			$nextyear  = date("d-m-Y", mktime(0, 0, 0, date("m"),   date("d"),   date("Y")+1));
 			?>
-            <a href="redirect.php?<?php echo "crypted=$_GET[crypted]&page=all&date_sel_all=$day$start_month&date_sel_all_end=$nextyear&select=7&menu2=0&user_sel=$_SESSION[basic_is_logged_in]"; ?>">View Booking</a><br />
+            <a href="redirect.php?<?php echo "crypted=".$_GET['crypted']."&page=all&date_sel_all=".$day.$start_month."&date_sel_all_end=".$nextyear."&select=7&menu2=0&user_sel=".$_SESSION['basic_is_logged_in']; ?>">View Booking</a><br />
             <?php
 			}
 			else
@@ -37,7 +37,7 @@ height="3"><b><br>
 				$numdays1 = date("t");
 				$startmonth1 = "-$getmonth1-$getyear1";
 			?>
-            <a href="redirect.php?crypted=<?php echo $_GET[crypted]; ?>&page=all&date_sel_all=01<?php echo $startmonth1; ?>&date_sel_all_end=<?php echo $numdays1 . $startmonth1; ?>&select=7&menu2=0&user_sel=0"> 
+            <a href="redirect.php?crypted=<?php echo $_GET['crypted']; ?>&page=all&date_sel_all=01<?php echo $startmonth1; ?>&date_sel_all_end=<?php echo $numdays1 . $startmonth1; ?>&select=7&menu2=0&user_sel=0"> 
             View Bookings</a>
             <?php
             }
@@ -48,8 +48,7 @@ height="3"><b><br>
         </tr><tr><td class="leftcontent" height="3">&nbsp;</td>
         </tr>
         <tr> 
-          <td class="leftdecline" height="3"><spacer type="block" 
-height="3"><b><br>
+          <td class="leftdecline" height="3"><spacer type="block" height="3"><b><br>
             &nbsp;&nbsp; Our Community</b></spacer>
             <br><br />
             &nbsp;&nbsp; <a href="http://helpdesk.axonhq.net" target="_blank"><img height="7" src="img/leftdot.gif" width="9" border="0"></a> <a href="community.php?crypted=<?php echo $_GET['crypted']; ?>">Community News</a><br>
@@ -59,8 +58,7 @@ height="3"><b><br>
           </td>
         </tr>
         <tr> 
-          <td class="leftdecline" height="3"><spacer type="block" 
-height="3"><b><br>
+          <td class="leftdecline" height="3"><spacer type="block" height="3"><b><br>
             &nbsp;&nbsp; Useful Links</b></spacer>
             <br><br />
             <table border="0" cellpadding="0" cellspacing="0" width="100%">
@@ -75,19 +73,17 @@ height="3"><b><br>
           </td>
         </tr>
         <tr> 
-          <td class="leftdecline" height="3"><SPACER type="block" 
-height="3"><br />
+          <td class="leftdecline" height="3"><SPACER type="block" height="3"><br />
             <b>&nbsp;&nbsp; Application Forms</b></spacer>
             <br />
-            <br>&nbsp;&nbsp; <a href="http://helpdesk.axonhq.net" target="_blank"><img height="7" src="img/leftdot.gif" width="9" border="0" /></a><a href="forms.php?crypted=<?php echo $_GET[crypted]; ?>"> Forms</a>
+            <br>&nbsp;&nbsp; <a href="http://helpdesk.axonhq.net" target="_blank"><img height="7" src="img/leftdot.gif" width="9" border="0" /></a><a href="forms.php?crypted=<?php echo $_GET['crypted']; ?>"> Forms</a>
             <br>&nbsp;
           </td>
         </tr>
         <tr> 
-          <td class="leftdecline" height="3"><SPACER type="block" 
-height="3"><br />
+          <td class="leftdecline" height="3"><SPACER type="block" height="3"><br />
             <b>&nbsp;&nbsp; By-Laws</b></spacer>
-            <br /><br />&nbsp;&nbsp; <a href="http://helpdesk.axonhq.net" target="_blank"><img src="img/leftdot.gif" alt="" width="9" height="7" border="0" /></a> <a href="bylaws.php?crypted=<?php echo $_GET[crypted]; ?>">By-Laws</a><br />
+            <br /><br />&nbsp;&nbsp; <a href="http://helpdesk.axonhq.net" target="_blank"><img src="img/leftdot.gif" alt="" width="9" height="7" border="0" /></a> <a href="bylaws.php?crypted=<?php echo $_GET['crypted']; ?>">By-Laws</a><br />
 &nbsp;
               </td>
         </tr>

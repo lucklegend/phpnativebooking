@@ -3,7 +3,7 @@
 	include_once("includes/config.php");
 	
 	$s_id = $_SESSION['basic_is_logged_in'];
-	$query = "SELECT * FROM user_account  WHERE crypted  = '$_GET[crypted]' and id = '$s_id' limit 1";
+	$query = "SELECT * FROM user_account  WHERE crypted  = '".$_GET['crypted']."' and id = '".$s_id."' limit 1";
 	$result= mysqli_query($conn, $query) or die(mysqli_error($conn));
 	$count = mysqli_num_rows($result);
 	while($row = mysqli_fetch_array($result))

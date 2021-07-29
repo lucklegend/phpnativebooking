@@ -2,14 +2,14 @@
 session_start();
 include_once("includes/config.php");
 $s_id = $_SESSION['basic_is_logged_in'];
-$query = "select * from user_account  where crypted  = '$_GET[crypted]' and id = '$s_id' limit 1";
-$result= mysql_query($query) or die(mysql_error());
-$count = mysql_num_rows($result);
-while($row = mysql_fetch_array($result))
+$query = "SELECT * FROM user_account WHERE crypted  = '".$_GET['crypted']."' and id = '".$s_id."' limit 1";
+$result= mysqli_query($conn, $query) or die(mysqli_error($conn));
+$count = mysqli_num_rows($result);
+while($row = mysqli_fetch_array($result))
 {
-	 $id = $row[id];
-	 $user_type = $row[user_type];
-	 $username = $row[username];
+	 $id = $row['id'];
+	 $user_type = $row['user_type'];
+	 $username = $row['username'];
 }
 	
 if($_SESSION['basic_is_logged_in'] != $id or $_SESSION['basic_is_logged_in'] =='')
@@ -20,20 +20,20 @@ if($_SESSION['basic_is_logged_in'] != $id or $_SESSION['basic_is_logged_in'] =='
 
 if (isset($_GET['remove']) && $_GET['remove'] != '')
 {
-	$query  = "DELETE FROM table_barred WHERE id = '$_GET[remove]'";
-	$result = mysql_query($query) or die(mysql_error()) ;
-	echo "<script type=text/javascript language=javascript> window.location.href = 'barring.php?crypted=$_GET[crypted]'; </script>"; 
+	$query  = "DELETE FROM table_barred WHERE id = ".$_GET['remove'];
+	$result = mysqli_query($conn, $query) or die(mysqli_error($conn)) ;
+	echo "<script type=text/javascript language=javascript> window.location.href = 'barring.php?crypted=".$_GET['crypted']."'; </script>"; 
 
 }	
 
-if(isset($_POST[submit]))
+if(isset($_POST['submit']))
 {
 	$sqlfacility = "SELECT * FROM facility WHERE unique_no = " . $_POST['facility_id'];
-	$resultfacility = mysql_query($sqlfacility);
-	$rowfacility = mysql_fetch_array($resultfacility);
+	$resultfacility = mysqli_query($conn, $sqlfacility);
+	$rowfacility = mysqli_fetch_array($resultfacility);
 	$month_blocked = $rowfacility['month_blocked'];
 	$dates     = explode("-", $_POST['last_booking']);
-	$day     = $dates['0'];
+	$day      = $dates['0'];
 	$month    = $dates['1'];
 	$year     = $dates['2'];
 	$expiry = mktime(0,0,0,$month+$month_blocked,$day,$year);
@@ -42,11 +42,25 @@ if(isset($_POST[submit]))
 	$_facility_id	=	$_POST['facility_id'];
 	$_last_booking	=	$_POST['last_booking'];
 	$query  = "INSERT INTO table_barred (user_id, facility_id, last_booking, bar_expiry) VALUES ('$_user_id', '$_facility_id', '$_last_booking', '$bar_expiry')";
-	$result = mysql_query($query) or die(mysql_error()) ;
-	echo "<script type=text/javascript language=javascript> window.location.href = 'barring.php?crypted=$_GET[crypted]'; </script>"; 
+	$result = mysqli_query($conn, $query) or die(mysqli_error($conn)) ;
+	echo "<script type=text/javascript language=javascript> window.location.href = 'barring.php?crypted=".$_GET['crypted']."'; </script>"; 
 }
 
-$month = array('01' => 'January','02' => 'February','03' => 'March','04' => 'April','05' => 'May','06' => 'June','07' => 'July','08' => 'August','09' => 'September','10' => 'October','11' => 'November','12' => 'December')
+$month = array(
+			'01' => 'January',
+			'02' => 'February',
+			'03' => 'March',
+			'04' => 'April',
+			'05' => 'May',
+			'06' => 'June',
+			'07' => 'July',
+			'08' => 'August',
+			'09' => 'September',
+			'10' => 'October',
+			'11' => 'November',
+			'12' => 'December'
+		);
+
 ?>
 <style type="text/css">
 
@@ -65,9 +79,6 @@ filter: progid:DXImageTransform.Microsoft.Shadow(color=gray,direction=135);
 </style>
 <div id="dhtmltooltip"></div>
 
-
- 
- 
  </html>
 <html>
 <head>
@@ -125,7 +136,7 @@ setTimeout("go2()",50)
 //-->
 </script>
 </head>
-<? include ("../headermem.php"); ?>
+<?php include ("../headermem.php"); ?>
 <script type="text/javascript">
 var offsetxpoint=-60 //Customize x offset of tooltip
 var offsetypoint=20 //Customize y offset of tooltip
@@ -233,7 +244,7 @@ type="block"></SPACER></td>
             </table>
           	</td>
         </tr>
-        <? 
+        <?php 
 		if($user_type=='1')
 		{
 			include ("internal-adminmenu.php");
@@ -291,30 +302,30 @@ height="3"></SPACER></td>
     <td width="24%" bgcolor="#944542" style="border-left:0px solid #b09852;border-right:1px solid #b09852; padding-left:15px; padding-top:5px; padding-bottom:5px;"><strong>Bar Expiry</strong></td>
     <td width="31%" bgcolor="#944542" style="border-left:0px solid #b09852;border-right:1px solid #b09852; padding-left:15px; padding-top:5px; padding-bottom:5px;"><strong>&nbsp;</strong></td>
   </tr>
-  <?
+  <?php
   $current_date = date('Y-m-d');
   $sqlsearch = "SELECT * FROM table_barred WHERE bar_expiry >= '$new_current_date'";
-  $resultsearch = mysql_query($sqlsearch);
-  $countsearch = mysql_num_rows($resultsearch);
+  $resultsearch = mysqli_query($conn, $sqlsearch);
+  $countsearch = mysqli_num_rows($resultsearch);
   if ($countsearch == 0)
   {
   ?>
   <tr>
     <td colspan="6" style="border-left:1px solid #b09852;border-right:1px solid #b09852; padding-left:15px; padding-top:5px; padding-bottom:5px;">No user was found misusing the booking system.</td>
   </tr>
-  <? } else { $foundsearch = 1; ?>
+  <?php } else { $foundsearch = 1; ?>
   <tr>
-    <td colspan="6" style="border-left:1px solid #b09852;border-right:1px solid #b09852; padding-left:15px; padding-top:5px; padding-bottom:5px;"><b><? echo $countsearch; ?></b> user was found misusing the booking system.</td>
+    <td colspan="6" style="border-left:1px solid #b09852;border-right:1px solid #b09852; padding-left:15px; padding-top:5px; padding-bottom:5px;"><b><?php echo $countsearch; ?></b> user was found misusing the booking system.</td>
   </tr>
-  <? while ($rowsearch = mysql_fetch_array($resultsearch)) { ?>
-  <? 
+  <?php while ($rowsearch = mysqli_fetch_array($resultsearch)) { ?>
+  <?php 
   $sqluser = "SELECT * FROM user_account WHERE id = " . $rowsearch['user_id'];
-  $resultuser = mysql_query($sqluser);
-  $rowuser = mysql_fetch_array($resultuser);
+  $resultuser = mysqli_query($conn, $sqluser);
+  $rowuser = mysqli_fetch_array($resultuser);
   
   $sqlfacility = "SELECT * FROM facility WHERE unique_no = " . $rowsearch['facility_id'];
-  $resultfacility = mysql_query($sqlfacility);
-  $rowfacility = mysql_fetch_array($resultfacility);
+  $resultfacility = mysqli_query($conn, $sqlfacility);
+  $rowfacility = mysqli_fetch_array($resultfacility);
   $lastbooked = explode("-", $rowsearch['last_booking']);
   $last_booking = $lastbooked[0] . " " . $month[$lastbooked[1]] . " " . $lastbooked[2]; 
   $barexpiry = explode("-", $rowsearch['bar_expiry']);
@@ -322,47 +333,47 @@ height="3"></SPACER></td>
    
   ?>
   <tr>
-    <td style="border-left:1px solid #b09852; <? if ($foundsearch == 1) { ?>border-top:1px solid #b09852;<? } ?>border-right:1px solid #b09852; border-bottom:1px solid #b09852; padding-left:15px; padding-top:5px; padding-bottom:5px;"><? echo $foundsearch; ?></td>
-    <td style="border-left:0px solid #b09852; <? if ($foundsearch == 1) { ?>border-top:1px solid #b09852;<? } ?>border-right:1px solid #b09852; border-bottom:1px solid #b09852; padding-left:15px; padding-top:5px; padding-bottom:5px;"><? echo $rowuser['name']; ?></td>
-    <td style="border-left:0px solid #b09852; <? if ($foundsearch == 1) { ?>border-top:1px solid #b09852;<? } ?>border-right:1px solid #b09852; border-bottom:1px solid #b09852; padding-left:15px; padding-top:5px; padding-bottom:5px;"><? echo $rowfacility['name']; ?></td>
-    <td style="border-left:0px solid #b09852; <? if ($foundsearch == 1) { ?>border-top:1px solid #b09852;<? } ?>border-right:1px solid #b09852; border-bottom:1px solid #b09852; padding-left:15px; padding-top:5px; padding-bottom:5px;"><? echo $last_booking; ?></td>
-    <td style="border-left:0px solid #b09852; <? if ($foundsearch == 1) { ?>border-top:1px solid #b09852;<? } ?>border-right:1px solid #b09852; border-bottom:1px solid #b09852; padding-left:15px; padding-top:5px; padding-bottom:5px;"><? echo $bar_expiry; ?></td>
-    <td style="border-left:0px solid #b09852; <? if ($foundsearch == 1) { ?>border-top:1px solid #b09852;<? } ?>border-right:1px solid #b09852; border-bottom:1px solid #b09852; padding-left:0px; padding-top:5px; padding-bottom:5px;" align="center">[ <a href="barring.php?remove=<? echo $rowsearch['id']; ?>&crypted=<? echo $_GET[crypted]; ?>">remove</a> ] </td>
+    <td style="border-left:1px solid #b09852; <?php if ($foundsearch == 1) { ?>border-top:1px solid #b09852;<?php } ?>border-right:1px solid #b09852; border-bottom:1px solid #b09852; padding-left:15px; padding-top:5px; padding-bottom:5px;"><?php echo $foundsearch; ?></td>
+    <td style="border-left:0px solid #b09852; <?php if ($foundsearch == 1) { ?>border-top:1px solid #b09852;<?php } ?>border-right:1px solid #b09852; border-bottom:1px solid #b09852; padding-left:15px; padding-top:5px; padding-bottom:5px;"><?php echo $rowuser['name']; ?></td>
+    <td style="border-left:0px solid #b09852; <?php if ($foundsearch == 1) { ?>border-top:1px solid #b09852;<?php } ?>border-right:1px solid #b09852; border-bottom:1px solid #b09852; padding-left:15px; padding-top:5px; padding-bottom:5px;"><?php echo $rowfacility['name']; ?></td>
+    <td style="border-left:0px solid #b09852; <?php if ($foundsearch == 1) { ?>border-top:1px solid #b09852;<?php } ?>border-right:1px solid #b09852; border-bottom:1px solid #b09852; padding-left:15px; padding-top:5px; padding-bottom:5px;"><?php echo $last_booking; ?></td>
+    <td style="border-left:0px solid #b09852; <?php if ($foundsearch == 1) { ?>border-top:1px solid #b09852;<?php } ?>border-right:1px solid #b09852; border-bottom:1px solid #b09852; padding-left:15px; padding-top:5px; padding-bottom:5px;"><?php echo $bar_expiry; ?></td>
+    <td style="border-left:0px solid #b09852; <?php if ($foundsearch == 1) { ?>border-top:1px solid #b09852;<?php } ?>border-right:1px solid #b09852; border-bottom:1px solid #b09852; padding-left:0px; padding-top:5px; padding-bottom:5px;" align="center">[ <a href="barring.php?remove=<?php echo $rowsearch['id']; ?>&crypted=<?php echo $_GET['crypted']; ?>">remove</a> ] </td>
   </tr>
-  <? $foundsearch++; } ?>
-  <? } ?>
+  <?php $foundsearch++; } ?>
+  <?php } ?>
 </table>          </td>
 		  </tr>
         <tr>
 		  <td colspan="4" vAlign="top" class="content">Use the form below to bar the user from making any booking on a facility.</td>
 		  </tr>
-          <form name="barring" method="post" action="?crypted=<? echo $_GET['crypted']; ?>">
+          <form name="barring" method="post" action="?crypted=<?php echo $_GET['crypted']; ?>">
           <tr>
 		  <td width="200" vAlign="top" class="content">User :&nbsp;&nbsp;
 		    <select name="user_id">
           <option value="">Please select user</option>
-		  <? 
+		  <?php 
 		  $sqlusers = "SELECT * FROM user_account ORDER BY username ASC";
-		  $resultusers = mysql_query($sqlusers);
-		  while ($rowusers = mysql_fetch_array($resultusers))
+		  $resultusers = mysqli_query($conn, $sqlusers);
+		  while ($rowusers = mysqli_fetch_array($resultusers))
 		  {
 		  ?>
-          		<option value="<? echo $rowusers['id']; ?>"><? echo $rowusers['username']; ?></option>
-		  <?
+          		<option value="<?php echo $rowusers['id']; ?>"><?php echo $rowusers['username']; ?></option>
+		  <?php
 		  }
 		  ?>
           </select></td>
 		  <td width="210" vAlign="top" class="content">Facility : &nbsp;&nbsp;
 		    <select name="facility_id">
           <option value="">Please select facility</option>
-		  <? 
+		  <?php 
 		  $sqlfacility = "SELECT * FROM facility ORDER BY name ASC";
-		  $resultfacility = mysql_query($sqlfacility);
-		  while ($rowfacility = mysql_fetch_array($resultfacility))
+		  $resultfacility = mysqli_query($conn, $sqlfacility);
+		  while ($rowfacility = mysqli_fetch_array($resultfacility))
 		  {
 		  ?>
-          <option value="<? echo $rowfacility['unique_no']; ?>"><? echo $rowfacility['name']; ?></option>
-		  <?
+          <option value="<?php echo $rowfacility['unique_no']; ?>"><?php echo $rowfacility['name']; ?></option>
+		  <?php
 		  }
 		  ?>
           </select></td>
@@ -396,4 +407,4 @@ height="3"></SPACER></td>
 					<img height="20" src="img/ctrrgtbot.gif" width="29"></td>
 				</tr>
 </table>
-<? include ("../footer.php"); ?>
+<?php include ("../footer.php"); ?>

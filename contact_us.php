@@ -1,32 +1,33 @@
-<?
+<?php
 session_start();
 include_once("mem/includes/config.php");
 $s_id = $_SESSION['basic_is_logged_in'];
-$query = "select * from user_account  where crypted  = '$_GET[crypted]' and id = '$s_id' limit 1";
-	$result= mysql_query($query) or die(mysql_error());
-	$count = mysql_num_rows($result);
-	while($row = mysql_fetch_array($result))
+if(isset($_GET['crypted'])){
+	$query = "SELECT * FROM user_account  where crypted  = '".$_GET['crypted']."' and id = '".$s_id."' limit 1";
+	$result= mysqli_query($conn, $query) or die(mysqli_error($conn));
+	$count = mysqli_num_rows($result);
+	while($row = mysqli_fetch_array($result))
 	{
-			 $id = $row[id];
-			 $user_type = $row[user_type];
-			 $username = $row[username];
-			 
+			 $id = $row['id'];
+			 $user_type = $row['user_type'];
+			 $username = $row['username'];
 	}
 	
-	if($_SESSION['basic_is_logged_in'] != $id or	 $_SESSION['basic_is_logged_in'] =='')
+	if($_SESSION['basic_is_logged_in'] != $id or $_SESSION['basic_is_logged_in'] =='')
 	{
 
 //	 echo "<script type=text/javascript language=javascript> window.location.href = '../login.php?ops=2'; <//script> ";
 		//	exit;
-	}	
+	}
+}else{
+	$id='';
+}
+	
 ?>	
-<?
-if (isset($_POST['Submit']) && $_POST['email'] != '')
-{
+<?php
+if (isset($_POST['Submit']) && $_POST['email'] != ''){
 		//$username	 	= 'AsiaTechQC Administrator';
 		//$email_address	= 'noreply@asiatechqc.com';
-
-
 		$Fromname 		= $_POST['name'];
 		$Fromaddress 	= $_POST['email'];
 		$contact		= $_POST['contact'];
@@ -35,8 +36,6 @@ if (isset($_POST['Submit']) && $_POST['email'] != '')
 		
 		$mailsubject = 'Ardmore Park Website Submission - ' . $title; 
 		
-
-
 //GET PARAMETER FROM URL..
 		$email = 'ardmorepark@ardmorepark.com.sg';
 		//$message = 'test';
@@ -65,8 +64,15 @@ if (isset($_POST['Submit']) && $_POST['email'] != '')
 //$header = 'From: dinesh.kumar@siliconbiztech.com'."\r\n".'Reply-To: dinesh.kumar@siliconbiztech.com\nBcc: shah@axon.com.sg';
 
 		$mail_sent = mail($email, $mailsubject, $message1, $headers);
-		echo "<script type=text/javascript language=javascript> window.location.href = 'contact_us.php?done=1'; </script> ";
-		exit;
+
+		if(isset($_GET['crypted'])){
+			echo "<script type=text/javascript language=javascript> window.location.href = 'contact_us.php?crypted=".$_GET['crypted']."&done=1'; </script> ";
+			exit;
+		}else{
+			echo "<script type=text/javascript language=javascript> window.location.href = 'contact_us.php?done=1'; </script> ";
+			exit;
+		}
+		
 }
 else
 {
@@ -115,7 +121,7 @@ function submitform()
 }
 </SCRIPT>
 
-<? include ("header.php"); ?>
+<?php include ("header.php"); ?>
 <table width="100%"  border="0" cellpadding="0" cellspacing="0">
   <tr>
     <td width="8" rowspan="3" align="left" valign="top">&nbsp;</td>
@@ -128,14 +134,13 @@ function submitform()
   <tr valign="top">
     <td height="93" class="lefttop">&nbsp;</td>
   </tr>
-   <? if($_SESSION['basic_is_logged_in'] != $id or	 $_SESSION['basic_is_logged_in'] =='')
-	{
+   <?php if($_SESSION['basic_is_logged_in'] != $id or $_SESSION['basic_is_logged_in'] ==''){
 
 	}
 	else
 	{
 	 ?>
-  <tr>
+  			<tr>
 				<td>
 				<table cellSpacing="0" cellPadding="0" width="100%" border="0" id="table6">
 					<tr>
@@ -162,7 +167,7 @@ function submitform()
 				</table>
 				</td>
 			</tr>
-             <?
+             <?php
 		if($user_type=='1')
 		{
 			include ("mem/internal-adminmenu-fromoutside.php");
@@ -172,7 +177,7 @@ function submitform()
 			include ("mem/internal-memmenu-fromoutside.php");
 		}
 		?>
-            <? } ?>
+            <?php } ?>
   <tr>
     <td></td>
   </tr>
@@ -214,8 +219,8 @@ Email: <a href="mailto:ardmorepark@ardmorepark.com.sg">ardmorepark@ardmorepark.c
 </td>
 </tr>
 </table>
-<?
-if($_SESSION['basic_is_logged_in'] != $id or	 $_SESSION['basic_is_logged_in'] =='')
+<?php
+if($_SESSION['basic_is_logged_in'] != $id or $_SESSION['basic_is_logged_in'] =='')
 	{
 	
 	}
@@ -230,11 +235,11 @@ if($_SESSION['basic_is_logged_in'] != $id or	 $_SESSION['basic_is_logged_in'] ==
 <tr>
 <td colspan="2">Alternatively, you can use the online feedback form as well.<br><br></td>
 </tr>
-<? if ($_GET['done'] == 1) { ?>
+<?php if (isset($_GET['done']) == 1) { ?>
 <tr>
 <td colspan="2"><font color="#990000"><strong>Thank you for your submission. We will get in touch with you shortly.</strong></font></td>
 </tr>
-<? } ?>
+<?php } ?>
 <form name="form1" id="form1" action="contact_us.php" method="post">
 <tr>
 <td height="29" align="left">
@@ -291,7 +296,7 @@ if($_SESSION['basic_is_logged_in'] != $id or	 $_SESSION['basic_is_logged_in'] ==
 </tr>
 </form>					
 </table>
-<?
+<?php
 }
 ?>
     </td>
@@ -304,7 +309,7 @@ if($_SESSION['basic_is_logged_in'] != $id or	 $_SESSION['basic_is_logged_in'] ==
     <td align="right" valign="top" background="img/ctrbotctr.gif"><img src="img/ctrrgtbot.gif" width="29" height="20"></td>
   </tr>
 </table>
-<? include ("footer.php"); ?>
-<?
+<?php include ("footer.php"); ?>
+<?php
 }
 ?>

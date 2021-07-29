@@ -1,8 +1,7 @@
 <?php 
 session_start();
 include_once("mem/includes/config.php");
-if(isset($_POST["szID"]))
-{
+if(isset($_POST["szID"])){
 	
 	//if(strpos($_POST['szID'], '=')) exit;
 	//if(strpos($_POST['szPassword'], '=')) exit;
@@ -13,20 +12,15 @@ if(isset($_POST["szID"]))
 	if($_SERVER['REMOTE_ADDR'] == '182.65.83.90'){ 
 		//echo $query; exit;
 	}
-	
 	$result = mysqli_query($conn, $query) or die(mysqli_error($conn)) ;
-	
 	$count = mysqli_num_rows($result);
-	
-	if($count != '0' )
-	{
+	if($count != '0' ){
  		$row = mysqli_fetch_array($result);
- 			
 			$id = $row['id'];
-			$crypted = $row['crypt'];
+			$crypted = $row['crypted'];
 		 	$_SESSION['basic_is_logged_in'] = "$id";
 			include_once('mem/random_char.php');
-			$query = "update user_account set crypted = '$pwd' where id = '$id' limit 1";
+			$query = "UPDATE user_account set crypted = '".$pwd."' where id = '".$id."' limit 1";
 			$result = mysqli_query($conn, $query) or die(mysqli_error($conn)) ; 
 			if ($row['user_type'] == '0')
 			{
@@ -38,7 +32,7 @@ if(isset($_POST["szID"]))
 			{
 				$_SESSION['admin'] = 1;
 				$date_set = date("D, jS F Y @ H:i:s");
-				$query = "update user_account set last_logged_in = '$date_set' where id = '$id' limit 1";
+				$query = "UPDATE user_account SET last_logged_in = '".$date_set."' where id = '".$id."' limit 1";
 				$result = mysqli_query($conn, $query) or die(mysqli_error($conn)) ; 
 				echo "<script type=text/javascript language=javascript> window.location.href = 'mem/admin.php?crypted=$pwd'; </script> ";
 			}
@@ -52,9 +46,7 @@ if(isset($_POST["szID"]))
 				$numdays = date("t");
 				$startmonth = "-$getmonth-$getyear";
 				echo "<script type=text/javascript language=javascript> window.location.href = 'mem/booking.php?crypted=$pwd&page=all&date_sel_all=01$startmonth&date_sel_all_end=$numdays$startmonth&select=7&menu2=0&user_sel=0'; </script> ";
-			
 			}
-		
 	}
 	else
 	{
@@ -62,19 +54,14 @@ if(isset($_POST["szID"]))
 			echo "<script type=text/javascript language=javascript> window.location.href = 'login.php?ops=1'; </script> ";
 			exit;
 	}
-
-
 }
 
-
-
-
- ?>
+?>
 
 <? include ("header.php"); ?>
 <link rel=stylesheet type="text/css" href="textset.css">
 	<table cellSpacing="0" cellPadding="0" width="649" align="center" border="0" id="table4">
-<script language="javascript"><!-- hide from old browsers
+<script language="javascript">//<!-- hide from old browsers
 function validate()
 {
 	if (document.form1.szID.value.length == 0)

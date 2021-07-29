@@ -4,8 +4,8 @@ height="3"><b><br>
             &nbsp;&nbsp;User</b></spacer></td>
         </tr>
         <tr> 
-          <td class="leftcontent" height="69">&nbsp;&nbsp;<img height="7" src="img/leftdot.gif" width="9" border="0"> <a href="admin.php?crypted=<? echo $_GET['crypted']; ?>">Main Menu </a><br>
-            &nbsp;&nbsp;<img height="7" src="img/leftdot.gif" width="9" border="0"> <a class="copy" href="admin.php?mode=password&crypted=<? echo $_GET['crypted']; ?>">Change 
+          <td class="leftcontent" height="69">&nbsp;&nbsp;<img height="7" src="img/leftdot.gif" width="9" border="0"> <a href="admin.php?crypted=<?php echo $_GET['crypted']; ?>">Main Menu </a><br>
+            &nbsp;&nbsp;<img height="7" src="img/leftdot.gif" width="9" border="0"> <a class="copy" href="admin.php?mode=password&crypted=<?php echo $_GET['crypted']; ?>">Change 
             Password </a><br>
           </td>
         </tr>
@@ -16,11 +16,11 @@ height="3"><b><br>
         </tr>
         <tr> 
           <td class="leftcontent" height="3"><br>
-            &nbsp;&nbsp; <img height="7" src="img/leftdot.gif" width="9" border="0"> <a href="facility.php?crypted=<?php echo $_GET[crypted]; ?>&page=user">Manage Users</a><br>
-            &nbsp;&nbsp; <img height="7" src="img/leftdot.gif" width="9" border="0"> <a href="booking.php?crypted=<?php echo $_GET[crypted]; ?>&cr=1">Create Facilities</a><br>
-            &nbsp;&nbsp; <img height="7" src="img/leftdot.gif" width="9" border="0"> <a href="booking.php?crypted=<?php echo $_GET[crypted]; ?>&page=view">Manage Facilities</a><br>
-            &nbsp;&nbsp; <img height="7" src="img/leftdot.gif" width="9" border="0"> <a href="barring.php?crypted=<?php echo $_GET[crypted]; ?>">Facility Barring</a><br>
-            &nbsp;&nbsp; <img height="7" src="img/leftdot.gif" width="9" border="0"> <a href="comm.php?crypted=<? echo $_GET['crypted']; ?>&calender"> 
+            &nbsp;&nbsp; <img height="7" src="img/leftdot.gif" width="9" border="0"> <a href="facility.php?crypted=<?php echo $_GET['crypted']; ?>&page=user">Manage Users</a><br>
+            &nbsp;&nbsp; <img height="7" src="img/leftdot.gif" width="9" border="0"> <a href="booking.php?crypted=<?php echo $_GET['crypted']; ?>&cr=1">Create Facilities</a><br>
+            &nbsp;&nbsp; <img height="7" src="img/leftdot.gif" width="9" border="0"> <a href="booking.php?crypted=<?php echo $_GET['crypted']; ?>&page=view">Manage Facilities</a><br>
+            &nbsp;&nbsp; <img height="7" src="img/leftdot.gif" width="9" border="0"> <a href="barring.php?crypted=<?php echo $_GET['crypted']; ?>">Facility Barring</a><br>
+            &nbsp;&nbsp; <img height="7" src="img/leftdot.gif" width="9" border="0"> <a href="comm.php?crypted=<?php echo $_GET['crypted']; ?>&calender"> 
             Calendar / Events</a><br>
             <br>
           </td>
@@ -33,12 +33,12 @@ height="3"><b><br>
         <tr> 
           <td class="leftcontent" height="3"><br>
             &nbsp;&nbsp; <img height="7" src="img/leftdot.gif" width="9" border="0"> 
-            <a href="armenities.php?crypted=<? echo $_GET['crypted']; ?>">Amenities</a><br>
-            &nbsp;&nbsp; <img height="7" src="img/leftdot.gif" width="9" border="0"> <a href="addforms.php?crypted=<? echo $_GET['crypted']; ?>">Application 
+            <a href="armenities.php?crypted=<?php echo $_GET['crypted']; ?>">Amenities</a><br>
+            &nbsp;&nbsp; <img height="7" src="img/leftdot.gif" width="9" border="0"> <a href="addforms.php?crypted=<?php echo $_GET['crypted']; ?>">Application 
             Forms</a><br>
-            &nbsp;&nbsp; <img height="7" src="img/leftdot.gif" width="9" border="0"> <a href="circular.php?crypted=<? echo $_GET['crypted']; ?>">News / Circulars</a><br>
-            &nbsp;&nbsp; <img height="7" src="img/leftdot.gif" width="9" border="0"> <a href="useful.php?crypted=<? echo $_GET['crypted']; ?>">Useful Info</a><span class="txtgrey"></span><a href="http://helpdesk.axonhq.net" target="_blank"> 
-            </a><a href="comm.php?crypted=<? echo $_GET['crypted']; ?>&calender"> 
+            &nbsp;&nbsp; <img height="7" src="img/leftdot.gif" width="9" border="0"> <a href="circular.php?crypted=<?php echo $_GET['crypted']; ?>">News / Circulars</a><br>
+            &nbsp;&nbsp; <img height="7" src="img/leftdot.gif" width="9" border="0"> <a href="useful.php?crypted=<?php echo $_GET['crypted']; ?>">Useful Info</a><span class="txtgrey"></span><a href="http://helpdesk.axonhq.net" target="_blank"> 
+            </a><a href="comm.php?crypted=<?php echo $_GET['crypted']; ?>&calender"> 
             </a><br>
             <br>
           </td>
@@ -50,7 +50,7 @@ height="3"><b><br>
         </tr>
         <tr> 
           <td class="leftcontent" height="3"><br>
-            &nbsp;&nbsp; <img height="7" src="img/leftdot.gif" width="9" border="0">  <a href="booking.php?crypted=<?php echo $_GET[crypted]; ?>&page=book_now&user_id=<? echo $_SESSION['basic_is_logged_in']; ?>&pid=6"> Online Booking</a><br>
+            &nbsp;&nbsp; <img height="7" src="img/leftdot.gif" width="9" border="0">  <a href="booking.php?crypted=<?php echo $_GET['crypted']; ?>&page=book_now&user_id=<?php echo $_SESSION['basic_is_logged_in']; ?>&pid=6"> Online Booking</a><br>
         	</td>
         </tr>
                 
@@ -59,7 +59,7 @@ height="3"><b><br>
 height="3"><b><br>
             &nbsp;&nbsp;Reports<br>
             <br>
-            </b>&nbsp; <img height="7" src="img/leftdot.gif" width="9" border="0"> <a href="booking.php?crypted=<?php echo $_GET[crypted]; ?>&page=all">Booking Report</a><br>
+            </b>&nbsp; <img height="7" src="img/leftdot.gif" width="9" border="0"> <a href="booking.php?crypted=<?php echo $_GET['crypted']; ?>&page=all">Booking Report</a><br>
             <b><br>
             </b></SPACER></td>
         </tr>

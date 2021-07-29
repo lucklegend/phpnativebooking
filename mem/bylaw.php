@@ -3,13 +3,13 @@
 	include_once("includes/config.php");
 	
 	$s_id = $_SESSION['basic_is_logged_in'];
-	$query = "select * from user_account  where crypted  = '$_GET[crypted]' and id = '$s_id' limit 1";
-	$result= mysql_query($query) or die(mysql_error());
-	$count = mysql_num_rows($result);
-	while($row = mysql_fetch_array($result))
+	$query = "SELECT * FROM user_account  where crypted  = '".$_GET['crypted']."' and id = '".$s_id."' limit 1";
+	$result= mysqli_query($conn, $query) or die(mysqli_error($conn));
+	$count = mysqli_num_rows($result);
+	while($row = mysqli_fetch_array($result))
 	{
-			 $id = $row[id];
-			  $user_type = $row[user_type];
+			 $id = $row['id'];
+			  $user_type = $row['user_type'];
 	}
 	
 	if($_SESSION['basic_is_logged_in'] != $id or	 $_SESSION['basic_is_logged_in'] =='')
@@ -22,7 +22,7 @@
 
 
  ?>
- <? include ("../headermem.php"); ?>
+ <?php include ("../headermem.php"); ?>
 <table cellSpacing="0" cellPadding="0" width="100%" border="0" id="table4">
 	<tr>
 		<td vAlign="top" align="left" width="8" rowSpan="3">&nbsp;</td>
@@ -183,4 +183,4 @@ height="3"></SPACER></td>
 		<img height="20" src="http://ascengen.com/ardmorepark/img/ctrrgtbot.gif" width="29"></td>
 	</tr>
 </table>
-<? include ("../footer.php"); ?>
+<?php include ("../footer.php"); ?>

@@ -1,4 +1,4 @@
-<?php 
+<?php
 session_start();
 include_once("mem/includes/config.php");
 $s_id = $_SESSION['basic_is_logged_in'];
@@ -20,7 +20,7 @@ $query = "SELECT * FROM user_account  WHERE crypted  = '".$_GET['crypted']."' an
 		//	exit;
 	}	
 ?>	
-<?php  include ("header.php"); ?>
+<?php include ("header.php"); ?>
 <table width="100%"  border="0" cellpadding="0" cellspacing="0">
   <tr>
     <td width="8" rowspan="3" align="left" valign="top">&nbsp;</td>
@@ -33,11 +33,12 @@ $query = "SELECT * FROM user_account  WHERE crypted  = '".$_GET['crypted']."' an
     <td height="93" class="lefttop">&nbsp;</td>
   </tr>
   <?php 
-  if (isset($_SESSION['basic_is_logged_in']) && isset($_GET['crypted'])){
+  if (isset($_SESSION['basic_is_logged_in']) && isset($_GET['crypted']))
+  {
   ?>
   <tr>
   <td colspan="3" align="center" style="padding-top:10px;">
-  <?php 
+  <?
   
 				if($user_type=='1')
 				 {
@@ -58,7 +59,7 @@ $query = "SELECT * FROM user_account  WHERE crypted  = '".$_GET['crypted']."' an
                 <br>&nbsp;
                 </td>
                 </tr>
-                <?php 
+                <?
 		if($user_type=='1')
 		{
 			include ("mem/internal-adminmenu-fromoutside.php");
@@ -68,7 +69,7 @@ $query = "SELECT * FROM user_account  WHERE crypted  = '".$_GET['crypted']."' an
 			include ("mem/internal-memmenu-fromoutside.php");
 		}
 		?>
-			   <?php 
+			   <?
 			   }
 			   ?>
 </table>
@@ -79,89 +80,81 @@ $query = "SELECT * FROM user_account  WHERE crypted  = '".$_GET['crypted']."' an
           <td height="82" valign="bottom" class="ctrtop"><img src="img/t/sitemap.gif" width="108" height="35"></td>
         </tr>
       </table>
-	        <p><span class="t4 fontitle"><img src="img/leftdot2.gif" width="9" height="7" hspace="6" vspace="1"><a style="color:#CC6600;" href="home.php<?php 
-  if (isset($_SESSION['basic_is_logged_in']) && isset($_GET['crypted'])){
-  ?>?crypted=<?php  echo $_GET['crypted']; } ?>">Main</a></span><br>
-		<?php 
+	        <p><span class="t4 fontitle">
+            <img src="img/leftdot2.gif" width="9" height="7" hspace="6" vspace="1">
+            <a style="color:#CC6600;" href="home.php<?php 
+              if (isset($_SESSION['basic_is_logged_in']) && isset($_GET['crypted'])) {
+              ?>?crypted=<?php echo $_GET['crypted']; } ?>">Main</a></span><br>
+              <?php 
+              if (isset($_SESSION['basic_is_logged_in']) && isset($_GET['crypted'])) {
+              ?>
+              <img src="img/leftdot2.gif" width="9" height="7" hspace="6" class="leftmargin1">
+              <a style="color:#666666;"  href="login.php" class="copy">login</a><br>
+              <?php 
+              } 
+              ?>
+	            <img src="img/leftdot2.gif" width="9" height="7" hspace="6" class="leftmargin1">
+              <a style="color:#666666;"  href="walkthrough.php<?php 
   if (isset($_SESSION['basic_is_logged_in']) && isset($_GET['crypted']))
   {
-  ?>
-        <img src="img/leftdot2.gif" width="9" height="7" hspace="6" class="leftmargin1"><a style="color:#666666;"  href="login.php" class="copy">login</a><br>
-        <?php  } ?>
-	  <img src="img/leftdot2.gif" width="9" height="7" hspace="6" class="leftmargin1"><a style="color:#666666;"  href="walkthrough.php<?php 
-  if (isset($_SESSION['basic_is_logged_in']) && isset($_GET['crypted']))
-  {
-  ?>?crypted=<?php  echo $_GET['crypted']; } ?>">Virtual Walk-Through of Ardmore Park</a><br>
+  ?>?crypted=<?php echo $_GET['crypted']; } ?>">Virtual Walk-Through of Ardmore Park</a><br>
 	  <img src="img/leftdot2.gif" width="9" height="7" hspace="6" class="leftmargin1"><a style="color:#666666;"  href="gallery.php<?php 
   if (isset($_SESSION['basic_is_logged_in']) && isset($_GET['crypted']))
   {
-  ?>?crypted=<?php  echo $_GET['crypted']; } ?>">Photo Gallery </a><br>
+  ?>?crypted=<?php echo $_GET['crypted']; } ?>">Photo Gallery </a><br>
 	  <img src="img/leftdot2.gif" width="9" height="7" hspace="6" class="leftmargin1"><a style="color:#666666;"  href="facsiteplan.php<?php 
   if (isset($_SESSION['basic_is_logged_in']) && isset($_GET['crypted']))
   {
-  ?>?crypted=<?php  echo $_GET['crypted']; } ?>">Site Plan</a> 
-
-
-
-
+  ?>?crypted=<?php echo $_GET['crypted']; } ?>">Site Plan</a> 
 
 	        <p><span class="t4 fontitle"><img src="img/leftdot2.gif" width="9" height="7" hspace="6" vspace="1"></span><span class="t4"><a style="color:#CC6600;" href="#">My Profile </a></span><br>
               <img src="img/leftdot2.gif" width="9" height="7" hspace="6" class="leftmargin1"><a style="color:#666666;" href="mem/profile.php<?php 
   if (isset($_SESSION['basic_is_logged_in']) && isset($_GET['crypted']))
   {
-  ?>?crypted=<?php  echo $_GET['crypted']; } ?>" class="copy">Change Password </a><br>
+  ?>?crypted=<?php echo $_GET['crypted']; } ?>" class="copy">Change Password </a><br>
               <!--img src="img/leftdot2.gif" width="9" height="7" hspace="6" class="leftmargin1"><a href="login.php" class="copy">Masters</a><br-->
               <img src="img/leftdot2.gif" width="9" height="7" hspace="6" class="leftmargin1"><a style="color:#666666;"  href="mem/profile.php<?php 
   if (isset($_SESSION['basic_is_logged_in']) && isset($_GET['crypted']))
   {
-  ?>?crypted=<?php  echo $_GET['crypted']; } ?>" class="copy">Update Of Information </a>      
-
-
-
-
-
-
-
-
-
+  ?>?crypted=<?php echo $_GET['crypted']; } ?>" class="copy">Update Of Information </a>      
 	        <p><span class="t4 fontitle"><img src="img/leftdot2.gif" width="9" height="7" hspace="6" vspace="1"></span><span class="t4"><a style="color:#CC6600;" href="#">Facility Booking </a></span><br>
               <img src="img/leftdot2.gif" width="9" height="7" hspace="6" class="leftmargin1"><a style="color:#666666;"  href="mem/booking.php<?php 
   if (isset($_SESSION['basic_is_logged_in']) && isset($_GET['crypted']))
   {
-  ?>?crypted=<?php  echo $_GET['crypted']; } ?>" class="copy">Facilities Booking</a><br>
+  ?>?crypted=<?php echo $_GET['crypted']; } ?>" class="copy">Facilities Booking</a><br>
               <img src="img/leftdot2.gif" width="9" height="7" hspace="6" class="leftmargin1"><a style="color:#666666;"  href="mem/booking.php<?php 
   if (isset($_SESSION['basic_is_logged_in']) && isset($_GET['crypted']))
   {
-  ?>?crypted=<?php  echo $_GET['crypted']; ?>&page=all<?php  } ?>" class="copy">View / Cancel Bookings</a>                       
+  ?>?crypted=<?php echo $_GET['crypted']; ?>&page=all<?php } ?>" class="copy">View / Cancel Bookings</a>                       
 	        <p><span class="t4 fontitle"><img src="img/leftdot2.gif" width="9" height="7" hspace="6" vspace="1"></span><span class="t4"><a style="color:#CC6600;" href="#">Our Community</a></span><br>
         <img src="img/leftdot2.gif" width="9" height="7" hspace="6" class="leftmargin1"><a style="color:#666666;"  href="mem/community.php?<?php 
   if (isset($_SESSION['basic_is_logged_in']) && isset($_GET['crypted']))
   {
-  ?>?crypted=<?php  echo $_GET['crypted']; } ?>" class="copy">Community News</a><br>
+  ?>?crypted=<?php echo $_GET['crypted']; } ?>" class="copy">Community News</a><br>
       <img src="img/leftdot2.gif" width="9" height="7" hspace="6" class="leftmargin1"><a style="color:#666666;"  href="mem/community.php<?php 
   if (isset($_SESSION['basic_is_logged_in']) && isset($_GET['crypted']))
   {
-  ?>?crypted=<?php  echo $_GET['crypted']; } ?>" class="copy">Circulars </a><br>
+  ?>?crypted=<?php echo $_GET['crypted']; } ?>" class="copy">Circulars </a><br>
       <img src="img/leftdot2.gif" width="9" height="7" hspace="6" class="leftmargin1"><a style="color:#666666;"  href="mem/comm.php<?php 
   if (isset($_SESSION['basic_is_logged_in']) && isset($_GET['crypted']))
   {
-  ?>?crypted=<?php  echo $_GET['crypted']; ?>&calender<?php  } ?>" class="copy">Calendar of Events </a>           
+  ?>?crypted=<?php echo $_GET['crypted']; ?>&calender<?php } ?>" class="copy">Calendar of Events </a>           
 	        <p><span class="t4 fontitle"><img src="img/leftdot2.gif" width="9" height="7" hspace="6" vspace="1"></span><span class="t4"><a style="color:#CC6600;" href="gettingthere.php<?php 
   if (isset($_SESSION['basic_is_logged_in']) && isset($_GET['crypted']))
   {
-  ?>?crypted=<?php  echo $_GET['crypted']; } ?>">Useful Infomation </a></span>            
+  ?>?crypted=<?php echo $_GET['crypted']; } ?>">Useful Infomation </a></span>            
 	        <p><img src="img/leftdot2.gif" width="9" height="7" hspace="6" vspace="1"><span class="t4"><a style="color:#CC6600;" href="mem/forms.php<?php 
   if (isset($_SESSION['basic_is_logged_in']) && isset($_GET['crypted']))
   {
-  ?>?crypted=<?php  echo $_GET['crypted']; } ?>">Application Forms </a></span>            
+  ?>?crypted=<?php echo $_GET['crypted']; } ?>">Application Forms </a></span>            
 	        <p><img src="img/leftdot2.gif" width="9" height="7" hspace="6" vspace="1"><span class="t4"><a style="color:#CC6600;" href="mem/bylaws.php<?php 
   if (isset($_SESSION['basic_is_logged_in']) && isset($_GET['crypted']))
   {
-  ?>?crypted=<?php  echo $_GET['crypted']; } ?>">By-laws</a></span>
+  ?>?crypted=<?php echo $_GET['crypted']; } ?>">By-laws</a></span>
 	                          <p><img src="img/leftdot2.gif" width="9" height="7" hspace="6" vspace="1"><span class="t4"><a style="color:#CC6600;" href="contact_us.php<?php 
   if (isset($_SESSION['basic_is_logged_in']) && isset($_GET['crypted']))
   {
-  ?>?crypted=<?php  echo $_GET['crypted']; } ?>">Contact Us</a></span><br>
+  ?>?crypted=<?php echo $_GET['crypted']; } ?>">Contact Us</a></span><br>
       
   <p>&nbsp;</p>
     </td>
@@ -175,4 +168,4 @@ $query = "SELECT * FROM user_account  WHERE crypted  = '".$_GET['crypted']."' an
   </tr>
 </table>
 
-<?php  include ("footer.php"); ?>
+<?php include ("footer.php"); ?>

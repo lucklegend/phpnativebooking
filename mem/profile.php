@@ -20,24 +20,29 @@ if(isset($_GET['mode'])){
 }
 
 $s_id = $_SESSION['basic_is_logged_in'];
-$query = "SELECT * FROM user_account  WHERE crypted  = '".$_GET['crypted']."' AND id = '".$s_id."' LIMIT 1";
-	$result= mysqli_query($conn, $query) or die(mysqli_error($conn));
-	$count = mysqli_num_rows($result);
-	while($row = mysqli_fetch_array($result))
-	{
-			 $id = $row['id'];
-			 $user_type = $row['user_type'];
-			 $name = $row['name'];
-			 $title = $row['title'];
-			 $company = $row['company'];
-			 $address = $row['address'];
-			 $telephone = $row['contact_no'];
-			 $handphone = $row['handphone'];
-			 $officephone = $row['officephone'];
-			 $fax = $row['fax'];
-			 $email = $row['email'];
-			 $username = $row['username'];
+	if(isset($_GET['crypted'])){
+		$query = "SELECT * FROM user_account  WHERE crypted  = '".$_GET['crypted']."' AND id = '".$s_id."' LIMIT 1";
+		$result= mysqli_query($conn, $query) or die(mysqli_error($conn));
+		$count = mysqli_num_rows($result);
+		while($row = mysqli_fetch_array($result))
+		{
+				$id = $row['id'];
+				$user_type = $row['user_type'];
+				$name = $row['name'];
+				$title = $row['title'];
+				$company = $row['company'];
+				$address = $row['address'];
+				$telephone = $row['contact_no'];
+				$handphone = $row['handphone'];
+				$officephone = $row['officephone'];
+				$fax = $row['fax'];
+				$email = $row['email'];
+				$username = $row['username'];
+		}
+	}else{
+		$id = '';
 	}
+	
 	
 	if($_SESSION['basic_is_logged_in'] != $id or	 $_SESSION['basic_is_logged_in'] =='')
 	{

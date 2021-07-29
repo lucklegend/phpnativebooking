@@ -2086,8 +2086,8 @@ $start_month = date('-m-Y');
             $_SESSION[facility][from]            = $row[from_time];
             $_SESSION[facility]['max']           = $row[max_time];
             $_SESSION[facility][hrs]             = $row[hours];
-            $_SESSION[facility][open_from]       = $row[open_from];
-            $_SESSION[facility][closed_at]       = $row[closed_at];
+            $_SESSION['facility']['open_from']       = $row[open_from];
+            $_SESSION['facility']['closed_at']       = $row[closed_at];
             $_SESSION[facility][auto_close]      = $row[auto_close_date];
             $_SESSION[facility][from_date]       = $row[from_date];
             $_SESSION[facility][to_date]         = $row[to_date];
@@ -2176,14 +2176,14 @@ $start_month = date('-m-Y');
             }
         }
     }
-    if (isset($_POST[down2])) {
-        if ($_POST[from_time2] > $_POST[to_time2]) {
+    if (isset($_POST['down2'])) {
+        if ($_POST['from_time2'] > $_POST['to_time2']) {
             $er = 1;
         } else {
             $query = "select * from track_time where track = '$unique_no'";
             $result = mysqli_query($conn,$query) or die(mysqli_error($conn));
             while ($row = mysqli_fetch_array($result)) {
-                if (($_POST[from_time2] < $row[to_time]) and ($_POST[week2] == '0' or $_POST[week2] == $row[weak])) {
+                if (($_POST['from_time2'] < $row['to_time']) and ($_POST['week2'] == '0' or $_POST['week2'] == $row['weak'])) {
                     echo $er = 1;
                 }
             }
@@ -2317,12 +2317,12 @@ $start_month = date('-m-Y');
                             <select name="to_time2" tooltipText="Select the closing timing of the facility. (e.g: if the faility closes at evening 10:00 PM then select 22:00 from drop down option)">
 
                             <?php
-    $query  = "select * from time_slot ";
-    $result = mysqli_query($conn,$query);
-    while ($row = mysqli_fetch_array($result)) {
-        echo "<option value=$row[id]>$row[time_slot]</option>";
-    }
-?>
+                                $query  = "select * from time_slot ";
+                                $result = mysqli_query($conn,$query);
+                                while ($row = mysqli_fetch_array($result)) {
+                                    echo "<option value=".$row['id'].">".$row['time_slot']."</option>";
+                                }
+                            ?>
 
                             </select>
 
@@ -2445,7 +2445,7 @@ $start_month = date('-m-Y');
 ?></td>
 
                             <td style="border-left:1px solid #990011; border-top:1px solid #990011;"><?php
-            if ($row[peak] == '1') {
+            if ($row['peak'] == '1') {
                 echo "Peak Hour";
             } else {
                 echo "Non - Peak Hour";
@@ -3434,73 +3434,73 @@ $start_month = date('-m-Y');
                                 <label></label>
 
                                 <?php
-    if ($_SESSION[facility][open_from] == '0') {
+    if ($_SESSION['facility']['open_from'] == '0') {
         $open_from_0 = "selected = selected";
-    } elseif ($_SESSION[facility][open_from] == '1') {
+    } elseif ($_SESSION['facility']['open_from'] == '1') {
         $open_from_1 = "selected = selected";
-    } elseif ($_SESSION[facility][open_from] == '2') {
+    } elseif ($_SESSION['facility']['open_from'] == '2') {
         $open_from_2 = "selected = selected";
-    } elseif ($_SESSION[facility][open_from] == '3') {
+    } elseif ($_SESSION['facility']['open_from'] == '3') {
         $open_from_3 = "selected = selected";
-    } elseif ($_SESSION[facility][open_from] == '4') {
+    } elseif ($_SESSION['facility']['open_from'] == '4') {
         $open_from_4 = "selected = selected";
-    } elseif ($_SESSION[facility][open_from] == '5') {
+    } elseif ($_SESSION['facility']['open_from'] == '5') {
         $open_from_5 = "selected = selected";
-    } elseif ($_SESSION[facility][open_from] == '6') {
+    } elseif ($_SESSION['facility']['open_from'] == '6') {
         $open_from_6 = "selected = selected";
-    } elseif ($_SESSION[facility][open_from] == '6') {
+    } elseif ($_SESSION['facility']['open_from'] == '6') {
         $open_from_6 = "selected = selected";
-    } elseif ($_SESSION[facility][open_from] == '7') {
+    } elseif ($_SESSION['facility']['open_from'] == '7') {
         $open_from_7 = "selected = selected";
-    } elseif ($_SESSION[facility][open_from] == '8') {
+    } elseif ($_SESSION['facility']['open_from'] == '8') {
         $open_from_8 = "selected = selected";
-    } elseif ($_SESSION[facility][open_from] == '9') {
+    } elseif ($_SESSION['facility']['open_from'] == '9') {
         $open_from_9 = "selected = selected";
-    } elseif ($_SESSION[facility][open_from] == '9') {
+    } elseif ($_SESSION['facility']['open_from'] == '9') {
         $open_from_9 = "selected = selected";
-    } elseif ($_SESSION[facility][open_from] == '10') {
+    } elseif ($_SESSION['facility']['open_from'] == '10') {
         $open_from_10 = "selected = selected";
-    } elseif ($_SESSION[facility][open_from] == '11') {
+    } elseif ($_SESSION['facility']['open_from'] == '11') {
         $open_from_11 = "selected = selected";
-    } elseif ($_SESSION[facility][open_from] == '12') {
+    } elseif ($_SESSION['facility']['open_from'] == '12') {
         $open_from_12 = "selected = selected";
-    } elseif ($_SESSION[facility][open_from] == '13') {
+    } elseif ($_SESSION['facility']['open_from'] == '13') {
         $open_from_13 = "selected = selected";
-    } elseif ($_SESSION[facility][open_from] == '14') {
+    } elseif ($_SESSION['facility']['open_from'] == '14') {
         $open_from_14 = "selected = selected";
-    } elseif ($_SESSION[facility][open_from] == '15') {
+    } elseif ($_SESSION['facility']['open_from'] == '15') {
         $open_from_15 = "selected = selected";
-    } elseif ($_SESSION[facility][open_from] == '16') {
+    } elseif ($_SESSION['facility']['open_from'] == '16') {
         $open_from_16 = "selected = selected";
-    } elseif ($_SESSION[facility][open_from] == '17') {
+    } elseif ($_SESSION['facility']['open_from'] == '17') {
         $open_from_17 = "selected = selected";
-    } elseif ($_SESSION[facility][open_from] == '18') {
+    } elseif ($_SESSION['facility']['open_from'] == '18') {
         $open_from_18 = "selected = selected";
-    } elseif ($_SESSION[facility][open_from] == '19') {
+    } elseif ($_SESSION['facility']['open_from'] == '19') {
         $open_from_19 = "selected = selected";
-    } elseif ($_SESSION[facility][open_from] == '20') {
+    } elseif ($_SESSION['facility']['open_from'] == '20') {
         $open_from_20 = "selected = selected";
-    } elseif ($_SESSION[facility][open_from] == '21') {
+    } elseif ($_SESSION['facility']['open_from'] == '21') {
         $open_from_21 = "selected = selected";
-    } elseif ($_SESSION[facility][open_from] == '22') {
+    } elseif ($_SESSION['facility']['open_from'] == '22') {
         $open_from_22 = "selected = selected";
-    } elseif ($_SESSION[facility][open_from] == '23') {
+    } elseif ($_SESSION['facility']['open_from'] == '23') {
         $open_from_23 = "selected = selected";
-    } elseif ($_SESSION[facility][open_from] == '24') {
+    } elseif ($_SESSION['facility']['open_from'] == '24') {
         $open_from_24 = "selected = selected";
-    } elseif ($_SESSION[facility][open_from] == '25') {
+    } elseif ($_SESSION['facility']['open_from'] == '25') {
         $open_from_25 = "selected = selected";
-    } elseif ($_SESSION[facility][open_from] == '26') {
+    } elseif ($_SESSION['facility']['open_from'] == '26') {
         $open_from_26 = "selected = selected";
-    } elseif ($_SESSION[facility][open_from] == '27') {
+    } elseif ($_SESSION['facility']['open_from'] == '27') {
         $open_from_27 = "selected = selected";
-    } elseif ($_SESSION[facility][open_from] == '28') {
+    } elseif ($_SESSION['facility']['open_from'] == '28') {
         $open_from_28 = "selected = selected";
-    } elseif ($_SESSION[facility][open_from] == '29') {
+    } elseif ($_SESSION['facility']['open_from'] == '29') {
         $open_from_29 = "selected = selected";
-    } elseif ($_SESSION[facility][open_from] == '30') {
+    } elseif ($_SESSION['facility']['open_from'] == '30') {
         $open_from_30 = "selected = selected";
-    } elseif ($_SESSION[facility][open_from] == '60') {
+    } elseif ($_SESSION['facility']['open_from'] == '60') {
         $open_from_60 = "selected = selected";
     }
 ?>
@@ -3638,211 +3638,112 @@ $start_month = date('-m-Y');
                                 Days and will be cancelled before
 
                                 <?php
-    if ($_SESSION[facility][closed_at] == '0') {
+    if ($_SESSION['facility']['closed_at'] == '0') {
         $closed_at_0 = "selected = selected";
-    } elseif ($_SESSION[facility][closed_at] == '1') {
+    } elseif ($_SESSION['facility']['closed_at'] == '1') {
         $closed_at_1 = "selected = selected";
-    } elseif ($_SESSION[facility][closed_at] == '2') {
+    } elseif ($_SESSION['facility']['closed_at'] == '2') {
         $closed_at_2 = "selected = selected";
-    } elseif ($_SESSION[facility][closed_at] == '3') {
+    } elseif ($_SESSION['facility']['closed_at'] == '3') {
         $closed_at_3 = "selected = selected";
-    } elseif ($_SESSION[facility][closed_at] == '4') {
+    } elseif ($_SESSION['facility']['closed_at'] == '4') {
         $closed_at_4 = "selected = selected";
-    } elseif ($_SESSION[facility][closed_at] == '5') {
+    } elseif ($_SESSION['facility']['closed_at'] == '5') {
         $closed_at_5 = "selected = selected";
-    } elseif ($_SESSION[facility][closed_at] == '6') {
+    } elseif ($_SESSION['facility']['closed_at'] == '6') {
         $closed_at_6 = "selected = selected";
-    } elseif ($_SESSION[facility][closed_at] == '6') {
+    } elseif ($_SESSION['facility']['closed_at'] == '6') {
         $closed_at_6 = "selected = selected";
-    } elseif ($_SESSION[facility][closed_at] == '7') {
+    } elseif ($_SESSION['facility']['closed_at'] == '7') {
         $closed_at_7 = "selected = selected";
-    } elseif ($_SESSION[facility][closed_at] == '8') {
+    } elseif ($_SESSION['facility']['closed_at'] == '8') {
         $closed_at_8 = "selected = selected";
-    } elseif ($_SESSION[facility][closed_at] == '9') {
+    } elseif ($_SESSION['facility']['closed_at'] == '9') {
         $closed_at_9 = "selected = selected";
-    } elseif ($_SESSION[facility][closed_at] == '9') {
+    } elseif ($_SESSION['facility']['closed_at'] == '9') {
         $closed_at_9 = "selected = selected";
-    } elseif ($_SESSION[facility][closed_at] == '10') {
+    } elseif ($_SESSION['facility']['closed_at'] == '10') {
         $closed_at_10 = "selected = selected";
-    } elseif ($_SESSION[facility][closed_at] == '11') {
+    } elseif ($_SESSION['facility']['closed_at'] == '11') {
         $closed_at_11 = "selected = selected";
-    } elseif ($_SESSION[facility][closed_at] == '12') {
+    } elseif ($_SESSION['facility']['closed_at'] == '12') {
         $closed_at_12 = "selected = selected";
-    } elseif ($_SESSION[facility][closed_at] == '13') {
+    } elseif ($_SESSION['facility']['closed_at'] == '13') {
         $closed_at_13 = "selected = selected";
-    } elseif ($_SESSION[facility][closed_at] == '14') {
+    } elseif ($_SESSION['facility']['closed_at'] == '14') {
         $closed_at_14 = "selected = selected";
-    } elseif ($_SESSION[facility][closed_at] == '15') {
+    } elseif ($_SESSION['facility']['closed_at'] == '15') {
         $closed_at_15 = "selected = selected";
-    } elseif ($_SESSION[facility][closed_at] == '16') {
+    } elseif ($_SESSION['facility']['closed_at'] == '16') {
         $closed_at_16 = "selected = selected";
-    } elseif ($_SESSION[facility][closed_at] == '17') {
+    } elseif ($_SESSION['facility']['closed_at'] == '17') {
         $closed_at_17 = "selected = selected";
-    } elseif ($_SESSION[facility][closed_at] == '18') {
+    } elseif ($_SESSION['facility']['closed_at'] == '18') {
         $closed_at_18 = "selected = selected";
-    } elseif ($_SESSION[facility][closed_at] == '19') {
+    } elseif ($_SESSION['facility']['closed_at'] == '19') {
         $closed_at_19 = "selected = selected";
-    } elseif ($_SESSION[facility][closed_at] == '20') {
+    } elseif ($_SESSION['facility']['closed_at'] == '20') {
         $closed_at_20 = "selected = selected";
-    } elseif ($_SESSION[facility][closed_at] == '21') {
+    } elseif ($_SESSION['facility']['closed_at'] == '21') {
         $closed_at_21 = "selected = selected";
-    } elseif ($_SESSION[facility][closed_at] == '22') {
+    } elseif ($_SESSION['facility']['closed_at'] == '22') {
         $closed_at_22 = "selected = selected";
-    } elseif ($_SESSION[facility][closed_at] == '23') {
+    } elseif ($_SESSION['facility']['closed_at'] == '23') {
         $closed_at_23 = "selected = selected";
-    } elseif ($_SESSION[facility][closed_at] == '24') {
+    } elseif ($_SESSION['facility']['closed_at'] == '24') {
         $closed_at_24 = "selected = selected";
-    } elseif ($_SESSION[facility][closed_at] == '25') {
+    } elseif ($_SESSION['facility']['closed_at'] == '25') {
         $closed_at_25 = "selected = selected";
-    } elseif ($_SESSION[facility][closed_at] == '26') {
+    } elseif ($_SESSION['facility']['closed_at'] == '26') {
         $closed_at_26 = "selected = selected";
-    } elseif ($_SESSION[facility][closed_at] == '27') {
+    } elseif ($_SESSION['facility']['closed_at'] == '27') {
         $closed_at_27 = "selected = selected";
-    } elseif ($_SESSION[facility][closed_at] == '28') {
+    } elseif ($_SESSION['facility']['closed_at'] == '28') {
         $closed_at_28 = "selected = selected";
-    } elseif ($_SESSION[facility][closed_at] == '29') {
+    } elseif ($_SESSION['facility']['closed_at'] == '29') {
         $closed_at_29 = "selected = selected";
-    } elseif ($_SESSION[facility][closed_at] == '30') {
+    } elseif ($_SESSION['facility']['closed_at'] == '30') {
         $closed_at_30 = "selected = selected";
-    } elseif ($_SESSION[facility][closed_at] == '48') {
+    } elseif ($_SESSION['facility']['closed_at'] == '48') {
         $closed_at_48 = "selected = selected";
-    } elseif ($_SESSION[facility][closed_at] == '72') {
+    } elseif ($_SESSION['facility']['closed_at'] == '72') {
         $closed_at_72 = "selected = selected";
     }
 ?>
 
-                                <select name="closed_at" <?php
-    echo $disabled;
-?>>
-
-                                	<option value="0" <?php
-    echo $closed_at_0;
-?>>N/A</option>
-
-                                    <option value="1" <?php
-    echo $closed_at_1;
-?>>1</option>
-
-                                    <option value="2" <?php
-    echo $closed_at_2;
-?>>2</option>
-
-                                    <option value="3" <?php
-    echo $closed_at_3;
-?>>3</option>
-
-                                    <option value="4" <?php
-    echo $closed_at_4;
-?>>4</option>
-
-                                    <option value="5" <?php
-    echo $closed_at_5;
-?>>5</option>
-
-                                    <option value="6" <?php
-    echo $closed_at_6;
-?>>6</option>
-
-                                    <option value="7" <?php
-    echo $closed_at_7;
-?>>7</option>
-
-                                    <option value="8" <?php
-    echo $closed_at_8;
-?>>8</option>
-
-                                    <option value="9" <?php
-    echo $closed_at_9;
-?>>9</option>
-
-                                    <option value="10" <?php
-    echo $closed_at_10;
-?>>10</option>
-
-                                    <option value="11" <?php
-    echo $closed_at_11;
-?>>11</option>
-
-                                    <option value="12" <?php
-    echo $closed_at_12;
-?>>12</option>
-
-                                    <option value="13" <?php
-    echo $closed_at_13;
-?>>13</option>
-
-                                    <option value="14" <?php
-    echo $closed_at_14;
-?>>14</option>
-
-                                    <option value="15" <?php
-    echo $closed_at_15;
-?>>15</option>
-
-                                    <option value="16" <?php
-    echo $closed_at_16;
-?>>16</option>
-
-                                    <option value="17" <?php
-    echo $closed_at_17;
-?>>17</option>
-
-                                    <option value="19" <?php
-    echo $closed_at_18;
-?>>18</option>
-
-                                    <option value="20" <?php
-    echo $closed_at_19;
-?>>19</option>
-
-                                    <option value="21" <?php
-    echo $closed_at_20;
-?>>20</option>
-
-                                    <option value="22" <?php
-    echo $closed_at_21;
-?>>21</option>
-
-                                    <option value="23" <?php
-    echo $closed_at_22;
-?>>22</option>
-
-                                    <option value="24" <?php
-    echo $closed_at_24;
-?>>24</option>
-
-                                    <option value="25" <?php
-    echo $closed_at_25;
-?>>25</option>
-
-                                    <option value="26" <?php
-    echo $closed_at_26;
-?>>26</option>
-
-                                    <option value="27" <?php
-    echo $closed_at_27;
-?>>27</option>
-
-                                    <option value="28" <?php
-    echo $closed_at_28;
-?>>28</option>
-
-                                    <option value="29" <?php
-    echo $closed_at_29;
-?>>29</option>
-
-                                    <option value="30" <?php
-    echo $closed_at_30;
-?>>30</option>
-
-								    <option value="48" <?php
-    echo $closed_at_48;
-?>>48</option>
-
-								    <option value="72" <?php
-    echo $closed_at_72;
-?>>72</option>
-
+                                <select name="closed_at" <?php echo $disabled; ?>>
+                                	<option value="0" <?php echo $closed_at_0;?>>N/A</option>
+                                    <option value="1" <?php echo $closed_at_1; ?>>1</option>
+                                    <option value="2" <?php echo $closed_at_2; ?>>2</option>
+                                    <option value="3" <?php echo $closed_at_3; ?>>3</option>
+                                    <option value="4" <?php echo $closed_at_4; ?>>4</option>
+                                    <option value="5" <?php echo $closed_at_5; ?>>5</option>
+                                    <option value="6" <?php echo $closed_at_6; ?>>6</option>
+                                    <option value="7" <?php echo $closed_at_7; ?>>7</option>
+                                    <option value="8" <?php echo $closed_at_8; ?>>8</option>
+                                    <option value="9" <?php echo $closed_at_9; ?>>9</option>
+                                    <option value="10" <?php echo $closed_at_10; ?>>10</option>
+                                    <option value="11" <?php echo $closed_at_11; ?>>11</option>
+                                    <option value="12" <?php echo $closed_at_12; ?>>12</option>
+                                    <option value="13" <?php echo $closed_at_13; ?>>13</option>
+                                    <option value="14" <?php echo $closed_at_14; ?>>14</option>
+                                    <option value="15" <?php echo $closed_at_15; ?>>15</option>
+                                    <option value="16" <?php echo $closed_at_16; ?>>16</option>
+                                    <option value="17" <?php echo $closed_at_17; ?>>17</option>
+                                    <option value="19" <?php echo $closed_at_18; ?>>18</option>
+                                    <option value="20" <?php echo $closed_at_19; ?>>19</option>
+                                    <option value="21" <?php echo $closed_at_20; ?>>20</option>
+                                    <option value="22" <?php echo $closed_at_21; ?>>21</option>
+                                    <option value="23" <?php echo $closed_at_22; ?>>22</option>
+                                    <option value="24" <?php echo $closed_at_24; ?>>24</option>
+                                    <option value="25" <?php echo $closed_at_25; ?>>25</option>
+                                    <option value="26" <?php echo $closed_at_26; ?>>26</option>
+                                    <option value="27" <?php echo $closed_at_27; ?>>27</option>
+                                    <option value="28" <?php echo $closed_at_28; ?>>28</option>
+                                    <option value="29" <?php echo $closed_at_29; ?>>29</option>
+                                    <option value="30" <?php echo $closed_at_30; ?>>30</option>
+								    <option value="48" <?php echo $closed_at_48; ?>>48</option>
+								    <option value="72" <?php echo $closed_at_72; ?>>72</option>
 								</select>
 
                                 Hrs if not confirmed </td>
@@ -3864,7 +3765,7 @@ $start_month = date('-m-Y');
                             	<td colspan="10" bgcolor="#FDF5E1"><p>
 
                                 <?php
-    if ($_SESSION[facility][os] == 'time_based') {
+    if ($_SESSION['facility']['os'] == 'time_based') {
         $os_2 = "checked=checked";
     } else {
         $os_1 = "checked=checked";
@@ -3934,7 +3835,7 @@ $start_month = date('-m-Y');
                                 <label>
 
                                 <?php
-    if ($_SESSION[facility][auto_close] == '1') {
+    if ($_SESSION['facility']['auto_close'] == '1') {
         $auto_close_1 = "checked=checked";
     } else {
         $auto_close_1 = "";
@@ -3952,197 +3853,78 @@ $start_month = date('-m-Y');
 							</tr>
 
                             <tr>
-
                             	<td width="11%">From</td>
-
                                 <td width="7%"><strong>:</strong></td>
-
                                 <td width="20%"><label>
-
-                                <input name="from_date" type="text" size="10" maxlength="10" readonly="" <?php
-    echo $disabled;
-?> value="<?php
-    echo $_SESSION[facility][from_date];
-?>">
-
-                                <img src="images/icon-calender.gif" width="19" height="18"  onclick="displayCalendar(document.forms[0].from_date,'dd.mm.yyyy',this)" value="Cal"></label></td>
-
+                                    <input name="from_date" type="text" size="10" maxlength="10" readonly="" <?php echo $disabled; ?> value="<?php echo $_SESSION['facility']['from_date']; ?>">
+                                    <img src="images/icon-calender.gif" width="19" height="18"  onclick="displayCalendar(document.forms[0].from_date,'dd.mm.yyyy',this)" value="Cal"></label></td>
                                 <td width="15%">&nbsp;</td>
-
                                 <td width="2%">To</td>
-
                                 <td width="5%"><strong>:</strong></td>
-
-                                <td width="15%"><input name="to_date" type="text" size="10" maxlength="10" readonly="" <?php
-    echo $disabled;
-?> value="<?php
-    echo $_SESSION[facility][to_date];
-?>">
-
-                                <img src="images/icon-calender.gif" width="19" height="18"  onclick="displayCalendar(document.forms[0].to_date,'dd.mm.yyyy',this)" value="Cal"></td>
-
+                                <td width="15%">
+                                    <input name="to_date" type="text" size="10" maxlength="10" readonly="" <?php echo $disabled; ?> value="<?php  echo $_SESSION['facility']['to_date']; ?>">
+                                    <img src="images/icon-calender.gif" width="19" height="18"  onclick="displayCalendar(document.forms[0].to_date,'dd.mm.yyyy',this)" value="Cal"></td>
                                 <td width="6%"><div align="right">Frame</div></td>
-
                                 <td width="1%"><strong>:</strong></td>
-
                                 <td colspan="4"><label>
-
                                 <?php
-    if ($_SESSION[facility][frame] == '0') {
-        $frame_1 = "selected = selected";
-    } else {
-        $frame_2 = "selected = selected";
-    }
-?>
+                                    if ($_SESSION['facility']['frame'] == '0') {
+                                        $frame_1 = "selected = selected";
+                                    } else {
+                                        $frame_2 = "selected = selected";
+                                    }
+                                ?>
 
-                                <select name="frame" <?php
-    echo $disabled;
-?> tooltiptext="You want to disable this facilities on every month or every year of specified dates ?">
-
-                                	<option value="0" <?php
-    echo $frame_1;
-?>>Month</option>
-
-                                    <option value="1" <?php
-    echo $frame_2;
-?>>Year</option>
-
-                                </select>
-
-                                </label>                                </td>
-
+                                    <select name="frame" <?php echo $disabled; ?> tooltiptext="You want to disable this facilities on every month or every year of specified dates ?">
+                                        <option value="0" <?php echo $frame_1; ?>>Month</option>
+                                        <option value="1" <?php echo $frame_2; ?>>Year</option>
+                                    </select>
+                                </label> </td>
 							</tr>
 
                             <tr>
-
                             	<td colspan="2">Message</td>
-
                                 <td><label>
-
-                                <input type="text" name="message" <?php
-    echo $disabled;
-?> value="<?php
-    echo $_SESSION[facility][message];
-?>" >
-
+                                <input type="text" name="message" <?php echo $disabled; ?> value="<?php echo $_SESSION['facility']['message']; ?>" >
                                 </label></td>
-
                                 <td colspan="2"><div align="right">Add to Calender </div></td>
-
                                 <td><strong>:</strong></td>
-
                                 <td><label>
-
                               	<?php
-    if ($_SESSION[facility][auto_cal] == '1') {
-        $auto_cal = "checked=checked";
-    } else {
-        $auto_cal = "";
-    }
-?>
-
-                                <input type="checkbox" name="auto_cal" value="1" <?php
-    echo $disabled;
-?> <?php
-    echo $auto_cal;
-?> tooltiptext="Check this box if you want system to display this event on calander.">
-
+                                    if ($_SESSION['facility']['auto_cal'] == '1') {
+                                        $auto_cal = "checked=checked";
+                                    } else {
+                                        $auto_cal = "";
+                                    }
+                                ?>
+                                    <input type="checkbox" name="auto_cal" value="1" <?php echo $disabled; ?> <?php echo $auto_cal; ?> tooltiptext="Check this box if you want system to display this event on calander.">
                                 </label></td>
-
                                 <td colspan="6">&nbsp;</td>
 
 							</tr>
-
                             <tr>
-
                     	<td colspan="13" bgcolor="#944542" style="border-left:1px solid #b09852;border-right:1px solid #b09852; padding-left:15px; padding-top:5px; padding-bottom:5px;"><span class="fontitle"><strong>&nbsp;Barring Rules </strong></span></td>
-
 					</tr>
-
                     <tr>
-
-                    	<td colspan="13" style="border-left:0px solid #b09852;border-right:0px solid #b09852; padding-left:5px; padding-top:5px; padding-bottom:5px;">User will be barred from booking this facility for <select name="month_blocked">
-
-                        <option value="0" <?php
-    if ($_SESSION[facility][month_blocked] == 0) {
-        echo "selected";
-    }
-?>>0</option>
-
-                        <option value="1" <?php
-    if ($_SESSION[facility][month_blocked] == 1) {
-        echo "selected";
-    }
-?>>1</option>
-
-                        <option value="2" <?php
-    if ($_SESSION[facility][month_blocked] == 2) {
-        echo "selected";
-    }
-?>>2</option>
-
-                        <option value="3" <?php
-    if ($_SESSION[facility][month_blocked] == 3) {
-        echo "selected";
-    }
-?>>3</option>
-
-                        <option value="4" <?php
-    if ($_SESSION[facility][month_blocked] == 4) {
-        echo "selected";
-    }
-?>>4</option>
-
-                        <option value="5" <?php
-    if ($_SESSION[facility][month_blocked] == 5) {
-        echo "selected";
-    }
-?>>5</option>
-
-                        </select> month(s) if they are absent <select name="absent_amount"> 
-
-                        <option value="0" <?php
-    if ($_SESSION[facility][absent_amount] == 0) {
-        echo "selected";
-    }
-?>>0</option>
-
-                        <option value="1" <?php
-    if ($_SESSION[facility][absent_amount] == 1) {
-        echo "selected";
-    }
-?>>1</option>
-
-                        <option value="2" <?php
-    if ($_SESSION[facility][absent_amount] == 2) {
-        echo "selected";
-    }
-?>>2</option>
-
-                        <option value="3" <?php
-    if ($_SESSION[facility][absent_amount] == 3) {
-        echo "selected";
-    }
-?>>3</option>
-
-                        <option value="4" <?php
-    if ($_SESSION[facility][absent_amount] == 4) {
-        echo "selected";
-    }
-?>>4</option>
-
-                        <option value="5" <?php
-    if ($_SESSION[facility][absent_amount] == 5) {
-        echo "selected";
-    }
-?>>5</option>
-
-                        </select> times over a period of <select name="month_period"> <option value="0" <?php
-    if ($_SESSION[facility][month_period] == 0) {
-        echo "selected";
-    }
-?>>0</option>
-
+                    	<td colspan="13" style="border-left:0px solid #b09852;border-right:0px solid #b09852; padding-left:5px; padding-top:5px; padding-bottom:5px;">User will be barred from booking this facility for 
+                            <select name="month_blocked">
+                                <option value="0" <?php if ($_SESSION['facility']['month_blocked'] == 0) { echo "selected"; } ?>>0</option>
+                                <option value="1" <?php if ($_SESSION['facility']['month_blocked'] == 1) { echo "selected"; } ?>>1</option>
+                                <option value="2" <?php if ($_SESSION['facility']['month_blocked'] == 2) { echo "selected"; } ?>>2</option>
+                                <option value="3" <?php if ($_SESSION['facility']['month_blocked'] == 3) { echo "selected"; } ?>>3</option>
+                                <option value="4" <?php if ($_SESSION['facility']['month_blocked'] == 4) { echo "selected"; } ?>>4</option>
+                                <option value="5" <?php if ($_SESSION['facility']['month_blocked'] == 5) { echo "selected"; } ?>>5</option>
+                            </select> month(s) if they are absent 
+                            <select name="absent_amount"> 
+                                <option value="0" <?php if ($_SESSION['facility']['absent_amount'] == 0) { echo "selected"; } ?>>0</option>
+                                <option value="1" <?php if ($_SESSION['facility']['absent_amount'] == 1) { echo "selected"; } ?>>1</option>
+                                <option value="2" <?php if ($_SESSION['facility']['absent_amount'] == 2) { echo "selected"; } ?>>2</option>
+                                <option value="3" <?php if ($_SESSION['facility']['absent_amount'] == 3) { echo "selected"; } ?>>3</option>
+                                <option value="4" <?php if ($_SESSION['facility']['absent_amount'] == 4) { echo "selected"; } ?>>4</option>
+                                <option value="5" <?php if ($_SESSION['facility']['absent_amount'] == 5) { echo "selected"; } ?>>5</option>
+                            </select> times over a period of 
+                            <select name="month_period"> 
+                                <option value="0" <?php if ($_SESSION['facility']['month_period'] == 0) { echo "selected"; } ?>>0</option>
                         <option value="1" <?php
     if ($_SESSION[facility][month_period] == 1) {
         echo "selected";
@@ -4425,16 +4207,15 @@ if ($_GET['page'] == 'book_now' && isset($_GET['next']) == 'next') {
 
                         <table width="100%" border="0" align="center">
 
-                      		<form name="form1" method="post" action="booking.php?crypted=<?php
-    echo $_GET[crypted];
+                      		<form name="form1" method="post" action="booking.php?crypted=<?php echo $_GET['crypted'];
 ?>&id=<?php
-    echo $_GET[id];
+    echo $_GET['id'];
 ?>&page=<?php
     echo $_GET['page'];
 ?>&user_id=<?php
-    echo $_GET[user_id];
+    echo $_GET['user_id'];
 ?>&fac=<?php
-    echo $_GET[fac];
+    echo $_GET['fac'];
 ?>&newbook=0">
 
                             <tr>
@@ -4644,7 +4425,7 @@ if ($_GET['page'] == 'book_now' && isset($_GET['next']) == 'next') {
         }elseif($dont_sel != ''){
             echo $icon = "&nbsp;";
         }else{
-            if($row[peak] =='1'){
+            if($row['peak'] =='1'){
                 echo $icon = "&nbsp;";
             }else{
                 echo $icon = "&nbsp;";
@@ -4928,48 +4709,33 @@ if ($_GET['page'] == 'book_now' && isset($_GET['next']) == 'next') {
     }
 ?>
 
-            				<form name="form1" id="frm_placeorder" method="post" action="booking.php?crypted=<?php
-    echo $_GET[crypted];
+            				<form name="form1" id="frm_placeorder" method="post" action="booking.php?crypted=<?php echo $_GET['crypted'];
 ?>&id=<?php
-    echo $_GET[id];
+    echo $_GET['id'];
 ?>&page=<?php
     echo $_GET['page'];
 ?>&user_id=<?php
-    echo $_GET[user_id];
+    echo $_GET['user_id'];
 ?>&fac=<?php
-    echo $_GET[fac];
+    echo $_GET['fac'];
 ?>&newbook=0">
 
                             <table width="100%" border="0" align="center" class="sk_bok_green">
 
                             <tr>
-
                        		  <td style="padding-top: 5px; padding-bottom: 5px;" colspan="10">
-
                               <table border="0" cellpadding="0" cellspacing="0" width="100%">
-
                               <tr>
-
                               <td align="left" width="85%" bgcolor="#994947" colspan="10">
-
                               <span class="fontitle"><strong> &nbsp;Place Booking</strong></span>                              </td>
-
                               <tr>
-
                               <td align="left" width="85%">
-
                               <p><font color="#FF0000" size="2">Note:</font><font size="2"><br>
-
-                              Please refer to the <a href="bylaws.php?crypted=<?php
-    echo $_GET['crypted'];
-?>">By-Laws</a> for regulations and booking restrictions.</font><br>
+                              Please refer to the <a href="bylaws.php?crypted=<?php echo $_GET['crypted']; ?>">By-Laws</a> for regulations and booking restrictions.</font><br>
 
                             	</p>                              </td>
-
                               </tr>
-
                               <tr>
-
                               <td align="left" width="15%">
 
                              <!-- <span class="fontitle"></span>-->
@@ -4980,18 +4746,12 @@ if ($_GET['page'] == 'book_now' && isset($_GET['next']) == 'next') {
 ?>
 
                                <br/>  
-
                               	<span style="line-height:20px;color:#FF0000;">
-
                                     <strong> Booking less than 3 days is not allowed for the facilities BBQ Pit,Entertainment Room,
-
                                     North Function Room,South Function Room. <br/>Please proceed to Management Office for walk-in booking.</strong>
-
                                 </span>   
-
                                 <br/>  
                                <em><strong>Note:Please choose Facility and  Date to display Booking Slots automatically.</strong></em>
-
                                 <?php
     }
 ?>                         
@@ -5051,7 +4811,7 @@ if ($_GET['page'] == 'book_now' && isset($_GET['next']) == 'next') {
     }
     if (isset($_POST['date_sel']) != '') {
         //print_r($_POST);
-        if (isset($_POST[Submit4])) {
+        if (isset($_POST['Submit4'])) {
             $date_explode  = explode('-', $_POST['date_sel']);
             // since cant change the date_of_booking using normal date functions, have to get the day, month and year individually because the date of booking is referring to the date of the booking, not date of entry.
             //$day = $date_explode[0];
@@ -5060,7 +4820,7 @@ if ($_GET['page'] == 'book_now' && isset($_GET['next']) == 'next') {
             $day           = date("d");
             $month         = date("m");
             $year          = date("Y");
-            $time_explode  = explode('-', $_POST[time_fram]);
+            $time_explode  = explode('-', $_POST['time_fram']);
             $from_time_sel = "$time_explode[0]";
             $peak_time_exp = explode('&', $time_explode[1]);
             $to_time_sel   = "$peak_time_exp[0]";
@@ -5082,7 +4842,7 @@ if ($_GET['page'] == 'book_now' && isset($_GET['next']) == 'next') {
             } else {
                 $payment_status = "0";
             }
-            $checkdating  = explode("-", $_POST[date_sel]);
+            $checkdating  = explode("-", $_POST['date_sel']);
             $checkdatenow = $checkdating[2] . "-" . $checkdating[1] . "-" . $checkdating[0];
             $query        = "select * from my_booking where unique_no = '$unique_no' and uid ='$_GET[user_id]' and status !='2' and from_time ='$from_time_sel' and to_time ='$to_time_sel' and date_of_booking ='$checkdatenow'";
             $result       = mysqli_query($conn,$query);
@@ -5101,7 +4861,7 @@ if ($_GET['page'] == 'book_now' && isset($_GET['next']) == 'next') {
                     $new_unique_no = '1294727326';
                     $whatfacility  = 'P';
                 }
-                $checkdating  = explode("-", $_POST[date_sel]);
+                $checkdating  = explode("-", $_POST['date_sel']);
                 $checkdatenow = $checkdating[2] . "-" . $checkdating[1] . "-" . $checkdating[0];
                 $query        = "select * from my_booking where unique_no = '$new_unique_no' and uid ='$_GET[user_id]' and status ='1' and from_time ='$from_time_sel' and to_time ='$to_time_sel' and date_of_booking ='$checkdatenow'";
                 $result       = mysqli_query($conn,$query);
@@ -5171,7 +4931,7 @@ if ($_GET['page'] == 'book_now' && isset($_GET['next']) == 'next') {
                         }
                     } // second check for the date of holidays or eve holidays
                     // 310108 : added to check to make sure only weekends public holidays applicable
-                    $checknew            = explode("-", $_POST[date_sel]);
+                    $checknew            = explode("-", $_POST['date_sel']);
                     $monthnow            = $checknew[1];
                     $daynow              = $checknew[0];
                     $yearnow             = $checknew[2];
@@ -5225,7 +4985,7 @@ if ($_GET['page'] == 'book_now' && isset($_GET['next']) == 'next') {
                         
                         }*/
                         /*Code Added By Robin on 05-09-2013*/
-                        $date_choosen         = explode("-", $_POST[date_sel]);
+                        $date_choosen         = explode("-", $_POST['date_sel']);
                         $date_facility_booked = $date_choosen[2] . "-" . $date_choosen[1] . "-" . $date_choosen[0];
                         // 3 days before date of booking
                         //echo $closed_at;
@@ -5336,7 +5096,7 @@ if ($_GET['page'] == 'book_now' && isset($_GET['next']) == 'next') {
             }
         }
         //start Date
-        $exp_date             = $_POST[date_sel];
+        $exp_date             = $_POST['date_sel'];
         $curent_date          = $exp_date;
         //start of day funcation
         $exp1_date            = explode("-", $exp_date);
@@ -5624,7 +5384,7 @@ if ($_GET['page'] == 'book_now' && isset($_GET['next']) == 'next') {
         $time_of_booking       = '';
         $newdatetocheck        = explode("-", $_POST['date_sel']);
         $checknewdate          = $newdatetocheck[2] . "-" . $newdatetocheck[1] . "-" . $newdatetocheck[0];
-        $query_my_booking      = "select * from my_booking where unique_no = '$unique_no' and date_of_booking = '$checknewdate' and uid = '$_GET[user_id]' and ((`status` = '0') or (`status` = '1'))";
+        $query_my_booking      = "SELECT * from my_booking where unique_no = '".$unique_no."' and date_of_booking = '".$checknewdate."' and uid = '".$_GET['user_id']."' and ((`status` = '0') or (`status` = '1'))";
         $result_my_query       = mysqli_query($conn,$query_my_booking);
         // get the type for the user being booked
         $query_my_user         = "select * from user_account WHERE id = '".$_GET['user_id']."'";
@@ -5649,7 +5409,7 @@ if ($_GET['page'] == 'book_now' && isset($_GET['next']) == 'next') {
             $time_of_booking  = '';
             $newdatetocheck   = explode("-", $_POST['date_sel']);
             $checknewdate     = $newdatetocheck[2] . "-" . $newdatetocheck[1] . "-" . $newdatetocheck[0];
-            $query_my_booking = "select * from my_booking where unique_no = '$rowothers[unique_no]' and date_of_booking = '$checknewdate' and uid = '$_GET[user_id]' and ((`status` = '0') or (`status` = '1'))";
+            $query_my_booking = "SELECT * FROM my_booking WHERE unique_no = '".$rowothers['unique_no']."' and date_of_booking = '".$checknewdate."' and uid = '".$_GET['user_id']."' and ((`status` = '0') or (`status` = '1'))";
             $result_my_query  = mysqli_query($conn,$query_my_booking);
             // get the type for the user being booked
             $count_booking_for_day += mysqli_num_rows($result_my_query);
@@ -5663,11 +5423,11 @@ if ($_GET['page'] == 'book_now' && isset($_GET['next']) == 'next') {
         $query_facility  = "select * from facility where unique_no ='$unique_no' limit 1";
         $result_facility = mysqli_query($conn,$query_facility);
         while ($row_facility = mysqli_fetch_array($result_facility)) {
-            $name_fac     = $row_facility[name];
+            $name_fac     = $row_facility['name'];
             $auto_apporve = $row_facility['auto_apporve'];
         }
-        $today_week                 = date(w);
-        $date_exp_sel               = explode('-', $_POST[date_sel]);
+        $today_week                 = date('w');
+        $date_exp_sel               = explode('-', $_POST['date_sel']);
         $mon_sel_sel                = $date_exp_sel[1];
         $day_sel_sel                = $date_exp_sel[0];
         $year_sel_sel               = $date_exp_sel[2];
@@ -5699,7 +5459,7 @@ if ($_GET['page'] == 'book_now' && isset($_GET['next']) == 'next') {
             $result_count = mysqli_query($conn,$query_count);
             while ($row_count = mysqli_fetch_array($result_count)) {
                 $tottal_booking_in_week = $tottal_booking_in_week + 1;
-                if ($row_count[time_type] == '1') {
+                if ($row_count['time_type'] == '1') {
                     $tottal_booking_in_week_peek_time = $tottal_booking_in_week_peek_time + 1;
                 } else {
                     $tottal_booking_in_week_nonpeek_time = $tottal_booking_in_week_nonpeek_time + 1;
@@ -5727,7 +5487,7 @@ if ($_GET['page'] == 'book_now' && isset($_GET['next']) == 'next') {
                 $result_count = mysqli_query($conn,$query_count);
                 while ($row_count = mysqli_fetch_array($result_count)) {
                     $tottal_booking_in_week = $tottal_booking_in_week + 1;
-                    if ($row_count[time_type] == '1') {
+                    if ($row_count['time_type'] == '1') {
                         $tottal_booking_in_week_peek_time = $tottal_booking_in_week_peek_time + 1;
                     } else {
                         $tottal_booking_in_week_nonpeek_time = $tottal_booking_in_week_nonpeek_time + 1;
@@ -5736,8 +5496,8 @@ if ($_GET['page'] == 'book_now' && isset($_GET['next']) == 'next') {
             }
         }
         // this checks for month limit
-        $start_month_month = date(m);
-        $start_year_month  = date(Y);
+        $start_month_month = date('m');
+        $start_year_month  = date('Y');
         $start_day_month   = 0;
         for ($i = 1; $i <= $no_of_days_in_curent_month; $i++) //find month details
             {
@@ -5748,7 +5508,7 @@ if ($_GET['page'] == 'book_now' && isset($_GET['next']) == 'next') {
             $result_count = mysqli_query($conn,$query_count);
             while ($row_count = mysqli_fetch_array($result_count)) {
                 $tottal_booking_in_curent_month = $tottal_booking_in_curent_month + 1;
-                if ($row_count[time_type] == '1') {
+                if ($row_count['time_type'] == '1') {
                     $tottal_booking_in_curent_month_in_peak_time = $tottal_booking_in_curent_month_in_peak_time + 1;
                 } else {
                     $tottal_booking_in_curent_month_in_nonpeak_time = $tottal_booking_in_curent_month_in_nonpeak_time + 1;
@@ -5762,8 +5522,8 @@ if ($_GET['page'] == 'book_now' && isset($_GET['next']) == 'next') {
         // now check what other facility belong to same group
         $sqlothers         = "SELECT * FROM group_link WHERE group_id = '$rowgroup[group_id]' AND unique_no != '$unique_no'";
         $resultothers      = mysqli_query($conn,$sqlothers);
-        $start_month_month = date(m);
-        $start_year_month  = date(Y);
+        $start_month_month = date('m');
+        $start_year_month  = date('Y');
         $start_day_month   = 0;
         while ($rowothers = mysqli_fetch_array($resultothers)) {
             for ($i = 1; $i <= $no_of_days_in_curent_month; $i++) //find month details
@@ -5775,7 +5535,7 @@ if ($_GET['page'] == 'book_now' && isset($_GET['next']) == 'next') {
                 $result_count = mysqli_query($conn,$query_count);
                 while ($row_count = mysqli_fetch_array($result_count)) {
                     $tottal_booking_in_curent_month = $tottal_booking_in_curent_month + 1;
-                    if ($row_count[time_type] == '1') {
+                    if ($row_count['time_type'] == '1') {
                         $tottal_booking_in_curent_month_in_peak_time = $tottal_booking_in_curent_month_in_peak_time + 1;
                     } else {
                         $tottal_booking_in_curent_month_in_nonpeak_time = $tottal_booking_in_curent_month_in_nonpeak_time + 1;
@@ -6113,7 +5873,7 @@ if ($_GET['page'] == 'book_now' && isset($_GET['next']) == 'next') {
                 $result_count = mysqli_query($conn,$query_count);
                 while ($row_count = mysqli_fetch_array($result_count)) {
                     //$tottal_booking_in_week = $tottal_booking_in_week +1;
-                    if ($row_count[time_type] == '1') {
+                    if ($row_count['time_type'] == '1') {
                         $tottal_booking_in_week_peek_time_tennis = $tottal_booking_in_week_peek_time_tennis + 1;
                     } else {
                         $tottal_booking_in_week_nonpeek_time_tennis = $tottal_booking_in_week_nonpeek_time_tennis + 1;
@@ -6191,6 +5951,7 @@ if ($_GET['page'] == 'book_now' && isset($_GET['next']) == 'next') {
         (int) $tottal_booking_in_curent_month_pools = 0;
         (int) $tottal_booking_in_curent_month_in_peak_time_pools = 0;
         (int) $tottal_booking_in_curent_month_in_nonpeak_time_pools = 0;
+        
         while ($rowpools = mysqli_fetch_array($resultpools)) {
             //echo "here";
             $date_exp_sel               = explode('-', $_POST['date_sel']);
@@ -6220,7 +5981,7 @@ if ($_GET['page'] == 'book_now' && isset($_GET['next']) == 'next') {
                 $result_count = mysqli_query($conn,$query_count);
                 while ($row_count = mysqli_fetch_array($result_count)) {
                     //$tottal_booking_in_week = $tottal_booking_in_week +1;
-                    if ($row_count[time_type] == '1') {
+                    if ($row_count['time_type'] == '1') {
                         $tottal_booking_in_week_peek_time_pools = $tottal_booking_in_week_peek_time_pools + 1;
                     } else {
                         $tottal_booking_in_week_nonpeek_time_pools = $tottal_booking_in_week_nonpeek_time_pools + 1;
@@ -6279,7 +6040,7 @@ if ($_GET['page'] == 'book_now' && isset($_GET['next']) == 'next') {
     // end of additonal 11 Feb 2009
     $checkdating           = explode("-", $_POST['date_sel']);
     $checkwithdate         = $checkdating[2] . "-" . $checkdating[1] . "-" . $checkdating[0];
-    $query_my_booking      = "select * from my_booking where unique_no = '$unique_no' and date_of_booking = '$checkwithdate' and uid = '$_GET[user_id]' and ((status = '0') or (status = '1'))";
+    $query_my_booking      = "SELECT * FROM my_booking WHERE unique_no = '".$unique_no."' and date_of_booking = '".$checkwithdate."' and uid = '".$_GET['user_id']."' and ((status = '0') or (status = '1'))";
     $result_my_query       = mysqli_query($conn,$query_my_booking);
     $count_booking_for_day = mysqli_num_rows($result_my_query);
     if ($count_booking_for_day == $max_booking_per_day && $user_type_booked != '1') {
@@ -6287,17 +6048,17 @@ if ($_GET['page'] == 'book_now' && isset($_GET['next']) == 'next') {
         $all_system_msg      = "only $max_booking_per_day booking allowed in a day";
     }
     // get the other facilities from the other groups
-    $sqlgroup     = "SELECT group_id FROM group_link WHERE unique_no = '$unique_no'";
+    $sqlgroup     = "SELECT group_id FROM group_link WHERE unique_no = '".$unique_no."'";
     $resultgroup  = mysqli_query($conn,$sqlgroup);
     $rowgroup     = mysqli_fetch_array($resultgroup);
     // now check what other facility belong to same group
-    $sqlothers    = "SELECT * FROM group_link WHERE group_id = '$rowgroup[group_id]' AND unique_no != '$unique_no'";
+    $sqlothers    = "SELECT * FROM group_link WHERE group_id = '".$rowgroup['group_id']."' AND unique_no != '".$unique_no."'";
     $resultothers = mysqli_query($conn,$sqlothers);
     while ($rowothers = mysqli_fetch_array($resultothers)) {
         $time_of_booking  = '';
         $newdatetocheck   = explode("-", $_POST['date_sel']);
         $checknewdate     = $newdatetocheck[2] . "-" . $newdatetocheck[1] . "-" . $newdatetocheck[0];
-        $query_my_booking = "select * from my_booking where unique_no = '$rowothers[unique_no]' and date_of_booking = '$checkwithdate' and uid = '$_GET[user_id]' and ((status = '0') or (status = '1'))";
+        $query_my_booking = "SELECT * FROM my_booking WHERE unique_no = '".$rowothers['unique_no']."' and date_of_booking = '".$checkwithdate."' and uid = '".$_GET['user_id']."' and ((status = '0') or (status = '1'))";
         $result_my_query  = mysqli_query($conn,$query_my_booking);
         // get the type for the user being booked
         $count_booking_for_day += mysqli_num_rows($result_my_query);
@@ -6310,7 +6071,7 @@ if ($_GET['page'] == 'book_now' && isset($_GET['next']) == 'next') {
     }
     // if time-based facility
     if ($error != '1' and $os == 'time_based') {
-        $selected_date = $_POST[date_sel];
+        $selected_date = $_POST['date_sel'];
         $today_date    = date('d-m-Y');
 ?>
 
@@ -6496,7 +6257,7 @@ if ($_GET['page'] == 'book_now' && isset($_GET['next']) == 'next') {
                 $query1  = "select * from time_slot  where id = '$row[from_time]' limit 1";
                 $result1 = mysqli_query($conn, $query1);
                 while ($row1 = mysqli_fetch_array($result1)) {
-                    $from_time        = $row1[time_slot];
+                    $from_time        = $row1['time_slot'];
                     $from_time_div    = $from_time / 60;
                     $from_min_div_exp = explode(':', $from_time);
                     $extra_min        = $from_min_div_exp[1];
@@ -6505,7 +6266,7 @@ if ($_GET['page'] == 'book_now' && isset($_GET['next']) == 'next') {
                 $query1  = "select * from time_slot  where id = '$row[to_time]' limit 1";
                 $result1 = mysqli_query($conn, $query1);
                 while ($row1 = mysqli_fetch_array($result1)) {
-                    $to_time             = $row1[time_slot];
+                    $to_time             = $row1['time_slot'];
                     $to_time_div         = $to_time / 60;
                     $to_time_min_div_exp = explode(':', $to_time);
                     $from_min_div        = $to_time_min_div_exp[1] + $from_min_div;
@@ -6520,14 +6281,14 @@ if ($_GET['page'] == 'book_now' && isset($_GET['next']) == 'next') {
                         $from_time     = "$from_time_exp[0]:$from_time_exp[1]";
                         if ($display_legend != 1) {
                             $color = '#fdf5e2';
-                        } else if ($row[peak] == '0' && $_SESSION['holiday'] != TRUE) {
+                        } else if ($row['peak'] == '0' && $_SESSION['holiday'] != TRUE) {
                             $color = '#cbe8c6';
-                        } else if ($row[peak] == '0' && $_SESSION['holiday'] == TRUE) {
+                        } else if ($row['peak'] == '0' && $_SESSION['holiday'] == TRUE) {
                             // need to say to consider peak as well.
                             $color = '#ffdcd8';
-                        } else if ($row[peak] == '1') {
+                        } else if ($row['peak'] == '1') {
                             $color = '#ffdcd8';
-                        } else if ($row[peak] == '2') {
+                        } else if ($row['peak'] == '2') {
                             $color = '#fdf5e2';
                         }
                         if ($to_time == 24 and $from_time_exp[1] > '00') {
@@ -6538,7 +6299,7 @@ if ($_GET['page'] == 'book_now' && isset($_GET['next']) == 'next') {
                         if ($skip != 1) {
                             //	$today_date = 
                             //	echo "$selected_date != $today_date";
-                            //	$selected_date = $_POST[date_sel];
+                            //	$selected_date = $_POST['date_sel'];
                             $now_hrs        = date('G');
                             $now_min        = date('i');
                             $newselectedate = explode("-", $selected_date);
@@ -6560,28 +6321,28 @@ if ($_GET['page'] == 'book_now' && isset($_GET['next']) == 'next') {
                                 //}
                                 $result_my_query  = mysqli_query($conn,$query_my_booking);
                                 while ($row_my = mysqli_fetch_array($result_my_query)) {
-                                    $fram_user_from_time       = $row_my[from_time];
-                                    $fram_user_to_time         = $row_my[to_time];
+                                    $fram_user_from_time       = $row_my['from_time'];
+                                    $fram_user_to_time         = $row_my['to_time'];
                                     $explode_fram_user_to_time = explode(':', $fram_user_to_time);
                                     //	echo "$fram_user_from_time == $from_time";
                                     if ($fram_user_from_time == $from_time) {
-                                        $my_booking_no            = $row_my[sno];
+                                        $my_booking_no            = $row_my['sno'];
                                         $dont_sel                 = "disabled = disabled";
                                         $msg                      = "Slot used by other user";
-                                        $registered_by_id         = $row_my[uid];
-                                        $rid                      = $row_my[rid];
+                                        $registered_by_id         = $row_my['uid'];
+                                        $rid                      = $row_my['rid'];
                                         $checked                  = "";
-                                        $order_status             = $row_my[status];
-                                        $amount_recived           = $row_my[amount_recived];
-                                        $time_of_booking          = $row_my[time_of_booking];
-                                        $allowed_cancel           = $row_my[allowed_cancel];
-                                        $date_of_booking          = $row_my[date_of_booking];
-                                        $greybar_info             = $row_my[day] . "-" . $row_my[month] . "-" . $row_my[year];
-                                        $cancle_booking_date_time = $row_my[cancle_booking_date_time];
+                                        $order_status             = $row_my['status'];
+                                        $amount_recived           = $row_my['amount_recived'];
+                                        $time_of_booking          = $row_my['time_of_booking'];
+                                        $allowed_cancel           = $row_my['allowed_cancel'];
+                                        $date_of_booking          = $row_my['date_of_booking'];
+                                        $greybar_info             = $row_my['day'] . "-" . $row_my['month'] . "-" . $row_my['year'];
+                                        $cancle_booking_date_time = $row_my['cancle_booking_date_time'];
                                         $query_user               = "select * from user_account where id = '$registered_by_id'";
                                         $query_result             = mysqli_query($conn,$query_user);
                                         while ($row_user = mysqli_fetch_array($query_result)) {
-                                            $registered_by = $row_user[username];
+                                            $registered_by = $row_user['username'];
                                         }
                                     }
                                 }
@@ -6635,20 +6396,20 @@ if ($_GET['page'] == 'book_now' && isset($_GET['next']) == 'next') {
                                 $all_system_msg = "";
                             }
                             //echo $_SESSION['holiday'];
-                            //echo $row[peak];
+                            //echo $row['peak'];
                             if ($all_system_disabled == '1' && $user_type_booked != '1') {
                                 $dont_sel = "disabled = disabled";
                                 $msg      = $all_system_msg;
                                 $checked  = "";
-                            } elseif ($row[peak] == '1' and ($all_system_disabled_peak == '1' || $all_system_disabled_peak_tennis == '1' || $all_system_disabled_peak_pools == '1') && $user_type_booked != '1') {
+                            } elseif ($row['peak'] == '1' and ($all_system_disabled_peak == '1' || $all_system_disabled_peak_tennis == '1' || $all_system_disabled_peak_pools == '1') && $user_type_booked != '1') {
                                 $dont_sel = "disabled = disabled";
                                 $msg      = "You Exceeded Limit For Peak Time";
                                 $checked  = "";
-                            } elseif ($row[peak] == '0' and ($all_system_disabled_nonpeak == '1' || $all_system_disabled_nonpeak_tennis == '1' || $all_system_disabled_nonpeak_pools == '1') && $user_type_booked != '1' && $_SESSION['holiday'] != 1) {
+                            } elseif ($row['peak'] == '0' and ($all_system_disabled_nonpeak == '1' || $all_system_disabled_nonpeak_tennis == '1' || $all_system_disabled_nonpeak_pools == '1') && $user_type_booked != '1' && $_SESSION['holiday'] != 1) {
                                 $dont_sel = "disabled = disabled";
                                 $msg      = "You Exceeded Limit For Non-Peak Time";
                                 $checked  = "";
-                            } elseif ($row[peak] == '0' and $_SESSION['holiday'] == 1 and $all_system_disabled_peak == '1' && $user_type_booked != '1') {
+                            } elseif ($row['peak'] == '0' and $_SESSION['holiday'] == 1 and $all_system_disabled_peak == '1' && $user_type_booked != '1') {
                                 //echo "goinghere";
                                 $dont_sel = "disabled = disabled";
                                 $msg      = "You Exceeded Limit For Peak Time";
@@ -6754,12 +6515,12 @@ if ($_GET['page'] == 'book_now' && isset($_GET['next']) == 'next') {
                                         $checked = "checked";
                                     }
                                     //echo $_SESSION['holiday'];
-                                    //echo $row[peak];
+                                    //echo $row['peak'];
                                     if ($all_system_disabled == '1' && $user_type_booked != '1') {
                                         $dont_sel = "disabled = disabled";
                                         $msg      = $all_system_msg;
                                         $checked  = "";
-                                    } elseif ($row[peak] == '0' and ($all_system_disabled_nonpeak == '1' || $all_system_disabled_nonpeak_pools == '1') && $user_type_booked != '1' && $_SESSION['holiday'] != 1) {
+                                    } elseif ($row['peak'] == '0' and ($all_system_disabled_nonpeak == '1' || $all_system_disabled_nonpeak_pools == '1') && $user_type_booked != '1' && $_SESSION['holiday'] != 1) {
                                         $dont_sel = "disabled = disabled";
                                         $msg      = "You Exceeded Limit For Non-Peak Time";
                                         $checked  = "";
@@ -6768,7 +6529,7 @@ if ($_GET['page'] == 'book_now' && isset($_GET['next']) == 'next') {
                             }
                             // Lapse Date Checking
                             $datenow = date('d-m-Y'); 
-                            $selected_date    = $_POST[date_sel]; 
+                            $selected_date    = $_POST['date_sel']; 
                             $dnow=date('Y-m-d', strtotime($datenow));
                             $sdate=date('Y-m-d', strtotime($selected_date));
 
@@ -6780,30 +6541,14 @@ if ($_GET['page'] == 'book_now' && isset($_GET['next']) == 'next') {
                             // end 11 Feb 2009
 ?>
 
-                      	<tr bgcolor="<?php
-                            echo $color;
-?>" <?php
-                            if ($msg != '') {
-?>onMouseover="ddrivetip('<?php
-                                echo " $msg ";
-?>')";
-
- onMouseout="hideddrivetip()" <?php
-                            }
-?>> 
-
+                      	<tr bgcolor="<?php echo $color; ?>" <?php if ($msg != '') { ?>onMouseover="ddrivetip('<?php echo " $msg "; ?>')"; onMouseout="hideddrivetip()" <?php } ?>> 
                         <td align="center" valign="top" style="border-right:1px solid #333333;border-top:1px solid #333333;"> 
-
-                        <div align="center"> 
-
-                        <?php
-                            echo $sr;
-?>                          </div>                        </td>
-
+                            <div align="center"> 
+                                <?php echo $sr; ?>                          
+                            </div> 
+                        </td>
                         <td valign="top" style="border-right:1px solid #333333;border-top:1px solid #333333;"><label> 
-
                         <div align="center"> 
-
                         <?php
                             if ($dont_sel != '') {
                                 $count_dont_sel++;
@@ -6814,19 +6559,17 @@ if ($_GET['page'] == 'book_now' && isset($_GET['next']) == 'next') {
                             if ($dont_sel != '') {
                                 echo "<font color='#FF0000'><strong>X</strong></font>";
                             } else {
-?><input name="time_fram" type="radio" value="<?php
-                                echo $time_fram;
-?>" <?php
-                                echo "$checked";
-?> <?php
-                                echo $dont_sel;
-?> <?php
-                                if ($msg != '') {
-?>title="<?php
-                                    echo $msg;
-?>" <?php
-                                }
-?> onclick="alert('<?php
+                        ?>
+                            <input name="time_fram" type="radio" value="<?php
+                                echo $time_fram; ?>" 
+                                <?php 
+                                    echo "$checked"; 
+                                    echo $dont_sel;
+
+                                    if ($msg != '') {
+                                        echo 'title="'.$msg.'"';                                 
+                                    }
+                                ?> onclick="alert('<?php
                                 echo "You have selected  $name_fac  for date  $selected_date from $from_time hrs to $to_time hrs";
 ?> ');"   ><?php
                             }
@@ -6886,68 +6629,37 @@ if ($_GET['page'] == 'book_now' && isset($_GET['next']) == 'next') {
                         <!--td valign="top" align="center" style="border-right:1px solid #333333;border-top:1px solid #333333;"> 
                 <?php
                             /* 
-                            
                             $dont_sel ='';
-                            
                             if($order_status == '1' && $auto_apporve != '1')
-                            
                             {
-                            
                             echo $icon = "PAID";
-                            
                             }
-                            
                             elseif($order_status == '0' && $auto_apporve != '1')
-                            
                             {
-                            
                             echo $icon = "&nbsp;";
-                            
                             }
-                            
                             elseif($order_status == '2')
-                            
                             {
-                            
                             echo $icon = "&nbsp;";
-                            
                             }
-                            
                             elseif($dont_sel != '')
-                            
                             {
-                            
                             echo $icon = "&nbsp;";
-                            
                             }
-                            
                             else
-                            
                             {
-                            
-                            if($row[peak] =='1')
-                            
+                            if($row['peak'] =='1')
                             {
-                            
                             echo $icon = "&nbsp;";
-                            
                             }
-                            
                             else
-                            
                             {
-                            
                             echo $icon = "&nbsp;";
-                            
                             }
-                            
                             } */
 ?>                              </td-->
 
                         <td valign="top" align="center" style="border-top:1px solid #333333;">
-
-						
-
 						<?php
                             // check time now
                             $checking_cancel = date("Y-m-dHi");
@@ -7272,7 +6984,7 @@ if ($_GET['page'] == 'book_now' && isset($_GET['next']) == 'next') {
 
 				<?php
             //Script added By Vasanth to check the advance booking dates [23-Nov-2015]
-            $selected_date    = $_POST[date_sel];
+            $selected_date    = $_POST['date_sel'];
             $Getselected_date = explode("-", $selected_date);
             $choosen_date     = $Getselected_date[2] . "-" . $Getselected_date[1] . "-" . $Getselected_date[0];
             $popupOne         = date('Y-m-d', strtotime(' +3 day'));
@@ -7349,7 +7061,7 @@ if ($_GET['page'] == 'book_now' && isset($_GET['next']) == 'next') {
     }
     // if session based
     elseif ($error != '1' and $os == 'sess') {
-        $selected_date = $_POST[date_sel];
+        $selected_date = $_POST['date_sel'];
         $today_date    = date('d-m-Y');
         // curent_date is the date selected page
         $curent_date;
@@ -7490,20 +7202,20 @@ if ($_GET['page'] == 'book_now' && isset($_GET['next']) == 'next') {
                 $query1  = "select * from time_slot  where id = '$row[from_time]' limit 1";
                 $result1 = mysqli_query($conn, $query1);
                 while ($row1 = mysqli_fetch_array($result1)) {
-                    $from_time = $row1[time_slot];
+                    $from_time = $row1['time_slot'];
                 }
                 $query1  = "select * from time_slot  where id = '$row[to_time]' limit 1";
                 $result1 = mysqli_query($conn, $query1);
                 while ($row1 = mysqli_fetch_array($result1)) {
-                    $to_time = $row1[time_slot];
+                    $to_time = $row1['time_slot'];
                 }
                 if ($display_legend != 1) {
                     $color = '#fdf5e2';
-                } else if ($row[peak] == '0') {
+                } else if ($row['peak'] == '0') {
                     $color = '#cbe8c6';
-                } else if ($row[peak] == '1') {
+                } else if ($row['peak'] == '1') {
                     $color = '#ffdcd8';
-                } else if ($row[peak] == '2') {
+                } else if ($row['peak'] == '2') {
                     $color = '#fdf5e2';
                 }
                 if ($selected_date == $today_date) {
@@ -7601,11 +7313,11 @@ if ($_GET['page'] == 'book_now' && isset($_GET['next']) == 'next') {
                     $checked  = "";
                     $dont_sel = "disabled = disabled";
                     $msg      = "$all_system_msg";
-                } elseif ($row[peak] == '1' and $all_system_disabled_peak == '1' && $user_type_booked != '1') {
+                } elseif ($row['peak'] == '1' and $all_system_disabled_peak == '1' && $user_type_booked != '1') {
                     $checked  = "";
                     $dont_sel = "disabled = disabled";
                     $msg      = "$all_system_msg_peak";
-                } elseif ($row[peak] == '0' and $all_system_disabled_nonpeak == '1' && $user_type_booked != '1') {
+                } elseif ($row['peak'] == '0' and $all_system_disabled_nonpeak == '1' && $user_type_booked != '1') {
                     $checked  = "";
                     $dont_sel = "disabled = disabled";
                     $msg      = "$all_system_msg_nonpeak";
@@ -7810,7 +7522,7 @@ if ($_GET['page'] == 'book_now' && isset($_GET['next']) == 'next') {
                 } elseif ($dont_sel != '') {
                     echo $icon = "&nbsp;";
                 } else {
-                    if ($row[peak] == '1') {
+                    if ($row['peak'] == '1') {
                         echo $icon = "&nbsp;";
                     } else {
                         echo $icon = "&nbsp;";
@@ -8028,11 +7740,8 @@ if ($_GET['page'] == 'book_now' && isset($_GET['next']) == 'next') {
                                     {
 ?>
 
-														[ <a href="redirect.php?<?php
-                                    echo "crypted=".$_GET['crypted']."&id=$_GET[id]&page=book_now&user_id=$_GET[user_id]&fac=$_GET[fac]&date_sel=$curent_date&booking_no=$my_booking_no&type=cancle&reason=5";
-?>">Rain</a> ]
-
-														<?php
+									    [ <a href="redirect.php?<?php echo "crypted=".$_GET['crypted']."&id=".$_GET['id']."&page=book_now&user_id=".$_GET['user_id']."&fac=".$_GET['fac']."&date_sel=".$curent_date."&booking_no=".$my_booking_no."&type=cancle&reason=5"; ?>">Rain</a> ]
+								<?php
                                 }
                             }
                         }
@@ -8124,19 +7833,14 @@ if ($_GET['page'] == 'book_now' && isset($_GET['next']) == 'next') {
             }
 ?>
 
-                        <input type="submit" name="Submit4" <?php
-            if ($user_type != '0') {
-?> id="book_now" <?php
+                        <input type="submit" name="Submit4" <?php if ($user_type != '0') { ?> id="book_now" <?php
             }
-?> value="Book Now"  <?php
-            echo $dis;
-?>  >
-
+?> value="Book Now"  <?php echo $dis; ?>  >
                         </label>
 
                         <?php
             //Script added By Vasanth to check the advance booking dates [23-Nov-2015]
-            $selected_date    = $_POST[date_sel];
+            $selected_date    = $_POST['date_sel'];
             $Getselected_date = explode("-", $selected_date);
             $choosen_date     = $Getselected_date[2] . "-" . $Getselected_date[1] . "-" . $Getselected_date[0];
             $popupTwo         = date('Y-m-d', strtotime(' +60 day'));
@@ -8160,7 +7864,7 @@ if ($_GET['page'] == 'book_now' && isset($_GET['next']) == 'next') {
                 }
             }
             if ($Get_fac == '16') {
-                $selected_datez   = $_POST[date_sel];
+                $selected_datez   = $_POST['date_sel'];
                 $Getselected_date = explode("-", $selected_datez);
                 $choosen_datez    = $Getselected_date[2] . "-" . $Getselected_date[1] . "-" . $Getselected_date[0];
                 $popupTwoz        = date('Y-m-d', strtotime(' +30 day'));
@@ -8781,11 +8485,11 @@ if ($_GET['page'] == 'all') {
             $amount_recived = $row[amount_recived];
             if ($display_legend != 1) {
                 $color = '#fdf5e2';
-            } else if ($row[peak] == '0') {
+            } else if ($row['peak'] == '0') {
                 $color = '#cbe8c6';
-            } else if ($row[peak] == '1') {
+            } else if ($row['peak'] == '1') {
                 $color = '#ffdcd8';
-            } else if ($row[peak] == '2') {
+            } else if ($row['peak'] == '2') {
                 $color = '#fdf5e2';
             }
             if ($amount_recived == '') {

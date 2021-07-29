@@ -2,15 +2,14 @@
 session_start();
 include_once("includes/config.php");
 $s_id = $_SESSION['basic_is_logged_in'];
-$query = "select * from user_account  where crypted  = '$_GET[crypted]' and id = '$s_id' limit 1";
-	$result= mysql_query($query) or die(mysql_error());
-	$count = mysql_num_rows($result);
-	while($row = mysql_fetch_array($result))
+$query = "SELECT * FROM user_account  WHERE crypted  = '".$_GET['crypted']."' AND id = '".$s_id."' limit 1";
+	$result= mysqli_query($conn, $query) or die(mysqli_error($conn));
+	$count = mysqli_num_rows($result);
+	while($row = mysqli_fetch_array($result))
 	{
-			 $id = $row[id];
-			 $user_type = $row[user_type];
-			 $username = $row[username];
-			 
+			 $id = $row['id'];
+			 $user_type = $row['user_type'];
+			 $username = $row['username'];
 	}
 	
 	if($_SESSION['basic_is_logged_in'] != $id or	 $_SESSION['basic_is_logged_in'] =='')
@@ -19,27 +18,23 @@ $query = "select * from user_account  where crypted  = '$_GET[crypted]' and id =
 	 echo "<script type=text/javascript language=javascript> window.location.href = '../login.php?ops=2'; </script> ";
 			exit;
 	}	
-if(isset($_POST[szID]))
+if(isset($_POST['szID']))
 {
-	$query  = "SELECT * FROM user_account  where username = '$_POST[szID]' and password = '$_POST[szPassword]' and active = '1'";
-	$result = mysql_query($query) or die(mysql_error()) ;
-	
-	$count = mysql_num_rows($result);
-	
+	$query  = "SELECT * FROM user_account  where username = '".$_POST['szID']."' and password = '".$_POST['szPassword']."' and active = '1'";
+	$result = mysqli_query($conn, $query) or die(mysqli_error($conn)) ;
+	$count = mysqli_num_rows($result);
 	if($count != '0' )
 	{
- 		while($row = mysql_fetch_array($result, MYSQL_ASSOC))
+ 		while($row = mysqli_fetch_array($result, MYSQLI_ASSOC))
  		{
     		
 			$id = $row['id'];
 			$crypted = $row['crypt'];
 		 	$_SESSION['basic_is_logged_in'] = "$id";
 			include_once('random_char.php');
-			$query = "update user_account set crypted = '$pwd' where id = '$id' limit 1";
-			$result = mysql_query($query) or die(mysql_error()) ; 
-			echo "<script type=text/javascript language=javascript> window.location.href = 'mem/index.php?crypted=$pwd'; </script> ";
-			
-		
+			$query = "UPDATE user_account SET crypted = '$pwd' where id = '$id' limit 1";
+			$result = mysqli_query($conn, $query) or die(mysqli_error($conn)) ; 
+			echo "<script type=text/javascript language=javascript> window.location.href = 'mem/index.php?crypted=$pwd'; </script> ";		
 		}
 	}
 	else
@@ -48,20 +43,17 @@ if(isset($_POST[szID]))
 			echo "<script type=text/javascript language=javascript> window.location.href = 'home.php?ops=1'; </script> ";
 			exit;
 	}
-
-
 }
 
 
 
 
  ?>
-<? include ("../headermem.php"); ?>
+<?php include ("../headermem.php"); ?>
 <table cellSpacing="0" cellPadding="0" width="100%" border="0" id="table4">
 	<tr>
 		<td vAlign="top" align="left" width="8" rowSpan="3">&nbsp;</td>
-		<td class="topspace" vAlign="top" align="left" colSpan="4"><SPACER 
-type="block"></SPACER></td>
+		<td class="topspace" vAlign="top" align="left" colSpan="4"><SPACER type="block"></SPACER></td>
 	</tr>
 	<tr>
 		<td class="left" vAlign="top" align="left" width="150" background="img/leftctrbg2.gif">
@@ -98,7 +90,7 @@ type="block"></SPACER></td>
 				</table>
 				</td>
 			</tr>
-            <? if($user_type=='1')
+            <?php if($user_type=='1')
 				 {
 				 include ("internal-adminmenu.php"); 
 				}
@@ -125,26 +117,26 @@ type="block"></SPACER></td>
 				<br>
 &nbsp;<hr><br>
 &nbsp;<table cellSpacing="0" cellPadding="0" width="65%" border="0" id="table8">
-					<?
+					<?php
 					$sqlforms = "SELECT * FROM forms ORDER BY description ASC";
-					$resultforms = mysql_query($sqlforms);
+					$resultforms = mysqli_query($conn,$sqlforms);
 					$counter = 0;
-					while ($rowforms = mysql_fetch_array($resultforms))
+					while ($rowforms = mysqli_fetch_array($resultforms))
 					{
 					?>
                     <tr>
-						<td class="<? if ($counter==0) { $counter++; ?>bk<? } else { $counter--; ?>bk3<? } ?>" width="83%">
-						<? if ($counter==1) { $counter--; ?>
+						<td class="<?php if ($counter==0) { $counter++; ?>bk<?php } else { $counter--; ?>bk3<?php } ?>" width="83%">
+						<?php if ($counter==1) { $counter--; ?>
                         <img height="7" src="img/leftdot2.gif" width="9"> 
-						<? } else { $counter++; ?>
+						<?php } else { $counter++; ?>
                         <img height="7" src="img/leftdot3.gif" width="9"> 
-						<? } ?>
-						<? echo $rowforms['description']; ?></td>
-						<td class="<? if ($counter==0) { $counter++; ?>bk<? } else { $counter--; ?>bk3<? } ?>" align="middle" width="17%">
-						<a href="<? echo $rowforms['attachment']; ?>" target="_blank">
+						<?php } ?>
+						<?php echo $rowforms['description']; ?></td>
+						<td class="<?php if ($counter==0) { $counter++; ?>bk<?php } else { $counter--; ?>bk3<?php } ?>" align="middle" width="17%">
+						<a href="<?php echo $rowforms['attachment']; ?>" target="_blank">
 						<img title="download" height="25" alt="download" src="img/but_dwld.gif" width="40" border="0"></a></td>
 					</tr>
-                    <? } ?>
+                    <?php } ?>
 				</table>
 				<p>&nbsp;</td>
 			</tr>
@@ -163,4 +155,4 @@ type="block"></SPACER></td>
 		<img height="20" src="img/ctrrgtbot.gif" width="29"></td>
 	</tr>
 </table>
-<? include ("../footer.php"); ?>
+<?php include ("../footer.php"); ?>
